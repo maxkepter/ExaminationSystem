@@ -4,9 +4,6 @@
  */
 package model;
 
-import java.time.LocalDateTime;
-
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,13 +12,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class ExamLog {
+public class QuestionInExam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer logId;
-
-    @Column(nullable = false)
-    private LocalDateTime time;
+    private Integer questionInExamId;
 
     @ManyToOne
     @JoinColumn(name = "userID", nullable = false)
@@ -32,6 +26,6 @@ public class ExamLog {
     private ExamInstance examInstance;
 
     @ManyToOne
-    @JoinColumn(name = "statusId", nullable = false)
-    private LogStatus status;
+    @JoinColumn(name = "questionId", nullable = false)
+    private Question question;
 }

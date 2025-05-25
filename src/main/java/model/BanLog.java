@@ -15,21 +15,20 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class ExamLog {
+public class BanLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer logId;
 
     @Column(nullable = false)
-    private LocalDateTime time;
+    private LocalDateTime startTime;
+
+    @Column(nullable = false)
+    private LocalDateTime endTime;
 
     @ManyToOne
     @JoinColumn(name = "userID", nullable = false)
-    private Student student;
-
-    @ManyToOne
-    @JoinColumn(name = "examInstanceId", nullable = false)
-    private ExamInstance examInstance;
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "statusId", nullable = false)

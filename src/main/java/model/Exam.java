@@ -4,8 +4,6 @@
  */
 package model;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,23 +13,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class ExamLog {
+public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer logId;
+    private Integer examID;
 
     @Column(nullable = false)
-    private LocalDateTime time;
+    private String examName;
+
+    @Column(nullable = false)
+    private Integer duration;
 
     @ManyToOne
     @JoinColumn(name = "userID", nullable = false)
-    private Student student;
-
-    @ManyToOne
-    @JoinColumn(name = "examInstanceId", nullable = false)
-    private ExamInstance examInstance;
-
-    @ManyToOne
-    @JoinColumn(name = "statusId", nullable = false)
-    private LogStatus status;
+    private User user;
 }

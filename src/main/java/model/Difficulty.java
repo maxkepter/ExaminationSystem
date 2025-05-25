@@ -4,34 +4,21 @@
  */
 package model;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Entity
-public class ExamLog {
+public class Difficulty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer logId;
+    private Integer difficultyId;
 
     @Column(nullable = false)
-    private LocalDateTime time;
+    private String difficultName;
 
-    @ManyToOne
-    @JoinColumn(name = "userID", nullable = false)
-    private Student student;
-
-    @ManyToOne
-    @JoinColumn(name = "examInstanceId", nullable = false)
-    private ExamInstance examInstance;
-
-    @ManyToOne
-    @JoinColumn(name = "statusId", nullable = false)
-    private LogStatus status;
+    @Column(nullable = false)
+    private Boolean isDisable;
 }

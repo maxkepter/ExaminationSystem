@@ -4,10 +4,24 @@
  */
 package model;
 
-/**
- *
- * @author Admin
- */
-public class Teacher extends User{
-    
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+
+@Entity
+public class Teacher {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer teacherID;
+
+    @Column(nullable = false, unique = true)
+    private String teacherCode;
+
+    @OneToOne
+    @JoinColumn(name = "userID", nullable = false, unique = true)
+    private User user;
 }
