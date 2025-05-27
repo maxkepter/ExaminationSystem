@@ -36,6 +36,20 @@
             <artifactId>hibernate-core</artifactId>
             <version>6.2.6.Final</version> <!-- hoặc bản mới hơn -->
         </dependency>
+
+        <!-- JSON-B API -->
+        <!-- <dependency>
+            <groupId>jakarta.json.bind</groupId>
+            <artifactId>jakarta.json.bind-api</artifactId>
+            <version>3.0.0</version>
+        </dependency> -->
+
+<!-- JSON-B Implementation (Yasson) -->
+<dependency>
+    <groupId>org.eclipse</groupId>
+    <artifactId>yasson</artifactId>
+    <version>3.0.3</version>
+</dependency>
         
         <!-- MS SQL SERVER -->
         <dependency>
