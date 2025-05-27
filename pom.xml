@@ -55,7 +55,7 @@
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
-            <version>12.6.1.jre11</version> <!-- tương thích với JDK 17 trở lên -->
+            <version>12.8.1.jre11</version> <!-- tương thích với JDK 17 trở lên -->
         </dependency>
         
         <!-- JSTL API -->
@@ -90,7 +90,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.3</version>
+                <version>3.2.3</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>

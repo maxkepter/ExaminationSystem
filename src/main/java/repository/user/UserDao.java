@@ -16,6 +16,8 @@ public class UserDao implements CreatableDao<User>, DeletableDao, ReadableDao<Us
     // query string
     private final String FIND_ALL_QUERY = "SELECT users FROM User users";
     private final String COUNT_QUERY = "select count(users) from User users";
+    private final String DELETE_BY_ID = "DELETE FROM User u WHERE u.id = :id";
+    private final String DELETE_MANY_BY_ID = "DELETE FROM MyEntity e WHERE e.id IN :ids";
 
     private EntityManagerFactory entityManagerFactory;
 
@@ -108,24 +110,38 @@ public class UserDao implements CreatableDao<User>, DeletableDao, ReadableDao<Us
 
     @Override
     public boolean exists(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exists'");
+        if (findById(id) == null)
+            return false;
+        return true;
     }
 
     @Override
     public void delete(int id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        User user = entityManager.find(User.class, id);
-        entityManager.remove(user);
+
+        entityManager.createQuery(DELETE_BY_ID)
+                .setParameter("id", id)
+                .executeUpdate();
+
         entityManager.getTransaction().commit();
         entityManager.close();
     }
 
     @Override
     public void deleteMany(List<Integer> ids) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteMany'");
+        final int batchSize = 500;
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        for (int i = 0; i < ids.size(); i += batchSize) {
+            List<Integer> batch = ids.subList(i, Math.min(i + batchSize, ids.size()));
+            entityManager.createQuery(DELETE_MANY_BY_ID)
+                    .setParameter("ids", batch)
+                    .executeUpdate();
+        }
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     @Override
@@ -145,8 +161,15 @@ public class UserDao implements CreatableDao<User>, DeletableDao, ReadableDao<Us
 
     @Override
     public void createMany(List<User> objects) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createMany'");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+
+        for (int i = 0; i < objects.size(); i++) {
+            entityManager.persist(objects.get(i));
+        }
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
 }

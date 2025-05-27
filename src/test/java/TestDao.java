@@ -7,11 +7,14 @@ import repository.user.UserDao;
 public class TestDao {
     public static void main(String[] args) {
         TestDao dao = new TestDao();
-        UserDao test = new UserDao(EntityManagerFactoryProvider.getEntityManagerFactory());
-        List<User> users = test.findAll();
-        for (User user : users) {
-            System.out.println(user.toString());
-        }
+        UserDao userDao = new UserDao(EntityManagerFactoryProvider.getEntityManagerFactory());
+
+        User user = new User("Test", "Test", 1, "Test");
+        userDao.create(user);
+        // List<User> users = test.findAll();
+        // for (User user : users) {
+        // System.out.println(user.toString());
+        // }
 
     }
 
