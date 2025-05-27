@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -18,7 +19,8 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer questionId;
 
-    @Column(nullable = false)
+    @Lob
+    @Column(name = "QuestionContent", columnDefinition = "VARCHAR(MAX)", nullable = false)
     private String questionContent;
 
     @Column(nullable = false)

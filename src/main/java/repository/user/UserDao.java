@@ -6,12 +6,12 @@ import java.util.Map;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import model.user.User;
-import repository.CreatableDao;
 import repository.DeletableDao;
-import repository.ReadableDao;
+import repository.ObjectDao;
 import repository.UpdatableDao;
 
-public class UserDao implements CreatableDao<User>, DeletableDao, ReadableDao<User>, UpdatableDao<User> {
+public class UserDao extends ObjectDao<User>
+        implements DeletableDao, UpdatableDao<User> {
 
     // query string
     private final String FIND_ALL_QUERY = "SELECT users FROM User users";
@@ -19,10 +19,8 @@ public class UserDao implements CreatableDao<User>, DeletableDao, ReadableDao<Us
     private final String DELETE_BY_ID = "DELETE FROM User u WHERE u.id = :id";
     private final String DELETE_MANY_BY_ID = "DELETE FROM MyEntity e WHERE e.id IN :ids";
 
-    private EntityManagerFactory entityManagerFactory;
-
     public UserDao(EntityManagerFactory entityManagerFactory) {
-        this.entityManagerFactory = entityManagerFactory;
+        super(entityManagerFactory);
     }
 
     @Override

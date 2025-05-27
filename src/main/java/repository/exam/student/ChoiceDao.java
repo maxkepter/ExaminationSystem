@@ -2,36 +2,27 @@ package repository.exam.student;
 
 import java.util.List;
 
-import model.exam.Question;
+import jakarta.persistence.EntityManagerFactory;
 import model.exam.student.Choice;
-import repository.CreatableDao;
-import repository.DeactivatableDao;
-import repository.ReadableDao;
+import repository.DeactivatableObjectDao;
 
-public class ChoiceDao implements CreatableDao<Question>, ReadableDao<Choice>, DeactivatableDao<Choice> {
+public class ChoiceDao extends DeactivatableObjectDao<Choice> {
 
-    @Override
-    public void disable(Choice object) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'disable'");
+    public ChoiceDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory);
+        // TODO Auto-generated constructor stub
     }
 
     @Override
-    public void enable(Choice object) {
+    public void create(Choice object) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'enable'");
+        throw new UnsupportedOperationException("Unimplemented method 'create'");
     }
 
     @Override
-    public void isDisable(Choice object) {
+    public void createMany(List<Choice> objects) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isDisable'");
-    }
-
-    @Override
-    public void update(int id, Choice object) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        throw new UnsupportedOperationException("Unimplemented method 'createMany'");
     }
 
     @Override
@@ -59,15 +50,27 @@ public class ChoiceDao implements CreatableDao<Question>, ReadableDao<Choice>, D
     }
 
     @Override
-    public void create(Question object) {
+    public void disable(Choice object) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        throw new UnsupportedOperationException("Unimplemented method 'disable'");
     }
 
     @Override
-    public void createMany(List<Question> objects) {
+    public void enable(Choice object) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createMany'");
+        throw new UnsupportedOperationException("Unimplemented method 'enable'");
+    }
+
+    @Override
+    public void isDisable(Choice object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isDisable'");
+    }
+
+    @Override
+    public void update(int id, Choice object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
 }

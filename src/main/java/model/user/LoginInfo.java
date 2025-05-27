@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import model.log.LogStatus;
+import utils.HashInfo;
 
 @Entity
 public class LoginInfo {
@@ -23,7 +24,7 @@ public class LoginInfo {
     @JoinColumn(name = "userID")
     private User user;
 
-    @Column(nullable = false)
+    @Column(name = "UserName", unique = true, nullable = false, length = 255)
     private String userName;
 
     @Column(nullable = false)
@@ -32,4 +33,28 @@ public class LoginInfo {
     @ManyToOne
     @JoinColumn(name = "statusId", nullable = false)
     private LogStatus status;
+
+    public Integer getUserID() {
+        return userID;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public LogStatus getStatus() {
+        return status;
+    }
+
+    public static boolean checkPassword(LoginInfo loginInfo, String password) {
+        return loginInfo.getPassword().compareTo(HashInfo.hash(password)) == 0;
+    }
 }

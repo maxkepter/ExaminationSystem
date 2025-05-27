@@ -2,14 +2,17 @@ package repository.log;
 
 import java.util.List;
 
+import jakarta.persistence.EntityManagerFactory;
 import model.log.BanLog;
-import repository.CreatableDao;
-import repository.PageableDao;
-import repository.ReadableDao;
-import repository.SearchableDao;
+import repository.ObjectDao;
 
-public class BanLogDao
-        implements ReadableDao<BanLog>, CreatableDao<BanLog>, SearchableDao<BanLog>, PageableDao<BanLog> {
+public class BanLogDao extends ObjectDao<BanLog>
+        implements LogDao<BanLog> {
+
+    public BanLogDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory);
+        // TODO Auto-generated constructor stub
+    }
 
     @Override
     public List<BanLog> findPage(int pageIndex, int pageSize) {

@@ -2,12 +2,17 @@ package repository.exam;
 
 import java.util.List;
 
+import jakarta.persistence.EntityManagerFactory;
 import model.exam.Template;
-import repository.CreatableDao;
-import repository.DeactivatableDao;
-import repository.ReadableDao;
+import repository.DeactivatableObjectDao;
+import repository.SearchableDao;
 
-public class TemplateDao implements CreatableDao<Template>, ReadableDao<Template>, DeactivatableDao<Template> {
+public class TemplateDao extends DeactivatableObjectDao<Template> implements SearchableDao<Template> {
+
+    public TemplateDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory);
+        // TODO Auto-generated constructor stub
+    }
 
     @Override
     public void disable(Template object) {
@@ -67,6 +72,18 @@ public class TemplateDao implements CreatableDao<Template>, ReadableDao<Template
     public void createMany(List<Template> objects) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'createMany'");
+    }
+
+    @Override
+    public List<Template> findPage(int pageIndex, int pageSize) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findPage'");
+    }
+
+    @Override
+    public List<Template> findByField(String fieldName, Object value) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByField'");
     }
 
 }

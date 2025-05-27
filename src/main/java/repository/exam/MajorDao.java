@@ -2,14 +2,18 @@ package repository.exam;
 
 import java.util.List;
 
+import jakarta.persistence.EntityManagerFactory;
 import model.exam.Major;
-import repository.CreatableDao;
-import repository.DeactivatableDao;
-import repository.ReadableDao;
+import repository.DeactivatableObjectDao;
 import repository.SearchableDao;
 
-public class MajorDao
-        implements CreatableDao<Major>, ReadableDao<Major>, SearchableDao<Major>, DeactivatableDao<Major> {
+public class MajorDao extends DeactivatableObjectDao<Major>
+        implements SearchableDao<Major> {
+
+    public MajorDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory);
+        // TODO Auto-generated constructor stub
+    }
 
     @Override
     public void disable(Major object) {

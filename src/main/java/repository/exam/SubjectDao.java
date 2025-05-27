@@ -2,14 +2,18 @@ package repository.exam;
 
 import java.util.List;
 
+import jakarta.persistence.EntityManagerFactory;
 import model.exam.Subject;
-import repository.CreatableDao;
-import repository.DeactivatableDao;
-import repository.ReadableDao;
+import repository.DeactivatableObjectDao;
 import repository.SearchableDao;
 
 public class SubjectDao
-        implements CreatableDao<Subject>, ReadableDao<Subject>, SearchableDao<Subject>, DeactivatableDao<Subject> {
+        extends DeactivatableObjectDao<Subject> implements SearchableDao<Subject> {
+
+    public SubjectDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory);
+        // TODO Auto-generated constructor stub
+    }
 
     @Override
     public void disable(Subject object) {

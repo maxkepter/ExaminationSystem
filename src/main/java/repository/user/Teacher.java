@@ -3,15 +3,20 @@ package repository.user;
 import java.util.List;
 import java.util.Map;
 
-import repository.CreatableDao;
+import jakarta.persistence.EntityManagerFactory;
 import repository.DeletableDao;
+import repository.ObjectDao;
 import repository.PageableDao;
-import repository.ReadableDao;
 import repository.UpdatableDao;
 
-public class Teacher
-        implements CreatableDao<Teacher>, DeletableDao, ReadableDao<Teacher>, UpdatableDao<Teacher>,
+public class Teacher extends ObjectDao<Teacher>
+        implements DeletableDao, UpdatableDao<Teacher>,
         PageableDao<Teacher> {
+
+    public Teacher(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory);
+        // TODO Auto-generated constructor stub
+    }
 
     @Override
     public List<Teacher> findPage(int pageIndex, int pageSize) {

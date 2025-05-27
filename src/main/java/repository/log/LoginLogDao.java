@@ -2,14 +2,17 @@ package repository.log;
 
 import java.util.List;
 
+import jakarta.persistence.EntityManagerFactory;
 import model.log.LoginLog;
-import repository.CreatableDao;
-import repository.PageableDao;
-import repository.ReadableDao;
-import repository.SearchableDao;
+import repository.ObjectDao;
 
-public class LoginLogDao
-        implements ReadableDao<LoginLog>, CreatableDao<LoginLog>, SearchableDao<LoginLog>, PageableDao<LoginLog> {
+public class LoginLogDao extends ObjectDao<LoginLog>
+        implements LogDao<LoginLog> {
+
+    public LoginLogDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory);
+        // TODO Auto-generated constructor stub
+    }
 
     @Override
     public List<LoginLog> findPageSorted(int pageIndex, int pageSize, String sortBy, boolean asc) {

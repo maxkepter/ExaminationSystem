@@ -2,14 +2,17 @@ package repository.exam;
 
 import java.util.List;
 
+import jakarta.persistence.EntityManagerFactory;
 import model.exam.Chapter;
-import repository.CreatableDao;
-import repository.DeactivatableDao;
-import repository.ReadableDao;
+import repository.DeactivatableObjectDao;
 import repository.SearchableDao;
 
-public class ChapterDao
-        implements CreatableDao<Chapter>, ReadableDao<Chapter>, SearchableDao<Chapter>, DeactivatableDao<Chapter> {
+public class ChapterDao extends DeactivatableObjectDao<Chapter> implements SearchableDao<Chapter> {
+
+    public ChapterDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory);
+        // TODO Auto-generated constructor stub
+    }
 
     @Override
     public void disable(Chapter object) {

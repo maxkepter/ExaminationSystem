@@ -3,18 +3,18 @@ import java.util.List;
 import factory.EntityManagerFactoryProvider;
 import model.user.User;
 import repository.user.UserDao;
+import service.login.LoginService;
+import utils.HashInfo;
 
 public class TestDao {
     public static void main(String[] args) {
-        TestDao dao = new TestDao();
-        UserDao userDao = new UserDao(EntityManagerFactoryProvider.getEntityManagerFactory());
+        String str = "TestString";
+        System.out.println(str);
+        str = HashInfo.hash(str);
+        System.out.println(str);
 
-        User user = new User("Test", "Test", 1, "Test");
-        userDao.create(user);
-        // List<User> users = test.findAll();
-        // for (User user : users) {
-        // System.out.println(user.toString());
-        // }
+        LoginService loginService = new LoginService();
+        loginService.login(str, str);
 
     }
 

@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -18,8 +19,9 @@ public class QuestionOption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer optionId;
 
-    @Column(nullable = false)
-    private String optionContent;
+    @Lob
+    @Column(name = "OptionConent", columnDefinition = "VARCHAR(MAX)", nullable = false)
+    private String optionConent;
 
     @Column(nullable = false)
     private Boolean isCorrect;

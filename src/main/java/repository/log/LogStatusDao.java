@@ -2,23 +2,15 @@ package repository.log;
 
 import java.util.List;
 
+import jakarta.persistence.EntityManagerFactory;
 import model.log.LogStatus;
-import repository.CreatableDao;
-import repository.ReadableDao;
-import repository.SearchableDao;
+import repository.DeactivatableObjectDao;
 
-public class LogStatusDao implements ReadableDao<LogStatus>, CreatableDao<LogStatus>, SearchableDao<LogStatus> {
+public class LogStatusDao extends DeactivatableObjectDao<LogStatus> {
 
-    @Override
-    public List<LogStatus> findPage(int pageIndex, int pageSize) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findPage'");
-    }
-
-    @Override
-    public List<LogStatus> findByField(String fieldName, Object value) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByField'");
+    public LogStatusDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory);
+        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -55,6 +47,30 @@ public class LogStatusDao implements ReadableDao<LogStatus>, CreatableDao<LogSta
     public boolean exists(int id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'exists'");
+    }
+
+    @Override
+    public void disable(LogStatus object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'disable'");
+    }
+
+    @Override
+    public void enable(LogStatus object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'enable'");
+    }
+
+    @Override
+    public void isDisable(LogStatus object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isDisable'");
+    }
+
+    @Override
+    public void update(int id, LogStatus object) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
 }

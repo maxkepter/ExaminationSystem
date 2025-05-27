@@ -2,12 +2,16 @@ package repository.exam;
 
 import java.util.List;
 
+import jakarta.persistence.EntityManagerFactory;
 import model.exam.Difficulty;
-import repository.CreatableDao;
-import repository.DeactivatableDao;
-import repository.ReadableDao;
+import repository.DeactivatableObjectDao;
 
-public class DifficultyDao implements CreatableDao<Difficulty>, ReadableDao<Difficulty>, DeactivatableDao<Difficulty> {
+public class DifficultyDao extends DeactivatableObjectDao<Difficulty> {
+
+    public DifficultyDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory);
+        // TODO Auto-generated constructor stub
+    }
 
     @Override
     public void disable(Difficulty object) {

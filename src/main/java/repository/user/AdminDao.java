@@ -3,13 +3,21 @@ package repository.user;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.persistence.EntityManagerFactory;
 import model.user.Admin;
 import repository.CreatableDao;
 import repository.DeletableDao;
+import repository.ObjectDao;
 import repository.ReadableDao;
 import repository.UpdatableDao;
 
-public class AdminDao implements CreatableDao<Admin>, DeletableDao, ReadableDao<Admin>, UpdatableDao<Admin> {
+public class AdminDao extends ObjectDao<Admin>
+        implements DeletableDao, UpdatableDao<Admin> {
+
+    public AdminDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory);
+        // TODO Auto-generated constructor stub
+    }
 
     @Override
     public void update(Admin object) {
