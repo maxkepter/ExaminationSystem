@@ -48,7 +48,7 @@ public class UserDao extends DeleteableObjectDao<User>
         if (fields.containsKey(User.USER_EMAIL)) {
             user.setEmail((String) fields.get(User.USER_EMAIL));
         }
-
+        entityManager.merge(user);
         entityManager.getTransaction().commit();
         entityManager.close();
     }

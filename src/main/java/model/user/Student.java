@@ -26,8 +26,4 @@ public class Student {
     @OneToOne
     @JoinColumn(name = "userID", nullable = false, unique = true)
     private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "majorId", nullable = false)
-    private Major major;
 }

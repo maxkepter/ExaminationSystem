@@ -1,5 +1,7 @@
 
-import service.login.LoginService;
+import factory.EntityManagerFactoryProvider;
+import model.user.User;
+import repository.user.UserDao;
 import utils.HashInfo;
 
 public class TestDao {
@@ -9,8 +11,10 @@ public class TestDao {
         str = HashInfo.hash(str);
         System.out.println(str);
 
-        LoginService loginService = new LoginService();
-        loginService.login(str, str);
+        UserDao userDao = new UserDao(EntityManagerFactoryProvider.getEntityManagerFactory(), User.class);
+        User user = new User("TestUser", "TestUser", 1, "Test");
+        userDao.create(user);
+        System.out.println(user.getUserID());
 
     }
 }

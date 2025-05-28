@@ -31,4 +31,10 @@ public class LoginLog {
     @ManyToOne
     @JoinColumn(name = "statusId", nullable = false)
     private LogStatus status;
+
+    public LoginLog(LocalDateTime time, User user, LogStatus status) {
+        this.time = time;
+        this.user = user;
+        this.status = status;
+    }
 }

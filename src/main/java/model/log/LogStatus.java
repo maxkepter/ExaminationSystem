@@ -18,4 +18,17 @@ public class LogStatus {
 
     @Column(nullable = false)
     private String status;
+
+    public LogStatus(String status) {
+        this.status = status;
+    }
+
+    public LogStatus(Integer statusId, String status) {
+        this.statusId = statusId;
+        this.status = status;
+    }
+
+    public LogStatus() {
+    }
+
 }

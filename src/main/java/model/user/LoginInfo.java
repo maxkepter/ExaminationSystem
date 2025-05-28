@@ -4,6 +4,7 @@
  */
 package model.user;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -19,7 +20,7 @@ public class LoginInfo {
     @Id
     private Integer userID;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     @MapsId
     @JoinColumn(name = "userID")
     private User user;
@@ -33,6 +34,17 @@ public class LoginInfo {
     @ManyToOne
     @JoinColumn(name = "statusId", nullable = false)
     private LogStatus status;
+
+    public LoginInfo(Integer userID, User user, String userName, String password, LogStatus status) {
+        this.userID = userID;
+        this.user = user;
+        this.userName = userName;
+        this.password = password;
+        this.status = status;
+    }
+
+    public LoginInfo() {
+    }
 
     public Integer getUserID() {
         return userID;
@@ -57,4 +69,5 @@ public class LoginInfo {
     public static boolean checkPassword(LoginInfo loginInfo, String password) {
         return loginInfo.getPassword().compareTo(HashInfo.hash(password)) == 0;
     }
+
 }
