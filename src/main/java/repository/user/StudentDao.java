@@ -5,13 +5,12 @@ import java.util.Map;
 
 import jakarta.persistence.EntityManagerFactory;
 import model.user.Student;
-import repository.DeletableDao;
-import repository.ObjectDao;
+import repository.DeleteableObjectDao;
 import repository.PageableDao;
 import repository.UpdatableDao;
 
-public class StudentDao extends ObjectDao<Student>
-        implements DeletableDao, UpdatableDao<Student>,
+public class StudentDao extends DeleteableObjectDao<Student>
+        implements UpdatableDao<Student>,
         PageableDao<Student> {
 
     public StudentDao(EntityManagerFactory entityManagerFactory, Class<Student> entityClass) {
@@ -41,24 +40,6 @@ public class StudentDao extends ObjectDao<Student>
     public void updatePartial(int id, Map<String, Object> fields) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updatePartial'");
-    }
-
-    @Override
-    public void delete(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
-
-    @Override
-    public void deleteMany(List<Integer> ids) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteMany'");
-    }
-
-    @Override
-    public void deleteAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAll'");
     }
 
 }

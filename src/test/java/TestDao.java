@@ -1,8 +1,4 @@
-import java.util.List;
 
-import factory.EntityManagerFactoryProvider;
-import model.user.User;
-import repository.user.UserDao;
 import service.login.LoginService;
 import utils.HashInfo;
 
@@ -16,15 +12,5 @@ public class TestDao {
         LoginService loginService = new LoginService();
         loginService.login(str, str);
 
-    }
-
-    public void delete(int id) {
-        UserDao test = new UserDao(EntityManagerFactoryProvider.getEntityManagerFactory());
-        test.delete(id);
-    }
-
-    public void update(User user) {
-        UserDao test = new UserDao(EntityManagerFactoryProvider.getEntityManagerFactory());
-        test.update(user);
     }
 }

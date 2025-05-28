@@ -1,16 +1,14 @@
 package repository.user;
 
-import java.util.List;
 import java.util.Map;
 
 import jakarta.persistence.EntityManagerFactory;
 import model.user.Admin;
-import repository.DeletableDao;
-import repository.ObjectDao;
+import repository.DeleteableObjectDao;
 import repository.UpdatableDao;
 
-public class AdminDao extends ObjectDao<Admin>
-        implements DeletableDao, UpdatableDao<Admin> {
+public class AdminDao extends DeleteableObjectDao<Admin>
+        implements UpdatableDao<Admin> {
 
     public AdminDao(EntityManagerFactory entityManagerFactory, Class<Admin> entityClass) {
         super(entityManagerFactory, entityClass);
@@ -27,24 +25,6 @@ public class AdminDao extends ObjectDao<Admin>
     public void updatePartial(int id, Map<String, Object> fields) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updatePartial'");
-    }
-
-    @Override
-    public void delete(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
-
-    @Override
-    public void deleteMany(List<Integer> ids) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteMany'");
-    }
-
-    @Override
-    public void deleteAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAll'");
     }
 
 }
