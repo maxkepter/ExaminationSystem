@@ -13,15 +13,16 @@ import repository.UpdatableDao;
 public class UserDao extends ObjectDao<User>
         implements DeletableDao, UpdatableDao<User> {
 
+    public UserDao(EntityManagerFactory entityManagerFactory, Class<User> entityClass) {
+        super(entityManagerFactory, entityClass);
+        // TODO Auto-generated constructor stub
+    }
+
     // query string
     private final String FIND_ALL_QUERY = "SELECT users FROM User users";
     private final String COUNT_QUERY = "select count(users) from User users";
     private final String DELETE_BY_ID = "DELETE FROM User u WHERE u.id = :id";
     private final String DELETE_MANY_BY_ID = "DELETE FROM MyEntity e WHERE e.id IN :ids";
-
-    public UserDao(EntityManagerFactory entityManagerFactory) {
-        super(entityManagerFactory);
-    }
 
     @Override
     public void update(User object) {

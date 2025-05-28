@@ -14,8 +14,8 @@ public class StudentDao extends ObjectDao<Student>
         implements DeletableDao, UpdatableDao<Student>,
         PageableDao<Student> {
 
-    public StudentDao(EntityManagerFactory entityManagerFactory) {
-        super(entityManagerFactory);
+    public StudentDao(EntityManagerFactory entityManagerFactory, Class<Student> entityClass) {
+        super(entityManagerFactory, entityClass);
         // TODO Auto-generated constructor stub
     }
 
@@ -44,30 +44,6 @@ public class StudentDao extends ObjectDao<Student>
     }
 
     @Override
-    public Student findById(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
-    }
-
-    @Override
-    public List<Student> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-
-    @Override
-    public long count() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'count'");
-    }
-
-    @Override
-    public boolean exists(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exists'");
-    }
-
-    @Override
     public void delete(int id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
@@ -83,18 +59,6 @@ public class StudentDao extends ObjectDao<Student>
     public void deleteAll() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteAll'");
-    }
-
-    @Override
-    public void create(Student object) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
-    }
-
-    @Override
-    public void createMany(List<Student> objects) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createMany'");
     }
 
 }

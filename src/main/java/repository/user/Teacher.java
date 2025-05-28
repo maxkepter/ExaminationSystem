@@ -13,8 +13,8 @@ public class Teacher extends ObjectDao<Teacher>
         implements DeletableDao, UpdatableDao<Teacher>,
         PageableDao<Teacher> {
 
-    public Teacher(EntityManagerFactory entityManagerFactory) {
-        super(entityManagerFactory);
+    public Teacher(EntityManagerFactory entityManagerFactory, Class<Teacher> entityClass) {
+        super(entityManagerFactory, entityClass);
         // TODO Auto-generated constructor stub
     }
 
@@ -43,30 +43,6 @@ public class Teacher extends ObjectDao<Teacher>
     }
 
     @Override
-    public Teacher findById(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
-    }
-
-    @Override
-    public List<Teacher> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-
-    @Override
-    public long count() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'count'");
-    }
-
-    @Override
-    public boolean exists(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exists'");
-    }
-
-    @Override
     public void delete(int id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
@@ -82,18 +58,6 @@ public class Teacher extends ObjectDao<Teacher>
     public void deleteAll() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteAll'");
-    }
-
-    @Override
-    public void create(Teacher object) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
-    }
-
-    @Override
-    public void createMany(List<Teacher> objects) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createMany'");
     }
 
 }

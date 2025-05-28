@@ -14,14 +14,17 @@ public class LoginService {
             throw new AuthenticationException("Username or password cannot be blank !");
         }
 
-        LoginInfoDao loginInfoDao = new LoginInfoDao(EntityManagerFactoryProvider.getEntityManagerFactory());
+        LoginInfoDao loginInfoDao = new LoginInfoDao(EntityManagerFactoryProvider.getEntityManagerFactory(),
+                LoginInfo.class);
 
         LoginInfo loginInfo = loginInfoDao.findByUserName(userName);
         if (loginInfo == null || !LoginInfo.checkPassword(loginInfo, password)) {
             throw new AuthenticationException();
         }
 
-        LoginLogDao loginLogDao = new LoginLogDao(EntityManagerFactoryProvider.getEntityManagerFactory());
+        // Log the login attempt
+        // LoginLogDao loginLogDao = new
+        // LoginLogDao(EntityManagerFactoryProvider.getEntityManagerFactory());
 
         return loginInfo.getUser();
 
