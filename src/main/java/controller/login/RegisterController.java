@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.login;
 
 import java.io.IOException;
@@ -13,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.user.User;
 import service.authentication.RegisterService;
 
@@ -20,14 +20,14 @@ import service.authentication.RegisterService;
  *
  * @author Admin
  */
-@WebServlet(name = "ResgisterController", urlPatterns = { "/Resgister" })
-public class ResgisterController extends HttpServlet {
+@WebServlet(name = "ResgisterController", urlPatterns = { "/Register" })
+public class RegisterController extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
     // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     * 
+     *
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -41,7 +41,7 @@ public class ResgisterController extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     * 
+     *
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -55,15 +55,16 @@ public class ResgisterController extends HttpServlet {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
+        
 
-        System.out.println("Registering user: " + userName + ", " + firstName + " " + lastName + ", Email: " + email);
         RegisterService registerService = new RegisterService();
+        User user = null;
         try {
             System.out.println("Test");
-            registerService.register(userName, password, new User(firstName, lastName, 1, email));
+            user = registerService.register(userName, password, new User(firstName, lastName, 1, email));
             System.out.println("Register Test");
-            
-        } catch (IllegalArgumentException e) {            
+
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
             request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("register.jsp").forward(request, response);
@@ -74,13 +75,16 @@ public class ResgisterController extends HttpServlet {
             request.getRequestDispatcher("register.jsp").forward(request, response);
             return;
         }
+        // Create session and storge user info
+        HttpSession session = request.getSession();
+        session.setAttribute("user", user);
         // If registration is successful, redirect to the home page
-        response.sendRedirect(request.getContextPath()+"/Home");
+        response.sendRedirect(request.getContextPath() + "/Home");
     }
 
     /**
      * Returns a short description of the servlet.
-     * 
+     *
      * @return a String containing servlet description
      */
     @Override

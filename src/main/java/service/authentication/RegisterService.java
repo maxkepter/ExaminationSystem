@@ -10,7 +10,7 @@ import utils.HashInfo;
 import utils.Validate;
 
 public class RegisterService {
-    public void register(String userName, String password, User user)
+    public User register(String userName, String password, User user)
             throws IllegalArgumentException, UserNameDuplicatedException {
         // Validate the input parameters
         if (!Validate.validateString(userName) || !Validate.validateString(password)) {
@@ -43,6 +43,7 @@ public class RegisterService {
         // Log the registration success
         LoginService loginService = new LoginService();
         loginService.loginLog(user, LogStatusFactory.REGISTRATION_SUCCESS);
-
+        
+        return user;
     }
 }

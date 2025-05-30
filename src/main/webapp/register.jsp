@@ -17,7 +17,7 @@
     <body>
         <div class="contaiter"><div class="register-container">
                 <h1>Register Page</h1>
-                <form action="Resgister" method="post">
+                <form action="Register" method="post">
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="userName" required><br><br>                
                     <label for="First Name">First Name:</label>

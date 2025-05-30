@@ -1,4 +1,3 @@
-controller\login\ResgisterController.class
 model\log\LoginLog.class
 controller\login\LoginController.class
 repository\log\LogStatusDao.class
@@ -26,6 +25,7 @@ repository\ObjectDao.class
 model\exam\student\StudentExamId.class
 model\user\Admin.class
 model\user\User.class
+controller\login\RegisterController.class
 repository\ReadableDao.class
 model\user\Student.class
 repository\exam\ChapterDao.class
