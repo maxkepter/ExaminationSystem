@@ -18,7 +18,17 @@
         Mã đề thi: <input type="text" name="examID" required>
         <input type="submit" value="Tìm kiếm">
     </form>
+    <%
+        String message = (String) request.getAttribute("message");
+        if (message != null) {
+    %>
+    <p style="color: blue;"><%= message %></p>
+    <%
+        }
 
+        Exam exam = (Exam) request.getAttribute("examResult");
+        if (exam != null) {
+    %>
     <h3>Thông tin đề thi:</h3>
     <ul>
         <li><strong>ID:</strong> <%= exam.getExamID() %></li>
