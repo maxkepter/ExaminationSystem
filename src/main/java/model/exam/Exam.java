@@ -60,5 +60,10 @@ public class Exam {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "Exam{" + "examID=" + examID + ", examName=" + examName + ", duration=" + duration + ", user=" + user + '}';
+    }
     
 }

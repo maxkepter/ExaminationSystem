@@ -54,7 +54,6 @@ model\exam\SubjectMajor.class
 model\exam\Major.class
 model\exam\student\QuestionInExam.class
 controller\user\ChangePasswordController.class
-controller\exam\ExamServlet.class
 repository\exam\QuestionOptionDao.class
 repository\UpdatableDao.class
 controller\login\LogoutController.class

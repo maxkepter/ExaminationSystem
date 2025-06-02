@@ -34,4 +34,18 @@ public class TemplateDao extends DeactivatableObjectDao<Template> implements Sea
         throw new UnsupportedOperationException("Unimplemented method 'findByField'");
     }
 
+    public Template findByCode(String code) {
+        var em = getEntityManager();
+        try {
+            String jpql = "SELECT t FROM Template t WHERE t.code = :code AND t.isDisable = false";
+            return em.createQuery(jpql, Template.class)
+                    .setParameter("code", code)
+                    .getSingleResult();
+        } catch (jakarta.persistence.NoResultException e) {
+            // Không tìm thấy
+            return null;
+        } finally {
+            em.close();
+        }
+    }
 }

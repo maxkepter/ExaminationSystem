@@ -19,10 +19,13 @@
                     Welcome,
                     ${user.firstName} ${user.lastName}!
                 </p>
+                
+                
                 <a href="Logout">Logout</a>
             </c:when>
             <c:otherwise>
                 <p>Test</p>
+                <a href="student/findCode.jsp">Tim bai thi</a>
                 <a href="login.jsp">Login</a>
                 <a href="Register">Register</a>
             </c:otherwise>
