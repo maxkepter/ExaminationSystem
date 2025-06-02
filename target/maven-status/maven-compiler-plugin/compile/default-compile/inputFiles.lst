@@ -66,6 +66,7 @@ C:\Users\Admin\OneDrive\Desktop\code\PRJ\ExaminationSystem\src\main\java\service
 C:\Users\Admin\OneDrive\Desktop\code\PRJ\ExaminationSystem\src\main\java\controller\user\ChangePasswordController.java
 C:\Users\Admin\OneDrive\Desktop\code\PRJ\ExaminationSystem\src\main\java\exception\login\AccountBannedException.java
 C:\Users\Admin\OneDrive\Desktop\code\PRJ\ExaminationSystem\src\main\java\model\log\ExamLog.java
+C:\Users\Admin\OneDrive\Desktop\code\PRJ\ExaminationSystem\src\main\java\constants\LogConstants.java
 C:\Users\Admin\OneDrive\Desktop\code\PRJ\ExaminationSystem\src\main\java\repository\SearchableDao.java
 C:\Users\Admin\OneDrive\Desktop\code\PRJ\ExaminationSystem\src\main\java\repository\user\AdminDao.java
 C:\Users\Admin\OneDrive\Desktop\code\PRJ\ExaminationSystem\src\main\java\repository\log\BanLogDao.java

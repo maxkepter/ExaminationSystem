@@ -8,6 +8,7 @@ service\authentication\RegisterService.class
 model\log\BanLog.class
 repository\log\ExamLogDao.class
 repository\user\Teacher.class
+constants\LogConstants.class
 controller\user\UserProfileController.class
 factory\LogServiceFactory.class
 repository\user\AdminDao.class
