@@ -51,6 +51,10 @@ public class BanLog {
         this.status = status;
     }
 
+    public BanLog() {
+
+    }
+
     public void setLogId(Integer logId) {
         this.logId = logId;
     }
