@@ -8,8 +8,6 @@ import exception.login.AccountBannedException;
 import exception.login.AuthenticationException;
 import factory.EntityManagerFactoryProvider;
 import factory.LogStatusFactory;
-import jakarta.ejb.Local;
-import jakarta.persistence.EntityManagerFactory;
 import model.log.BanLog;
 import model.log.LoginLog;
 import model.user.LoginInfo;
