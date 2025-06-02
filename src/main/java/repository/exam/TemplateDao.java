@@ -1,6 +1,7 @@
 package repository.exam;
 
 import java.util.List;
+import java.util.Map;
 
 import jakarta.persistence.EntityManagerFactory;
 import model.exam.Template;
@@ -21,7 +22,7 @@ public class TemplateDao extends DeactivatableObjectDao<Template> implements Sea
     }
 
     @Override
-    public List<Template> findByField(String fieldName, Object value) {
+    public List<Template> findByField(Map<String, Object> fieldValues) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findByField'");
     }

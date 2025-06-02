@@ -6,7 +6,7 @@ package controller.login;
 
 import java.io.IOException;
 
-import exception.login.UserNameDuplicatedException;
+import exception.register.UserNameDuplicatedException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -55,7 +55,6 @@ public class RegisterController extends HttpServlet {
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String email = request.getParameter("email");
-        
 
         RegisterService registerService = new RegisterService();
         User user = null;

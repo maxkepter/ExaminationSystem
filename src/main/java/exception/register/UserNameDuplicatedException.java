@@ -1,4 +1,4 @@
-package exception.login;
+package exception.register;
 
 public class UserNameDuplicatedException extends RuntimeException {
 

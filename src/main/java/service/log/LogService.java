@@ -4,10 +4,14 @@
  */
 package service.log;
 
+import model.log.LogStatus;
+import model.user.User;
+
 /**
  *
  * @author Admin
  */
 public interface LogService {
+    void createUserLog(User user, LogStatus logStatus);
 
 }

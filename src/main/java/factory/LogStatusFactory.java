@@ -6,6 +6,7 @@ public class LogStatusFactory {
     public static final LogStatus REGISTRATION_SUCCESS = new LogStatus(1, "registration success");
     public static final LogStatus LOGIN_SUCCESS = new LogStatus(2, "login success");
     public static final LogStatus ACCOUNT_ACTIVE = new LogStatus(3, "account active");
+    public static final LogStatus BRUTE_FORCE_DETECTED = new LogStatus(4, "brute force detected");
     public static final LogStatus ACCOUNT_BANNED = new LogStatus(5, "account banned");
     public static final LogStatus WRONG_PASSWORD = new LogStatus(6, "wrong password");
     public static final LogStatus LOGIN_FAILURE = new LogStatus(7, "login failure");

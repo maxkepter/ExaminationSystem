@@ -1,9 +1,12 @@
 package repository.log;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import jakarta.persistence.EntityManagerFactory;
 import model.log.ExamLog;
+import model.user.User;
 import repository.ObjectDao;
 
 public class ExamLogDao extends ObjectDao<ExamLog>
@@ -21,7 +24,7 @@ public class ExamLogDao extends ObjectDao<ExamLog>
     }
 
     @Override
-    public List<ExamLog> findByField(String fieldName, Object value) {
+    public List<ExamLog> findByField(Map<String, Object> fieldValues) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findByField'");
     }
@@ -30,6 +33,18 @@ public class ExamLogDao extends ObjectDao<ExamLog>
     public List<ExamLog> findPageSorted(int pageIndex, int pageSize, String sortBy, boolean asc) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findPageSorted'");
+    }
+
+    @Override
+    public List<ExamLog> findByTimeRange(LocalDateTime startTime, LocalDateTime endTime) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByTimeRange'");
+    }
+
+    @Override
+    public List<ExamLog> findByTimeRange(User user, LocalDateTime startTime, LocalDateTime endTime) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByTimeRange'");
     }
 
 }

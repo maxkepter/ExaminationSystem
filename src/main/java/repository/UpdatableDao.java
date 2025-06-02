@@ -12,5 +12,6 @@ import java.util.Map;
  */
 public interface UpdatableDao<E> {
     void update(E object);
-    void updatePartial(int id, Map<String, Object> fields); 
+
+    void updatePartial(int id, Map<String, Object> fields);
 }

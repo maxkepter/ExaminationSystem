@@ -5,6 +5,7 @@
 package repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -12,5 +13,6 @@ import java.util.List;
  */
 public interface SearchableDao<E> {
     List<E> findPage(int pageIndex, int pageSize);
-    List<E> findByField(String fieldName, Object value);
+
+    List<E> findByField(Map<String, Object> fieldValues);
 }

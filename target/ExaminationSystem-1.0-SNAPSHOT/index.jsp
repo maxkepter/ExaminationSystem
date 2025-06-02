@@ -20,6 +20,8 @@
                     ${user.firstName} ${user.lastName}!
                 </p>
                 <a href="Logout">Logout</a>
+                <a href="UserProfile">Profile</a>
+                <a href="ChangePassword">Change Password</a>
             </c:when>
             <c:otherwise>
                 <p>Test</p>

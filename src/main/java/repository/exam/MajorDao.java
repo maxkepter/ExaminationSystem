@@ -1,6 +1,7 @@
 package repository.exam;
 
 import java.util.List;
+import java.util.Map;
 
 import jakarta.persistence.EntityManagerFactory;
 import model.exam.Major;
@@ -22,7 +23,7 @@ public class MajorDao extends DeactivatableObjectDao<Major>
     }
 
     @Override
-    public List<Major> findByField(String fieldName, Object value) {
+    public List<Major> findByField(Map<String, Object> fieldValues) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findByField'");
     }

@@ -1,7 +1,5 @@
 package repository.exam;
 
-import java.util.List;
-
 import jakarta.persistence.EntityManagerFactory;
 import model.exam.Difficulty;
 import repository.DeactivatableObjectDao;

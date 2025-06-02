@@ -1,6 +1,7 @@
 package repository.exam;
 
 import java.util.List;
+import java.util.Map;
 
 import jakarta.persistence.EntityManagerFactory;
 import model.exam.Subject;
@@ -22,7 +23,7 @@ public class SubjectDao
     }
 
     @Override
-    public List<Subject> findByField(String fieldName, Object value) {
+    public List<Subject> findByField(Map<String, Object> fieldValues) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findByField'");
     }
