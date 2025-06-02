@@ -52,7 +52,7 @@ public class LoginService {
             banLogDao.create(banLog);
             // Log the brute force detection event
             logService.createUserLog(user, LogStatusFactory.BRUTE_FORCE_DETECTED);
-            throw new AccountBannedException("User is banned due to brute force detection.");
+            throw new AccountBannedException("User is banned due to attemp too much.");
         }
 
         // If the password does not match, throw an AuthenticationException

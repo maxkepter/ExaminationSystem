@@ -19,7 +19,9 @@
                         <p class="welcome-text">
                             Welcome, <strong>${user.firstName} ${user.lastName}</strong>!
                         </p>
+                        
                         <a class="btn" href="Logout">Logout</a>
+                        <a class="btn " href="UserProfile">UserProfile</a>
                     </c:when>
                     <c:otherwise>
                         <p>Test</p>
