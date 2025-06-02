@@ -8,8 +8,6 @@ import exception.login.AccountBannedException;
 import exception.login.AuthenticationException;
 import factory.EntityManagerFactoryProvider;
 import factory.LogStatusFactory;
-import jakarta.ejb.Local;
-import jakarta.persistence.EntityManagerFactory;
 import model.log.BanLog;
 import model.log.LoginLog;
 import model.user.LoginInfo;
@@ -73,9 +71,60 @@ public class LoginService {
         return loginInfo.getUser();
     }
 
-    public User adminLogin(String userName, String password) {
-        User user = login(userName, password);
+    public User adminLogin(String userName, String password)
+            throws AuthenticationException, AccountBannedException, IllegalArgumentException {
+        LogService logService = new LoginLogService();
+        // Validate the input parameters
+        if (!Validate.validateString(userName) || !Validate.validateString(password)) {
+            throw new IllegalArgumentException("Username or password cannot be blank !");
+        }
+
+        LoginInfoDao loginInfoDao = new LoginInfoDao(EntityManagerFactoryProvider.getEntityManagerFactory(),
+                LoginInfo.class);
+
+        LoginInfo loginInfo = loginInfoDao.findByUserName(userName);
+        // If loginInfo is null, it means the user does not exist or the username is
+        // incorrect
+        if (loginInfo == null) {
+            throw new AuthenticationException();
+        }
+
+        User user = loginInfo.getUser();
+
+        if (bruteForceDetect(user)) {
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime endTime = now.minusMinutes(LogConstants.LOGIN_BAN_DURATION_MINUTES);
+
+            // Create a BanLog entry for the user
+            BanLogDao banLogDao = new BanLogDao(EntityManagerFactoryProvider.getEntityManagerFactory(), BanLog.class);
+            BanLog banLog = new BanLog(now, endTime, user, LogStatusFactory.ACCOUNT_BANNED);
+            banLogDao.create(banLog);
+            // Log the brute force detection event
+            logService.createUserLog(user, LogStatusFactory.BRUTE_FORCE_DETECTED);
+            throw new AccountBannedException("User is banned due to attemp too much.");
+        }
+
+        // If the password does not match, throw an AuthenticationException
+        if (!LoginInfo.checkPassword(loginInfo, password)) {
+            logService.createUserLog(user, LogStatusFactory.WRONG_PASSWORD);
+            throw new AuthenticationException();
+        }
+        // If the user is banned, log the event and throw an AccountBannedException
+        if (isBanned(user)) {
+            logService.createUserLog(user, LogStatusFactory.ACCOUNT_BANNED);
+            throw new AccountBannedException();
+        }
+        if (user.getRole() != User.USER_ROLE_ADMIN) {
+            logService.createUserLog(user, LogStatusFactory.LOGIN_FAILURE);
+            throw new AuthenticationException("User is not an admin.");
+        }
+
+        // If the user is not banned and the login is successful, log the event
+
+        logService.createUserLog(user, LogStatusFactory.LOGIN_SUCCESS);
+
         return user;
+
     }
 
     public boolean isBanned(User user) {

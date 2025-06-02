@@ -28,4 +28,43 @@ public class Exam {
     @ManyToOne
     @JoinColumn(name = "userID", nullable = false)
     private User user;
+
+    public Integer getExamID() {
+        return examID;
+    }
+
+    public String getExamName() {
+        return examName;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setExamID(Integer examID) {
+        this.examID = examID;
+    }
+
+    public void setExamName(String examName) {
+        this.examName = examName;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Exam{" + "examID=" + examID + ", examName=" + examName + ", duration=" + duration + ", user=" + user
+                + '}';
+    }
+
 }

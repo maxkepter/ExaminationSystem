@@ -3,6 +3,7 @@ package repository.exam;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import model.exam.Template;
 import repository.DeactivatableObjectDao;
@@ -27,4 +28,18 @@ public class TemplateDao extends DeactivatableObjectDao<Template> implements Sea
         throw new UnsupportedOperationException("Unimplemented method 'findByField'");
     }
 
+    public Template findByCode(String code) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        try {
+            String jpql = "SELECT t FROM Template t WHERE t.code = :code AND t.isDisable = false";
+            return em.createQuery(jpql, Template.class)
+                    .setParameter("code", code)
+                    .getSingleResult();
+        } catch (jakarta.persistence.NoResultException e) {
+            // Không tìm thấy
+            return null;
+        } finally {
+            em.close();
+        }
+    }
 }

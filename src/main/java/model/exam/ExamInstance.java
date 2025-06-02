@@ -32,4 +32,45 @@ public class ExamInstance {
     @ManyToOne
     @JoinColumn(name = "examID", nullable = false)
     private Exam exam;
+
+    public Integer getExamInstanceId() {
+        return examInstanceId;
+    }
+
+    public void setExamInstanceId(Integer examInstanceId) {
+        this.examInstanceId = examInstanceId;
+    }
+
+    public String getExamCode() {
+        return examCode;
+    }
+
+    public void setExamCode(String examCode) {
+        this.examCode = examCode;
+    }
+
+    public LocalDateTime getExamDate() {
+        return examDate;
+    }
+
+    public void setExamDate(LocalDateTime examDate) {
+        this.examDate = examDate;
+    }
+
+    public LocalDateTime getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
+    }
+
+    public Exam getExam() {
+        return exam;
+    }
+
+    public void setExam(Exam exam) {
+        this.exam = exam;
+    }
+    
 }

@@ -1,17 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@ page import="model.user.User" %>
+<%-- 
+    Document   : admin_home
+    Created on : Jun 2, 2025, 11:31:26 PM
+    Author     : Admin
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
     <head>
-        <meta charset="UTF-8" />
-        <title>Welcome Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Admin Home</title>
         <link rel="stylesheet" type="text/css" href="css/style.css">
     </head>
     <body>
         <div class="container">
-        <h1>Hello World!</h1>
+            <h1>Welcome Admin!</h1>
+
             <div class="card">
                 <c:choose>
                     <c:when test="${not empty user}">
@@ -24,8 +29,7 @@
                     </c:when>
                     <c:otherwise>
                         <p>Test</p>
-                        <a class="btn" href="student/findCode.jsp">Tim bai thi</a>
-                        <a class="btn" href="Login">Login</a>
+                        <a class="btn" href="login.jsp">Login</a>
                         <a class="btn btn-secondary" href="Register">Register</a>
                     </c:otherwise>
                 </c:choose>
