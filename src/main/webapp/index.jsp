@@ -11,8 +11,7 @@
     </head>
     <body>
         <div class="container">
-            <h1>Hello World!</h1>
-
+        <h1>Hello World!</h1>
             <div class="card">
                 <c:choose>
                     <c:when test="${not empty user}">
@@ -25,6 +24,7 @@
                     </c:when>
                     <c:otherwise>
                         <p>Test</p>
+                        <a class="btn" href="student/findCode.jsp">Tim bai thi</a>
                         <a class="btn" href="Login">Login</a>
                         <a class="btn btn-secondary" href="Register">Register</a>
                     </c:otherwise>

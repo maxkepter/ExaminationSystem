@@ -33,4 +33,6 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "difficultyId", nullable = false)
     private Difficulty difficulty;
+    
+    
 }
