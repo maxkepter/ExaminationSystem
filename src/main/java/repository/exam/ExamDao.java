@@ -9,6 +9,8 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import model.exam.Exam;
 import model.exam.ExamInstance;
 import model.user.User;
@@ -37,26 +39,55 @@ public class ExamDao {
             em.close();
         }
     }
-    
+
     public void createExam(String examName, Integer duration, User user) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             Exam newExam = new Exam(examName, duration, user);
             em.persist(newExam);
             em.getTransaction().commit();
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    public void close() {
-    if (emf != null && emf.isOpen()) {
-        emf.close();
+
+    public List<Exam> getAllExams() {
+        List<Exam> exams = new ArrayList<>();
+        try (EntityManager em = emf.createEntityManager();) {
+            exams = em.createQuery("SELECT e FROM Exam e", Exam.class).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return exams;
     }
-}
+
+    public void updateExamById(Integer examId, String newName, Integer newDuration, User user) {
+
+        try (EntityManager em = emf.createEntityManager();) {
+            em.getTransaction().begin();
+
+            Exam exam = em.find(Exam.class, examId);
+            if (exam != null) {
+                exam.setExamName(newName);              
+                exam.setDuration(newDuration);
+                exam.setUser(user);
+            }
+
+            em.getTransaction().commit();             
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void close() {
+        if (emf != null && emf.isOpen()) {
+            emf.close();
+        }
+    }
+
     public static void main(String[] args) {
-        ExamDao dao = new ExamDao();  // tạo instance của ExamDao
-        ExamInstance instance = dao.findExamById("EX001");  // gọi qua đối tượng
+        ExamDao dao = new ExamDao();
+        ExamInstance instance = dao.findExamById("EX001");
 
         if (instance != null) {
             System.out.println("Tìm thấy examCode: " + instance.getExamCode());
