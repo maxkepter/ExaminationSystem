@@ -26,6 +26,7 @@
                         
                         <a class="btn" href="Logout">Logout</a>
                         <a class="btn " href="UserProfile">UserProfile</a>
+                        <a class="btn " href="functionpage/examcreation1.jsp">Create Exam</a>
                     </c:when>
                     <c:otherwise>
                         <p>Test</p>
