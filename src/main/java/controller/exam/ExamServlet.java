@@ -82,7 +82,7 @@ public class ExamServlet extends HttpServlet {
             }
         }
 
-        request.getRequestDispatcher("/exam-search.jsp").forward(request, response);
+        request.getRequestDispatcher("/student/findCode.jsp").forward(request, response);
         em.close();
     }
 

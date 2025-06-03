@@ -8,28 +8,39 @@
         <meta charset="UTF-8" />
         <title>Welcome Page</title>
         <link rel="stylesheet" type="text/css" href="css/style.css">
+
     </head>
     <body>
+
+
+
         <div class="container">
-        <h1>Hello World!</h1>
+            <h1>Hello World!</h1>
+
+
             <div class="card">
                 <c:choose>
                     <c:when test="${not empty user}">
                         <p class="welcome-text">
                             Welcome, <strong>${user.firstName} ${user.lastName}</strong>!
                         </p>
-                        
+
                         <a class="btn" href="Logout">Logout</a>
                         <a class="btn " href="UserProfile">UserProfile</a>
                     </c:when>
                     <c:otherwise>
                         <p>Test</p>
-                        <a class="btn" href="student/findCode.jsp">Tim bai thi</a>
-                        <a class="btn" href="Login">Login</a>
+                        <a class="btn" href="login.jsp">Login</a>
                         <a class="btn btn-secondary" href="Register">Register</a>
                     </c:otherwise>
                 </c:choose>
+                <script src="css/javascript.js"></script>
             </div>
         </div>
-    </body>
-</html>
+        <div class="footer"> 
+            © 2005-2025 Bản quyền thuộc về Ông Bùi Tuấn Dương + ChatGPT.<br>
+                Cấm sao chép dưới mọi hình thức nếu không có sự chấp thuận bằng văn bản.<br>
+                    contact : 123456678
+                    </div>
+                    </body>
+                    </html>

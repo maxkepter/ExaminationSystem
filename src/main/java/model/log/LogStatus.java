@@ -13,7 +13,6 @@ import jakarta.persistence.Id;
 @Entity
 public class LogStatus {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer statusId;
 
     @Column(nullable = false)

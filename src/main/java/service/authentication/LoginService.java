@@ -3,7 +3,7 @@ package service.authentication;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import controller.constants.LogConstants;
+import constants.LogConstants;
 import exception.login.AccountBannedException;
 import exception.login.AuthenticationException;
 import factory.EntityManagerFactoryProvider;
