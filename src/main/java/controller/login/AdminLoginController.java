@@ -39,7 +39,7 @@ public class AdminLoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("admin_login.jsp").forward(request, response);
+        request.getRequestDispatcher("adminpage/admin_login.jsp").forward(request, response);
 
     }
 
@@ -63,14 +63,14 @@ public class AdminLoginController extends HttpServlet {
             user = loginService.adminLogin(username, password);
         } catch (IllegalArgumentException e) {
             request.setAttribute("error", "Username or password cannot be blank !");
-            request.getRequestDispatcher("admin_login.jsp").forward(request, response);
+            request.getRequestDispatcher("adminpage/admin_login.jsp").forward(request, response);
             return;
         } catch (AuthenticationException e) {
             response.sendRedirect(request.getContextPath() + "/Home");
             return;
         } catch (AccountBannedException e) {
             request.setAttribute("error", "This account is banned !");
-            request.getRequestDispatcher("admin_login.jsp").forward(request, response);
+            request.getRequestDispatcher("adminpage/admin_login.jsp").forward(request, response);
             return;
         }
         // Create session and storge user info

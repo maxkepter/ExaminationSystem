@@ -61,6 +61,19 @@ public class Exam {
         this.user = user;
     }
 
+    public Exam() {
+    }
+
+    
+    
+    public Exam(String examName, Integer duration, User user) {
+        this.examName = examName;
+        this.duration = duration;
+        this.user = user;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "Exam{" + "examID=" + examID + ", examName=" + examName + ", duration=" + duration + ", user=" + user
