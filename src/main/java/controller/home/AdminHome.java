@@ -51,7 +51,7 @@ public class AdminHome extends HttpServlet {
 //            response.sendRedirect(request.getContextPath() + "/Home");
 //            return;
 //        }
-        request.getRequestDispatcher("admin_home.jsp").forward(request, response);
+        request.getRequestDispatcher("adminpage/admin_home.jsp").forward(request, response);
     }
 
     /**
