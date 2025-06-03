@@ -1,4 +1,4 @@
-package constants;
+package controller.constants;
 
 public class LogConstants {
     private LogConstants() {
