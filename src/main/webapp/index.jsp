@@ -27,6 +27,7 @@
                         <a class="btn" href="student/findCode.jsp">Tim bai thi</a>
                         <a class="btn" href="Login">Login</a>
                         <a class="btn btn-secondary" href="Register">Register</a>
+                        <a class="btn" href="adminlogin">Admin Login</a>
                     </c:otherwise>
                 </c:choose>
             </div>

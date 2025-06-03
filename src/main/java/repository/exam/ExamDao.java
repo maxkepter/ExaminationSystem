@@ -61,19 +61,32 @@ public class ExamDao {
         return exams;
     }
 
-    public void updateExamById(Integer examId, String newName, Integer newDuration, User user) {
+    public void deleteExamById(Integer id) {
+
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            Exam removeExam = em.find(Exam.class, id);
+            em.remove(removeExam);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateExam(Integer examId, String newName, Integer newDuration, User user) {
 
         try (EntityManager em = emf.createEntityManager();) {
             em.getTransaction().begin();
 
             Exam exam = em.find(Exam.class, examId);
+            User changeUser = em.find(User.class, user.getUserID());
             if (exam != null) {
-                exam.setExamName(newName);              
+                exam.setExamName(newName);
                 exam.setDuration(newDuration);
-                exam.setUser(user);
+                exam.setUser(changeUser);
             }
-
-            em.getTransaction().commit();             
+            
+            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         }

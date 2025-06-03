@@ -26,5 +26,6 @@
         Thời gian (phút) <input type="number" name="duration" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
         <input type="submit" name="submit" value="Bắt đầu tạo bài kiểm tra">
     </form>
+        <a class="btn " href="${pageContext.request.contextPath}/adminhome">Go Back</a>
 </body>
 </html>
