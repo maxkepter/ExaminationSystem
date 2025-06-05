@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.login;
+package controller.user.login;
 
+import exception.login.AccountBannedException;
+import exception.login.AuthenticationException;
 import java.io.IOException;
-
-import exception.register.UserNameDuplicatedException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,17 +15,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.user.User;
-import service.authentication.RegisterService;
+import service.authentication.LoginService;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "ResgisterController", urlPatterns = { "/Register" })
-public class RegisterController extends HttpServlet {
+@WebServlet(name = "LoginController", urlPatterns = { "/Login" })
+public class LoginController extends HttpServlet {
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
-    // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -36,7 +35,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("register.jsp").forward(request, response);
+        request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
     /**
@@ -50,35 +49,32 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userName = request.getParameter("userName");
+        String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String email = request.getParameter("email");
 
-        RegisterService registerService = new RegisterService();
+        LoginService loginService = new LoginService();
         User user = null;
         try {
-            System.out.println("Test");
-            user = registerService.register(userName, password, new User(firstName, lastName, 1, email));
-            System.out.println("Register Test");
-
+            user = loginService.login(username, password);
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            request.setAttribute("error", e.getMessage());
-            request.getRequestDispatcher("register.jsp").forward(request, response);
+            request.setAttribute("error", "Username or password cannot be blank !");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
-        } catch (UserNameDuplicatedException e) {
-            e.printStackTrace();
-            request.setAttribute("error", "Username already exists. Please choose a different username.");
-            request.getRequestDispatcher("register.jsp").forward(request, response);
+        } catch (AuthenticationException e) {
+            request.setAttribute("error", "Username or password is incorrect !");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+            return;
+        } catch (AccountBannedException e) {
+            request.setAttribute("error", "This account is banned !");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
         }
         // Create session and storge user info
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
-        // If registration is successful, redirect to the home page
+        // If login is successful, redirect to the home page
         response.sendRedirect(request.getContextPath() + "/Home");
+
     }
 
     /**

@@ -2,13 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.exam;
+package controller.admin.exam;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceUnit;
-import jakarta.persistence.TypedQuery;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,31 +14,25 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.exam.Exam;
-import model.exam.ExamInstance;
-import repository.exam.ExamDao;
+import utils.Validate;
 
 /**
  *
  * @author FPT SHOP
  */
-public class ExamController extends HttpServlet {
+public class ExamServlet extends HttpServlet {
 
     @PersistenceUnit(unitName = "quizPU")
-    private ExamDao examDAO;
-
-    @Override
-    public void init() {
-        examDAO = new ExamDao();
-    }
+    private EntityManagerFactory emf;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -59,38 +51,33 @@ public class ExamController extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
+    // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ExamManagement");
-
         EntityManager em = emf.createEntityManager();
+
         String action = request.getParameter("action");
         if ("search".equals(action)) {
-            String examCode = request.getParameter("examCode");
+            String idStr = request.getParameter("examID");
+            if (Validate.validateString(idStr)) {
+                Integer id = Integer.parseInt(idStr);
+                Exam exam = em.find(Exam.class, id);
 
-            if (examCode != null && !examCode.isEmpty()) {
-                TypedQuery<ExamInstance> query = em.createQuery(
-                        "SELECT ei FROM ExamInstance ei WHERE ei.examCode = :code", ExamInstance.class);
-                query.setParameter("code", examCode);
-
-                ExamInstance instance = query.getResultStream().findFirst().orElse(null);
-
-                if (instance != null) {
-                    Exam exam = instance.getExam();
+                if (exam != null) {
                     request.setAttribute("examResult", exam);
-                    request.setAttribute("message", "Tìm thấy mã đề thi: " + examCode);
+                    request.setAttribute("message", "Tìm thấy mã đề thi: " + id);
                 } else {
-                    request.setAttribute("message", "Không tìm thấy đề thi với mã: " + examCode);
+                    request.setAttribute("message", "Không tìm thấy đề thi với ID: " + id);
                 }
             }
         }
@@ -101,42 +88,16 @@ public class ExamController extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     * 🗿🤌🗿🗿🗿✍️(◔◡◔)╰(*°▽°*)╯(❁´◡`❁)(●'◡'●)(づ￣ 3￣)づ
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ExamManagement");
-
-        EntityManager em = emf.createEntityManager();
-        String action = request.getParameter("action");
-        if ("search".equals(action)) {
-            String examCode = request.getParameter("examCode");
-
-            if (examCode != null && !examCode.isEmpty()) {
-                TypedQuery<ExamInstance> query = em.createQuery(
-                        "SELECT ei FROM ExamInstance ei WHERE ei.examCode = :code", ExamInstance.class);
-                query.setParameter("code", examCode);
-
-                ExamInstance instance = query.getResultStream().findFirst().orElse(null);
-
-                if (instance != null) {
-                    Exam exam = instance.getExam();
-                    request.setAttribute("examResult", instance);
-                    request.setAttribute("message", "Tìm thấy mã đề thi: " + examCode);
-                } else {
-                    request.setAttribute("message", "Không tìm thấy đề thi với mã: " + examCode);
-                }
-            }
-        }
-
-        request.getRequestDispatcher("/student/findCode.jsp").forward(request, response);
-        em.close();
+        processRequest(request, response);
     }
 
     /**

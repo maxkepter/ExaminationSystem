@@ -9,13 +9,50 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "Major")
 public class Major {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer majorId;
+    private int majorId;
+
+    @Column(nullable = false, length = 100)
+    private String majorName;
 
     @Column(nullable = false)
-    private String majorName;
+    private boolean isDisable;
+
+    public Major() {
+    }
+
+    public Major(String majorName, boolean isDisable) {
+        this.majorName = majorName;
+        this.isDisable = isDisable;
+    }
+
+    public int getMajorId() {
+        return majorId;
+    }
+
+    public void setMajorId(int majorId) {
+        this.majorId = majorId;
+    }
+
+    public String getMajorName() {
+        return majorName;
+    }
+
+    public void setMajorName(String majorName) {
+        this.majorName = majorName;
+    }
+
+    public boolean isDisable() {
+        return isDisable;
+    }
+
+    public void setDisable(boolean isDisable) {
+        this.isDisable = isDisable;
+    }
+
 }

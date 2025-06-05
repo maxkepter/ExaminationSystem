@@ -2,11 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.exam;
+package controller.user.exam;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceUnit;
+import jakarta.persistence.TypedQuery;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,16 +16,22 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.exam.Exam;
-import utils.Validate;
+import model.exam.ExamInstance;
+import repository.exam.ExamDao;
 
 /**
  *
  * @author FPT SHOP
  */
-public class ExamServlet extends HttpServlet {
+public class ExamController extends HttpServlet {
 
     @PersistenceUnit(unitName = "quizPU")
-    private EntityManagerFactory emf;
+    private ExamDao examDAO;
+
+    @Override
+    public void init() {
+        examDAO = new ExamDao();
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -64,20 +72,26 @@ public class ExamServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EntityManager em = emf.createEntityManager();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ExamManagement");
 
+        EntityManager em = emf.createEntityManager();
         String action = request.getParameter("action");
         if ("search".equals(action)) {
-            String idStr = request.getParameter("examID");
-            if (Validate.validateString(idStr)) {
-                Integer id = Integer.parseInt(idStr);
-                Exam exam = em.find(Exam.class, id);
+            String examCode = request.getParameter("examCode");
 
-                if (exam != null) {
+            if (examCode != null && !examCode.isEmpty()) {
+                TypedQuery<ExamInstance> query = em.createQuery(
+                        "SELECT ei FROM ExamInstance ei WHERE ei.examCode = :code", ExamInstance.class);
+                query.setParameter("code", examCode);
+
+                ExamInstance instance = query.getResultStream().findFirst().orElse(null);
+
+                if (instance != null) {
+                    Exam exam = instance.getExam();
                     request.setAttribute("examResult", exam);
-                    request.setAttribute("message", "Tìm thấy mã đề thi: " + id);
+                    request.setAttribute("message", "Tìm thấy mã đề thi: " + examCode);
                 } else {
-                    request.setAttribute("message", "Không tìm thấy đề thi với ID: " + id);
+                    request.setAttribute("message", "Không tìm thấy đề thi với mã: " + examCode);
                 }
             }
         }
@@ -88,6 +102,7 @@ public class ExamServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
+     * 🗿🤌🗿🗿🗿✍️(◔◡◔)╰(*°▽°*)╯(❁´◡`❁)(●'◡'●)(づ￣ 3￣)づ
      *
      * @param request  servlet request
      * @param response servlet response
@@ -97,7 +112,32 @@ public class ExamServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ExamManagement");
+
+        EntityManager em = emf.createEntityManager();
+        String action = request.getParameter("action");
+        if ("search".equals(action)) {
+            String examCode = request.getParameter("examCode");
+
+            if (examCode != null && !examCode.isEmpty()) {
+                TypedQuery<ExamInstance> query = em.createQuery(
+                        "SELECT ei FROM ExamInstance ei WHERE ei.examCode = :code", ExamInstance.class);
+                query.setParameter("code", examCode);
+
+                ExamInstance instance = query.getResultStream().findFirst().orElse(null);
+
+                if (instance != null) {
+                    Exam exam = instance.getExam();
+                    request.setAttribute("examResult", instance);
+                    request.setAttribute("message", "Tìm thấy mã đề thi: " + examCode);
+                } else {
+                    request.setAttribute("message", "Không tìm thấy đề thi với mã: " + examCode);
+                }
+            }
+        }
+
+        request.getRequestDispatcher("/student/findCode.jsp").forward(request, response);
+        em.close();
     }
 
     /**

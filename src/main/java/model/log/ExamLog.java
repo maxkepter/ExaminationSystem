@@ -1,39 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model.log;
 
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import model.exam.ExamInstance;
-import model.user.Student;
+import jakarta.persistence.Table;
+import model.exam.student.StudentExam;
 
 @Entity
+@Table(name = "ExamLog")
 public class ExamLog {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer logId;
+    private int examLogId;
 
-    @Column(nullable = false, columnDefinition = "DATETIME")
+    @Column(nullable = false)
     private LocalDateTime time;
 
-    @ManyToOne
-    @JoinColumn(name = "userID", nullable = false)
-    private Student student;
+    @Column(nullable = false, length = 255)
+    private String information;
 
     @ManyToOne
-    @JoinColumn(name = "examInstanceId", nullable = false)
-    private ExamInstance examInstance;
+    @JoinColumn(name = "studentExamID", nullable = false)
+    private StudentExam studentExam;
 
-    @ManyToOne
-    @JoinColumn(name = "statusId", nullable = false)
-    private LogStatus status;
 }

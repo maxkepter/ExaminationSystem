@@ -13,8 +13,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "SubjectMajor")
 public class SubjectMajor {
     @EmbeddedId
     private SubjectMajorId id;
@@ -28,27 +30,30 @@ public class SubjectMajor {
     @MapsId("subID")
     @JoinColumn(name = "subID")
     private Subject subject;
+
+    // Getters and Setters
 }
 
 @Embeddable
 class SubjectMajorId implements Serializable {
-    private Integer majorId;
-    private Integer subID;
+    private int majorId;
+    private int subID;
+
+    public SubjectMajorId() {
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (!(o instanceof SubjectMajorId))
             return false;
         SubjectMajorId that = (SubjectMajorId) o;
-        return Objects.equals(majorId, that.majorId) &&
-                Objects.equals(subID, that.subID);
+        return majorId == that.majorId && subID == that.subID;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(majorId, subID);
     }
-
 }

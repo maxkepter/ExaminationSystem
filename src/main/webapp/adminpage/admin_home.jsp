@@ -27,12 +27,9 @@
                         <a class="btn" href="Logout">Logout</a>
                         <a class="btn " href="UserProfile">UserProfile</a>
                         <a class="btn " href="functionpage/examcreation1.jsp">Create Exam</a>
+                        <a class="btn " href="functionpage/examlist.jsp">Major Management</a>
+                        <a class="btn " href="functionpage/examlist.jsp">Subject Management</a>
                     </c:when>
-                    <c:otherwise>
-                        <p>Test</p>
-                        <a class="btn" href="login.jsp">Login</a>
-                        <a class="btn btn-secondary" href="Register">Register</a>
-                    </c:otherwise>
                 </c:choose>
             </div>
         </div>
