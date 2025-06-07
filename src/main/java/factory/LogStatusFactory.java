@@ -3,15 +3,15 @@ package factory;
 import model.log.LogStatus;
 
 public class LogStatusFactory {
-    public static final LogStatus REGISTRATION_SUCCESS = new LogStatus(4, "registration success");
-    public static final LogStatus LOGIN_SUCCESS = new LogStatus(5, "login success");
-    public static final LogStatus ACCOUNT_ACTIVE = new LogStatus(6, "account active");
-    public static final LogStatus BRUTE_FORCE_DETECTED = new LogStatus(7, "brute force detected");
-    public static final LogStatus ACCOUNT_BANNED = new LogStatus(8, "account banned");
-    public static final LogStatus WRONG_PASSWORD = new LogStatus(9, "wrong password");
-    public static final LogStatus LOGIN_FAILURE = new LogStatus(10, "login failure");
-    public static final LogStatus LOGOUT = new LogStatus(11, "logout");
-    public static final LogStatus EXAM_SUSPENDED = new LogStatus(12, "exam suspended");
+    public static final LogStatus REGISTRATION_SUCCESS = new LogStatus(1, "registration success");
+    public static final LogStatus LOGIN_SUCCESS = new LogStatus(2, "login success");
+    public static final LogStatus ACCOUNT_ACTIVE = new LogStatus(3, "account active");
+    public static final LogStatus BRUTE_FORCE_DETECTED = new LogStatus(4, "brute force detected");
+    public static final LogStatus ACCOUNT_BANNED = new LogStatus(5, "account banned");
+    public static final LogStatus WRONG_PASSWORD = new LogStatus(6, "wrong password");
+    public static final LogStatus LOGIN_FAILURE = new LogStatus(7, "login failure");
+    public static final LogStatus LOGOUT = new LogStatus(8, "logout");
+    public static final LogStatus EXAM_SUSPENDED = new LogStatus(9, "exam suspended");
 
     public static LogStatus getLogStatus(String status) {
         switch (status) {

@@ -27,14 +27,14 @@
                         <a class="btn" href="Logout">Logout</a>
                         <a class="btn " href="UserProfile">UserProfile</a>
                         <a class="btn " href="functionpage/examcreation1.jsp">Create Exam</a>
+<<<<<<< HEAD
                         <a class="btn " href="${pageContext.request.contextPath}/HandleViewAllExam">View Exam</a>
                         
+=======
+                        <a class="btn " href="functionpage/examlist.jsp">Major Management</a>
+                        <a class="btn " href="functionpage/examlist.jsp">Subject Management</a>
+>>>>>>> 55b6b9b72730e385dd14c97d1183077b0d4deba2
                     </c:when>
-                    <c:otherwise>
-                        <p>Test</p>
-                        <a class="btn" href="login.jsp">Login</a>
-                        <a class="btn btn-secondary" href="Register">Register</a>
-                    </c:otherwise>
                 </c:choose>
             </div>
         </div>

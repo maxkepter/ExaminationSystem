@@ -2,12 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.login;
+
+package controller.admin.login;
+
+import java.io.IOException;
 
 import exception.login.AccountBannedException;
 import exception.login.AuthenticationException;
-import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -21,30 +22,33 @@ import service.authentication.LoginService;
  *
  * @author Admin
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/Login"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "AdminLoginController", urlPatterns = { "/AdminLogin" })
+public class AdminLoginController extends HttpServlet {
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
+    // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
+     * 
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("adminpage/admin_login.jsp").forward(request, response);
+
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
+     * 
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -53,33 +57,32 @@ public class LoginController extends HttpServlet {
         String password = request.getParameter("password");
 
         LoginService loginService = new LoginService();
-        User user=null;
+        User user = null;
         try {
-          user= loginService.login(username, password);
+            user = loginService.adminLogin(username, password);
         } catch (IllegalArgumentException e) {
             request.setAttribute("error", "Username or password cannot be blank !");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("adminpage/admin_login.jsp").forward(request, response);
             return;
         } catch (AuthenticationException e) {
-            request.setAttribute("error", "Username or password is incorrect !");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/Home");
             return;
         } catch (AccountBannedException e) {
             request.setAttribute("error", "This account is banned !");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("adminpage/admin_login.jsp").forward(request, response);
             return;
         }
         // Create session and storge user info
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
         // If login is successful, redirect to the home page
-        response.sendRedirect(request.getContextPath() +"/Home");
+        response.sendRedirect(request.getContextPath() + "/adminhome");
 
     }
 
     /**
      * Returns a short description of the servlet.
-     *
+     * 
      * @return a String containing servlet description
      */
     @Override

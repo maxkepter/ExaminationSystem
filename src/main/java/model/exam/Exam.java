@@ -4,6 +4,9 @@
  */
 package model.exam;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,73 +14,34 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import model.user.User;
 
 @Entity
+@Table(name = "Exam")
 public class Exam {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer examID;
+    private int examID;
 
     @Column(nullable = false)
+    private int duration;
+
+    @Column(nullable = false)
+    private LocalDateTime examDate;
+
+    @Column(nullable = false)
+    private LocalDate deadline;
+
+    @Column(nullable = false, unique = true, length = 50)
+    private String examCode;
+
+    @Column(nullable = false, length = 100)
     private String examName;
-
-    @Column(nullable = false)
-    private Integer duration;
 
     @ManyToOne
     @JoinColumn(name = "userID", nullable = false)
     private User user;
 
-    public Integer getExamID() {
-        return examID;
-    }
-
-    public String getExamName() {
-        return examName;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setExamID(Integer examID) {
-        this.examID = examID;
-    }
-
-    public void setExamName(String examName) {
-        this.examName = examName;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Exam() {
-    }
-
-    
-    
-    public Exam(String examName, Integer duration, User user) {
-        this.examName = examName;
-        this.duration = duration;
-        this.user = user;
-    }
-
-    
-    
-    @Override
-    public String toString() {
-        return "Exam{" + "examID=" + examID + ", examName=" + examName + ", duration=" + duration + ", user=" + user
-                + '}';
-    }
-
+    // Getters and Setters
 }

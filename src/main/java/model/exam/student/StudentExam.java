@@ -6,65 +6,61 @@ package model.exam.student;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
-import model.exam.ExamInstance;
+import jakarta.persistence.Table;
+import model.exam.Exam;
 import model.user.Student;
 
 @Entity
+@Table(name = "StudentExam")
 public class StudentExam {
-    @EmbeddedId
-    private StudentExamId id;
 
-    @ManyToOne
-    @MapsId("userID")
-    @JoinColumn(name = "userID")
-    private Student student;
-
-    @ManyToOne
-    @MapsId("examInstanceId")
-    @JoinColumn(name = "examInstanceId")
-    private ExamInstance examInstance;
+    @Id
+    @Column(nullable = false)
+    private int studentExamID;
 
     @Column(nullable = false)
-    private String examStatus;
+    private int examStatus = 0;
 
-    @Column(columnDefinition = "FLOAT")
-    private Float score;
+    @Column(nullable = false)
+    private float score;
+
+    @Column(nullable = false)
+    private LocalDateTime submitTime;
 
     @Column(nullable = false)
     private LocalDateTime startTime;
 
-    @Column(nullable = false)
-    private LocalDateTime submitTime;
-}
+    @Lob
+    @Column(nullable = false, columnDefinition = "NVARCHAR(MAX)")
+    @Convert(converter = ExamDetailConverter.class)
+    private List<QuestionWithOptions> examDetail;
 
-@Embeddable
-class StudentExamId implements Serializable {
-    private Integer userID;
-    private Integer examInstanceId;
+    @Lob
+    @Column(nullable = false, columnDefinition = "NVARCHAR(MAX)")
+    @Convert(converter = StudentChoiceConverter.class)
+    private Map<Integer, List<Integer>> studentChoice;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        StudentExamId that = (StudentExamId) o;
-        return Objects.equals(userID, that.userID) &&
-                Objects.equals(examInstanceId, that.examInstanceId);
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ExamID", nullable = false)
+    private Exam exam;
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(userID, examInstanceId);
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UserID", nullable = false)
+    private Student student;
 
 }

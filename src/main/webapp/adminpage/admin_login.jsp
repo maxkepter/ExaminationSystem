@@ -17,7 +17,7 @@
         <div class="container">
         <div class="login-card">
             <form action="AdminLogin" method="post">
-                <h1 class="form-title">Login</h1>
+                <h1 class="form-title">Admin Login</h1>
 
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" required />
@@ -32,10 +32,6 @@
                 <input type="submit" value="Login" class="btn" />
             </form>
 
-            <div class="register-link">
-                <p>New user? <a href="register.jsp">Register here</a></p>
-                <a href="asstrox.html">Forget password?</a>
-            </div>
         </div>
     </div>
     </body>

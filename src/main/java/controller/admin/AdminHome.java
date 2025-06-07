@@ -3,7 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.exam;
+<<<<<<<< HEAD:src/main/java/router/toAdminHome.java
+package router;
+========
+package controller.admin;
+>>>>>>>> 55b6b9b72730e385dd14c97d1183077b0d4deba2:src/main/java/controller/admin/AdminHome.java
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,7 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author MasterLong
  */
-public class HandleCreateExam extends HttpServlet {
+public class toAdminHome extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -27,19 +31,7 @@ public class HandleCreateExam extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet createExam</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet createExam at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        request.getRequestDispatcher("adminpage/admin_home.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -52,9 +44,20 @@ public class HandleCreateExam extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
+<<<<<<<< HEAD:src/main/java/router/toAdminHome.java
     throws ServletException, IOException {
         processRequest(request, response);
     } 
+========
+            throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (!RoleFilter.isAdmin(user)) {
+            response.sendRedirect(request.getContextPath() + "/Home");
+            return;
+        }
+        request.getRequestDispatcher("adminpage/admin_home.jsp").forward(request, response);
+    }
+>>>>>>>> 55b6b9b72730e385dd14c97d1183077b0d4deba2:src/main/java/controller/admin/AdminHome.java
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -66,7 +69,7 @@ public class HandleCreateExam extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        
     }
 
     /** 

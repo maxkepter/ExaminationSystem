@@ -77,9 +77,6 @@ public class ChangePasswordController extends HttpServlet {
         try {
             // Change the password
             changePasswordService.changePassword(user.getUserID(), oldPassword, newPassword);
-            System.out.println(user.getUserID());
-            System.out.println(oldPassword);
-            System.out.println(newPassword);
             // If successful, redirect to the user profile page
             response.sendRedirect("UserProfile");
         } catch (IllegalArgumentException e) {

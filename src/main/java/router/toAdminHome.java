@@ -3,7 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
+<<<<<<<< HEAD:src/main/java/router/toAdminHome.java
 package router;
+========
+package controller.admin;
+>>>>>>>> 55b6b9b72730e385dd14c97d1183077b0d4deba2:src/main/java/controller/admin/AdminHome.java
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,9 +44,20 @@ public class toAdminHome extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
+<<<<<<<< HEAD:src/main/java/router/toAdminHome.java
     throws ServletException, IOException {
         processRequest(request, response);
     } 
+========
+            throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (!RoleFilter.isAdmin(user)) {
+            response.sendRedirect(request.getContextPath() + "/Home");
+            return;
+        }
+        request.getRequestDispatcher("adminpage/admin_home.jsp").forward(request, response);
+    }
+>>>>>>>> 55b6b9b72730e385dd14c97d1183077b0d4deba2:src/main/java/controller/admin/AdminHome.java
 
     /** 
      * Handles the HTTP <code>POST</code> method.
