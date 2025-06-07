@@ -38,11 +38,11 @@
         </dependency>
 
         <!-- JSON-B API -->
-        <!-- <dependency>
+         <dependency>
             <groupId>jakarta.json.bind</groupId>
             <artifactId>jakarta.json.bind-api</artifactId>
             <version>3.0.0</version>
-        </dependency> -->
+        </dependency> 
 
 <!-- JSON-B Implementation (Yasson) -->
 <dependency>
