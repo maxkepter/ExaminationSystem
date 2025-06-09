@@ -70,4 +70,8 @@ public class LoginInfo {
         return loginInfo.getPassword().compareTo(HashInfo.hash(password)) == 0;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 }

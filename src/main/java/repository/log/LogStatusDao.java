@@ -1,7 +1,5 @@
 package repository.log;
 
-import java.util.List;
-
 import jakarta.persistence.EntityManagerFactory;
 import model.log.LogStatus;
 import repository.DeactivatableObjectDao;

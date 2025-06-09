@@ -37,4 +37,13 @@ public class LoginLog {
         this.user = user;
         this.status = status;
     }
+
+    public LoginLog() {
+    }
+
+    @Override
+    public String toString() {
+        return "LoginLog [logId=" + logId + ", time=" + time + ", user=" + user + ", status=" + status + "]";
+    }
+
 }

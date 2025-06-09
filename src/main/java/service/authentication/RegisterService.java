@@ -1,17 +1,20 @@
 package service.authentication;
 
-import exception.login.UserNameDuplicatedException;
+import exception.register.UserNameDuplicatedException;
 import factory.EntityManagerFactoryProvider;
 import factory.LogStatusFactory;
 import model.user.LoginInfo;
 import model.user.User;
 import repository.user.LoginInfoDao;
+import service.log.LogService;
+import service.log.LoginLogService;
 import utils.HashInfo;
 import utils.Validate;
 
 public class RegisterService {
     public User register(String userName, String password, User user)
             throws IllegalArgumentException, UserNameDuplicatedException {
+        LogService logService = new LoginLogService();
         // Validate the input parameters
         if (!Validate.validateString(userName) || !Validate.validateString(password)) {
             throw new IllegalArgumentException("Username or password cannot be blank !");
@@ -41,9 +44,9 @@ public class RegisterService {
         loginInfoDao.create(loginInfo);
 
         // Log the registration success
-        LoginService loginService = new LoginService();
-        loginService.loginLog(user, LogStatusFactory.REGISTRATION_SUCCESS);
-        
+
+        logService.createUserLog(user, LogStatusFactory.REGISTRATION_SUCCESS);
+
         return user;
     }
 }

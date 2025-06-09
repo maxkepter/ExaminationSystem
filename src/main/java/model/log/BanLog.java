@@ -17,6 +17,11 @@ import model.user.User;
 
 @Entity
 public class BanLog {
+    public static final String FIELD_USER = "user";
+    public static final String FIELD_STATUS = "status";
+    public static final String FIELD_START_TIME = "startTime";
+    public static final String FIELD_END_TIME = "endTime";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer logId;
@@ -37,6 +42,17 @@ public class BanLog {
 
     public Integer getLogId() {
         return logId;
+    }
+
+    public BanLog(LocalDateTime startTime, LocalDateTime endTime, User user, LogStatus status) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.user = user;
+        this.status = status;
+    }
+
+    public BanLog() {
+
     }
 
     public void setLogId(Integer logId) {

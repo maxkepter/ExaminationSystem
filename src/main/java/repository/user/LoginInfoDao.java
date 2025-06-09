@@ -40,8 +40,15 @@ public class LoginInfoDao extends ObjectDao<LoginInfo> implements UpdatableDao<L
 
     @Override
     public void update(LoginInfo object) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        LoginInfo loginInfoUpdate = (LoginInfo) object;
+
+        entityManager.getTransaction().begin();
+
+        entityManager.merge(loginInfoUpdate);
+
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     @Override

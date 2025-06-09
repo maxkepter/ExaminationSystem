@@ -4,47 +4,47 @@
  */
 package repository.exam;
 
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.TypedQuery;
+import java.util.List;
+import java.util.Map;
 import model.exam.Exam;
-import model.exam.ExamInstance;
+import repository.FullOptionDAO;
 
 /**
  *
- * @author FPT SHOP
+ * @author MasterLong
  */
-public class ExamDao {
-
-    private EntityManagerFactory emf;
-
-    public ExamDao() {
-        emf = Persistence.createEntityManagerFactory("ExamManagement");
+public class ExamDao extends FullOptionDAO<Exam>{
+    
+    public ExamDao(EntityManagerFactory entityManagerFactory, Class<Exam> entityClass) {
+        super(entityManagerFactory, entityClass);
     }
 
-    public ExamInstance findExamById(String examCode) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            TypedQuery<ExamInstance> query = em.createQuery(
-                    "SELECT ei FROM ExamInstance ei WHERE ei.examCode = :code", ExamInstance.class);
-            query.setParameter("code", examCode);
-
-            return query.getResultStream().findFirst().orElse(null);
-        } finally {
-            em.close();
-        }
+    @Override
+    public Exam findById(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public static void main(String[] args) {
-        ExamDao dao = new ExamDao();  // tạo instance của ExamDao
-        ExamInstance instance = dao.findExamById("EX001");  // gọi qua đối tượng
-
-        if (instance != null) {
-            System.out.println("Tìm thấy examCode: " + instance.getExamCode());
-            System.out.println("Tên đề thi: " + instance.getExam().getExamName());
-        } else {
-            System.out.println("Không tìm thấy đề thi với examCode này.");
-        }
+    @Override
+    public boolean exists(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public void delete(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void deleteMany(List<Integer> ids) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void deleteAll() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    
+
 }

@@ -1,6 +1,7 @@
 package repository.exam;
 
 import java.util.List;
+import java.util.Map;
 
 import jakarta.persistence.EntityManagerFactory;
 import model.exam.Chapter;
@@ -21,7 +22,7 @@ public class ChapterDao extends DeactivatableObjectDao<Chapter> implements Searc
     }
 
     @Override
-    public List<Chapter> findByField(String fieldName, Object value) {
+    public List<Chapter> findByField(Map<String, Object> fieldValues) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findByField'");
     }

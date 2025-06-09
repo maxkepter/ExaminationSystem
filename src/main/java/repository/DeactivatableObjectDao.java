@@ -61,9 +61,5 @@ public abstract class DeactivatableObjectDao<E> extends ObjectDao<E> {
 
         return entity != null;
     }
-    
-    protected EntityManager getEntityManager() {
-    return entityManagerFactory.createEntityManager();
-}
 
 }

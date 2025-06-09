@@ -9,7 +9,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,6 +21,10 @@ public class User {
     public static final String USER_LASTNAME = "lastName";
     public static final String USER_EMAIL = "email";
     public static final String USER_ROLE = "role";
+    // user role values
+    public static final Integer USER_ROLE_STUDENT = 1;
+    public static final Integer USER_ROLE_TEACHER = 2;
+    public static final Integer USER_ROLE_ADMIN = 3;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
