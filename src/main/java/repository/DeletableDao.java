@@ -10,8 +10,6 @@ import java.util.List;
  *
  * @author Admin
  */
-public interface DeletableDao {
-    void delete(int id);
-    void deleteMany(List<Integer> ids);
-    void deleteAll();
+public interface DeletableDao<E> {
+    void deleteById(Object id);
 }

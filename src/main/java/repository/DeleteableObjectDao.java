@@ -16,7 +16,7 @@ public abstract class DeleteableObjectDao<E> extends ObjectDao<E> implements Del
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteById(Object id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
 
@@ -26,28 +26,6 @@ public abstract class DeleteableObjectDao<E> extends ObjectDao<E> implements Del
 
         entityManager.getTransaction().commit();
         entityManager.close();
-    }
-
-    @Override
-    public void deleteMany(List<Integer> ids) {
-        final int batchSize = 500;
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        for (int i = 0; i < ids.size(); i += batchSize) {
-            List<Integer> batch = ids.subList(i, Math.min(i + batchSize, ids.size()));
-            entityManager.createQuery(DELETE_MANY_BY_ID)
-                    .setParameter("ids", batch)
-                    .executeUpdate();
-        }
-
-        entityManager.getTransaction().commit();
-        entityManager.close();
-    }
-
-    @Override
-    public void deleteAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAll'");
     }
 
 }

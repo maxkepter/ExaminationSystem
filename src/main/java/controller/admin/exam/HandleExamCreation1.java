@@ -4,6 +4,8 @@
  */
 package controller.admin.exam;
 
+import factory.EntityManagerFactoryProvider;
+import jakarta.persistence.EntityManagerFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.exam.Exam;
 import model.user.User;
 import repository.exam.ExamDAO;
 
@@ -61,7 +64,8 @@ public class HandleExamCreation1 extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            ExamDAO examDAO = new ExamDAO();
+            EntityManagerFactory emf  = EntityManagerFactoryProvider.getEntityManagerFactory();
+            ExamDAO examDAO = new ExamDAO(emf, Exam.class);
             Object value = session.getAttribute("user");
             String examName = request.getParameter("examName");
             Integer duration = Integer.valueOf(request.getParameter("duration"));

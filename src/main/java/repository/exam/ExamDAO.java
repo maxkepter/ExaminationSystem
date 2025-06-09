@@ -5,17 +5,20 @@
 package repository.exam;
 
 import jakarta.persistence.EntityManagerFactory;
+import java.util.Map;
 import model.exam.Exam;
-import repository.DeleteableObjectDao;
+import repository.FullOptionDAO;
 
 /**
  *
  * @author MasterLong
  */
-public class ExamDAO extends DeleteableObjectDao<Exam>{
+public class ExamDAO extends FullOptionDAO<Exam>{
     
     public ExamDAO(EntityManagerFactory entityManagerFactory, Class<Exam> entityClass) {
         super(entityManagerFactory, entityClass);
     }
     
+    
+
 }

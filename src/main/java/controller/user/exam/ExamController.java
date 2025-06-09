@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.exam.Exam;
 import model.exam.ExamInstance;
-import repository.exam.ExamDao;
+import repository.exam.ExamDAO;
 
 /**
  *
@@ -26,11 +26,11 @@ import repository.exam.ExamDao;
 public class ExamController extends HttpServlet {
 
     @PersistenceUnit(unitName = "quizPU")
-    private ExamDao examDAO;
+    private ExamDAO examDAO;
 
     @Override
     public void init() {
-        examDAO = new ExamDao();
+        examDAO = new ExamDAO();
     }
 
     /**

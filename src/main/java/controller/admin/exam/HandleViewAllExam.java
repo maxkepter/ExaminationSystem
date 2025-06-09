@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import model.exam.Exam;
-import repository.exam.ExamDao;
+import repository.exam.ExamDAO;
 
 /**
  *
@@ -58,7 +58,7 @@ public class HandleViewAllExam extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        ExamDao examDAO = new ExamDao();
+        ExamDAO examDAO = new ExamDAO();
         List<Exam> exams = examDAO.getAllExams();
         request.setAttribute("exams", exams);
         request.getRequestDispatcher("/functionpage/viewallexam.jsp").forward(request, response);

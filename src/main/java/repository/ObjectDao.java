@@ -35,7 +35,7 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E> {
     }
 
     @Override
-    public E findById(int id) {
+    public E findById(Object id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         entityManager.getTransaction().begin();
@@ -68,7 +68,7 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E> {
     }
 
     @Override
-    public boolean exists(int id) {
+    public boolean exists(Object id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         boolean exists = entityManager.find(entityClass, id) != null;

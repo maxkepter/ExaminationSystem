@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.user.User;
-import repository.exam.ExamDao;
+import repository.exam.ExamDAO;
 
 /**
  *
@@ -74,7 +74,7 @@ public class HandleUpdateAndDeleteExam extends HttpServlet {
             throws ServletException, IOException {
         boolean update = request.getParameter("update") != null;
         boolean delete = request.getParameter("delete") != null;
-        ExamDao examDAO = new ExamDao();
+        ExamDAO examDAO = new ExamDAO();
         if (update) {
             HttpSession session = request.getSession(false);
             if (session != null) {
