@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.user.User;
-import repository.exam.ExamDao;
+import repository.exam.ExamDAO;
 
 /**
  *
@@ -61,7 +61,7 @@ public class HandleExamCreation1 extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            ExamDao examDAO = new ExamDao();
+            ExamDAO examDAO = new ExamDAO();
             Object value = session.getAttribute("user");
             String examName = request.getParameter("examName");
             Integer duration = Integer.valueOf(request.getParameter("duration"));
