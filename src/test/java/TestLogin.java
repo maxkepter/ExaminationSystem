@@ -1,21 +1,22 @@
+import model.user.User;
 import service.authentication.LoginService;
+import service.authentication.RegisterService;
 
 public class TestLogin {
     public static void main(String[] args) {
-        testLogin();
+        testLogin("Test", "TestPassword");
+        System.out.println("Login test completed successfully.");
     }
 
-    public static void testLogin() {
-
+    public static void testLogin(String userName, String password) {
         LoginService loginService = new LoginService();
-        try {
-            loginService.login("hunter", "123456");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Login failed!");
-            return;
-        }
-        System.out.println("Login successful!");
-
+        loginService.login(userName, password);
     }
+
+    public static void testRegister() {
+        RegisterService registerService = new RegisterService();
+        User user = new User("TestUser", "TestUser", 1, "Test");
+        registerService.register("Test", "TestPassword", user);
+    }
+
 }

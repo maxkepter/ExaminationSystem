@@ -6,8 +6,6 @@ package model.exam;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
@@ -31,5 +29,45 @@ public class QuestionOption {
     @JoinColumn(name = "questionId", nullable = false)
     private Question question;
 
-    // Getters and Setters
+    public QuestionOption() {
+    }
+
+    public QuestionOption(boolean isCorrect, String optionContent, Question question) {
+        this.isCorrect = isCorrect;
+        this.optionContent = optionContent;
+        this.question = question;
+    }
+
+    public int getOptionId() {
+        return optionId;
+    }
+
+    public void setOptionId(int optionId) {
+        this.optionId = optionId;
+    }
+
+    public boolean isCorrect() {
+        return isCorrect;
+    }
+
+    public void setCorrect(boolean isCorrect) {
+        this.isCorrect = isCorrect;
+    }
+
+    public String getOptionContent() {
+        return optionContent;
+    }
+
+    public void setOptionContent(String optionContent) {
+        this.optionContent = optionContent;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
 }

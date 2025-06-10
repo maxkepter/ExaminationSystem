@@ -4,14 +4,15 @@
  */
 package model.exam;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -34,5 +35,60 @@ public class Question {
     @JoinColumn(name = "chapterID", nullable = false)
     private Chapter chapter;
 
-    // Getters and Setters
+    @OneToMany(mappedBy = "questionId")
+    private List<QuestionOption> options;
+
+    public Question() {
+    }
+
+    public Question(String questionContent, boolean isDisable, int difficulty, Chapter chapter) {
+        this.questionContent = questionContent;
+        this.isDisable = isDisable;
+        this.difficulty = difficulty;
+        this.chapter = chapter;
+    }
+
+    public int getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
+    }
+
+    public String getQuestionContent() {
+        return questionContent;
+    }
+
+    public void setQuestionContent(String questionContent) {
+        this.questionContent = questionContent;
+    }
+
+    public boolean isDisable() {
+        return isDisable;
+    }
+
+    public void setDisable(boolean isDisable) {
+        this.isDisable = isDisable;
+    }
+
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public Chapter getChapter() {
+        return chapter;
+    }
+
+    public void setChapter(Chapter chapter) {
+        this.chapter = chapter;
+    }
+
+    public List<QuestionOption> getOptions() {
+        return options;
+    }
 }

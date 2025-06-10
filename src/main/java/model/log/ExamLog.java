@@ -26,4 +26,13 @@ public class ExamLog {
     @JoinColumn(name = "studentExamID", nullable = false)
     private StudentExam studentExam;
 
+    public ExamLog(LocalDateTime time, String information, StudentExam studentExam) {
+        this.time = time;
+        this.information = information;
+        this.studentExam = studentExam;
+    }
+
+    public ExamLog() {
+    }
+
 }

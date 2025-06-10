@@ -19,6 +19,7 @@
 
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required />
+                 <label><input type="checkbox" name="remember"> Remember me</label>
 
                 <% if (error != null) { %>
                     <div class="error"><%= error %></div>

@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.user.User;
 import service.authentication.LoginService;
+import utils.Validate;
 
 /**
  *
@@ -51,7 +52,7 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-
+        String rememberLogin = request.getParameter("rememberLogin");
         LoginService loginService = new LoginService();
         User user = null;
         try {
@@ -69,6 +70,7 @@ public class LoginController extends HttpServlet {
             request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
         }
+
         // Create session and storge user info
         HttpSession session = request.getSession();
         session.setAttribute("user", user);

@@ -5,9 +5,24 @@ import jakarta.persistence.Persistence;
 
 public class EntityManagerFactoryProvider {
 
+    private static EntityManagerFactory entityManagerFactory;
+
+    private EntityManagerFactoryProvider() {
+    }
+
     public static EntityManagerFactory getEntityManagerFactory() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ExamManagement");
-        return emf;
+        if (entityManagerFactory == null) {
+            entityManagerFactory = Persistence.createEntityManagerFactory("ExamManagement");
+        }
+
+        return entityManagerFactory;
+    }
+
+    public static void shutdown() {
+        if (entityManagerFactory != null) {
+            entityManagerFactory.close();
+            entityManagerFactory = null;
+        }
     }
 
 }
