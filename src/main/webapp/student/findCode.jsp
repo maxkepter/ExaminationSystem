@@ -6,7 +6,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="model.exam.Exam" %>
-<%@ page import="model.exam.ExamInstance" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -22,15 +21,15 @@
         Mã đề thi: <input type="text" name="examCode" required>
         <input type="submit" value="Tìm kiếm">
     </form>
-
+        
     <!-- Kiểm tra xem examResult có tồn tại không -->
-    <c:if test="${not empty examResult}">
+    <c:if test="${not empty exam}">
         <h3>Thông tin đề thi:</h3>
         <ul>
-            <li><strong>Mã đề:</strong> ${examResult.examCode}</li>
-            <li><strong>Tên đề thi:</strong> ${examResult.exam.examName}</li>
-            <li><strong>Thời gian làm bài:</strong> ${examResult.exam.duration} phút</li>
-            <li><strong>Người tạo:</strong> ${examResult.exam.user.lastName}</li>
+            <li><strong>Mã đề:</strong> ${exam.examCode}</li>
+            <li><strong>Tên đề thi:</strong> ${exam.examName}</li>
+            <li><strong>Thời gian làm bài:</strong> ${exam.duration} phút</li>
+            <li><strong>Người tạo:</strong> ${exam.user.lastName}</li>
         </ul>
     </c:if>
 

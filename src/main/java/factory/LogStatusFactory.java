@@ -11,7 +11,6 @@ public class LogStatusFactory {
     public static final LogStatus WRONG_PASSWORD = new LogStatus(6, "wrong password");
     public static final LogStatus LOGIN_FAILURE = new LogStatus(7, "login failure");
     public static final LogStatus LOGOUT = new LogStatus(8, "logout");
-    public static final LogStatus EXAM_SUSPENDED = new LogStatus(9, "exam suspended");
 
     public static LogStatus getLogStatus(String status) {
         switch (status) {

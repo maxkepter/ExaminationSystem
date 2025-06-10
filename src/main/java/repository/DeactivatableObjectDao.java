@@ -24,40 +24,49 @@ public abstract class DeactivatableObjectDao<E> extends ObjectDao<E> {
     }
 
     public void disable(int id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
 
-        Query query = entityManager.createNamedQuery(DISABLE_ENTITY);
-        query.setParameter("id", id).setParameter("isDisable", true);
-        query.executeUpdate();
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            entityManager.getTransaction().begin();
 
-        entityManager.getTransaction().commit();
-        entityManager.close();
+            Query query = entityManager.createNamedQuery(DISABLE_ENTITY);
+            query.setParameter("id", id).setParameter("isDisable", true);
+            query.executeUpdate();
+
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void enable(int id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            entityManager.getTransaction().begin();
 
-        Query query = entityManager.createNamedQuery(DISABLE_ENTITY);
-        query.setParameter("id", id).setParameter("isDisable", false);
-        query.executeUpdate();
+            Query query = entityManager.createNamedQuery(DISABLE_ENTITY);
+            query.setParameter("id", id).setParameter("isDisable", false);
+            query.executeUpdate();
 
-        entityManager.getTransaction().commit();
-        entityManager.close();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public boolean isDisable(int id) {
         E entity = null;
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            entityManager.getTransaction().begin();
 
-        Query query = entityManager.createNamedQuery(FIND_DISABLE_ENTITY_BY_ID);
-        query.setParameter("id", id).setParameter("isDisable", true);
-        entity = (E) query.getSingleResult();
+            Query query = entityManager.createNamedQuery(FIND_DISABLE_ENTITY_BY_ID);
+            query.setParameter("id", id).setParameter("isDisable", true);
+            entity = (E) query.getSingleResult();
 
-        entityManager.getTransaction().commit();
-        entityManager.close();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return entity != null;
     }

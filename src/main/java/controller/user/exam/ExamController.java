@@ -16,8 +16,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.exam.Exam;
-import model.exam.ExamInstance;
-import repository.exam.ExamDAO;
+import repository.exam.ExamDao;
+import service.exam.ExamService;
 
 /**
  *
@@ -26,21 +26,25 @@ import repository.exam.ExamDAO;
 public class ExamController extends HttpServlet {
 
     @PersistenceUnit(unitName = "quizPU")
-    private ExamDAO examDAO;
-
+//    private ExamDao examDAO;
+    private EntityManagerFactory emf;
+    private ExamService examService;
     @Override
     public void init() {
-        examDAO = new ExamDAO();
+        emf = Persistence.createEntityManagerFactory("ExamManagement");
+        ExamDao examDao = new ExamDao(emf,Exam.class);
+        examService = new ExamService(examDao);
+        
     }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -64,90 +68,75 @@ public class ExamController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ExamManagement");
-
-        EntityManager em = emf.createEntityManager();
-        String action = request.getParameter("action");
-        if ("search".equals(action)) {
-            String examCode = request.getParameter("examCode");
-
-            if (examCode != null && !examCode.isEmpty()) {
-                TypedQuery<ExamInstance> query = em.createQuery(
-                        "SELECT ei FROM ExamInstance ei WHERE ei.examCode = :code", ExamInstance.class);
-                query.setParameter("code", examCode);
-
-                ExamInstance instance = query.getResultStream().findFirst().orElse(null);
-
-                if (instance != null) {
-                    Exam exam = instance.getExam();
-                    request.setAttribute("examResult", exam);
-                    request.setAttribute("message", "Tìm thấy mã đề thi: " + examCode);
-                } else {
-                    request.setAttribute("message", "Không tìm thấy đề thi với mã: " + examCode);
-                }
-            }
-        }
-
-        request.getRequestDispatcher("/student/findCode.jsp").forward(request, response);
-        em.close();
+//        EntityManager em = emf.createEntityManager();
+//
+//        String action = request.getParameter("action");
+//        if ("search".equals(action)) {
+//            String examCode = request.getParameter("examCode");
+//
+//            if (examCode != null && !examCode.isEmpty()) {
+//                // Truy vấn trực tiếp Exam bằng examCode
+//                TypedQuery<Exam> query = em.createQuery(
+//                        "SELECT e FROM Exam e WHERE e.examCode = :code", Exam.class);
+//                query.setParameter("code", examCode);
+//
+//                Exam exam = query.getResultStream().findFirst().orElse(null);
+//
+//                if (exam != null) {
+//                    request.setAttribute("examResult", exam);
+//                    request.setAttribute("message", "Tìm thấy mã đề thi: " + examCode);
+//                } else {
+//                    request.setAttribute("message", "Không tìm thấy đề thi với mã: " + examCode);
+//                }
+//            }
+//        }
+//
+//        em.close();
+//        request.getRequestDispatcher("/student/findCode.jsp").forward(request, response);
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
      * 🗿🤌🗿🗿🗿✍️(◔◡◔)╰(*°▽°*)╯(❁´◡`❁)(●'◡'●)(づ￣ 3￣)づ
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("ExamManagement");
-
-        EntityManager em = emf.createEntityManager();
         String action = request.getParameter("action");
         if ("search".equals(action)) {
             String examCode = request.getParameter("examCode");
 
-            if (examCode != null && !examCode.isEmpty()) {
-                TypedQuery<ExamInstance> query = em.createQuery(
-                        "SELECT ei FROM ExamInstance ei WHERE ei.examCode = :code", ExamInstance.class);
-                query.setParameter("code", examCode);
+            Exam exam = examService.searchExamByCode(examCode);
 
-                ExamInstance instance = query.getResultStream().findFirst().orElse(null);
-
-                if (instance != null) {
-                    Exam exam = instance.getExam();
-                    request.setAttribute("examResult", instance);
-                    request.setAttribute("message", "Tìm thấy mã đề thi: " + examCode);
-                } else {
-                    request.setAttribute("message", "Không tìm thấy đề thi với mã: " + examCode);
-                }
+            if (exam != null) {
+                request.setAttribute("exam", exam);
+                request.setAttribute("message", "Tìm thấy mã đề thi: " + examCode);
+            } else {
+                request.setAttribute("message", "Không tìm thấy đề thi với mã: " + examCode);
             }
         }
 
         request.getRequestDispatcher("/student/findCode.jsp").forward(request, response);
-        em.close();
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }
+
+/**
+ * Returns a short description of the servlet.
+ *
+ * @return a String containing servlet description
+ */
+
+
