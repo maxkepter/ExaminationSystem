@@ -21,6 +21,8 @@ import java.util.List;
 import model.exam.Exam;
 import model.exam.Question;
 import model.user.User;
+import repository.exam.student.GenerateExamDao;
+import service.exam.GenerateExamService;
 
 /**
  *
@@ -29,10 +31,14 @@ import model.user.User;
 public class GenerateExam extends HttpServlet {
 
     private EntityManagerFactory emf;
+    GenerateExamService generateExamService;
 
     @Override
     public void init() throws ServletException {
         emf = Persistence.createEntityManagerFactory("ExamManagement");
+        GenerateExamDao generateExamDao = new GenerateExamDao(emf);
+        generateExamService = new GenerateExamService(generateExamDao);
+
     }
 
     /**
@@ -89,39 +95,16 @@ public class GenerateExam extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EntityManager em = emf.createEntityManager();
-        try {
-            String chapterNoStr = request.getParameter("chapterNo");
-            String difficultyStr = request.getParameter("difficulty");
+        String chapterNoStr = request.getParameter("chapterNo");
+        String difficultyStr = request.getParameter("difficulty");
 
-            StringBuilder jpql = new StringBuilder("SELECT q FROM Question q WHERE q.isDisable = false");
+        List<Question> questions = generateExamService.getQuestionsByChapterAndDifficulty(chapterNoStr, difficultyStr);
 
-            if (chapterNoStr != null && !chapterNoStr.isEmpty()) {
-                jpql.append(" AND q.chapter.chapterNo = :chapterNo");
-            }
-            if (difficultyStr != null && !difficultyStr.isEmpty()) {
-                jpql.append(" AND q.difficulty = :difficulty");
-            }
-
-            var query = em.createQuery(jpql.toString(), Question.class);
-
-            if (chapterNoStr != null && !chapterNoStr.isEmpty()) {
-                query.setParameter("chapterNo", Integer.parseInt(chapterNoStr));
-            }
-            if (difficultyStr != null && !difficultyStr.isEmpty()) {
-                query.setParameter("difficulty", Integer.parseInt(difficultyStr));
-            }
-
-            List<Question> questions = query.getResultList();
-
-            request.setAttribute("questions", questions);
-
-            request.getRequestDispatcher("/student/questionList.jsp").forward(request, response);
-
-        } finally {
-            em.close();
-        }
+        request.setAttribute("questions", questions);
+        request.getRequestDispatcher("/student/questionList.jsp").forward(request, response);
     }
+
+    
 }
 
 /**

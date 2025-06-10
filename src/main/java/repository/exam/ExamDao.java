@@ -4,7 +4,9 @@
  */
 package repository.exam;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
 import java.util.List;
 import java.util.Map;
 import model.exam.Exam;
@@ -14,10 +16,13 @@ import repository.FullOptionDAO;
  *
  * @author MasterLong
  */
-public class ExamDao extends FullOptionDAO<Exam>{
-    
+public class ExamDao extends FullOptionDAO<Exam> {
+
+    private final EntityManagerFactory emf;
+
     public ExamDao(EntityManagerFactory entityManagerFactory, Class<Exam> entityClass) {
         super(entityManagerFactory, entityClass);
+        this.emf = entityManagerFactory;
     }
 
     @Override
@@ -44,7 +49,17 @@ public class ExamDao extends FullOptionDAO<Exam>{
     public void deleteAll() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    
+
+    public Exam findExamByCode(String examCode) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            TypedQuery<Exam> query = em.createQuery(
+                    "SELECT e FROM Exam e WHERE e.examCode = :code", Exam.class);
+            query.setParameter("code", examCode);
+            return query.getResultStream().findFirst().orElse(null);
+        } finally {
+            em.close();
+        }
+    }
 
 }
