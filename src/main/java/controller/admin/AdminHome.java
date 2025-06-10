@@ -20,7 +20,7 @@ import model.user.User;
  *
  * @author Admin
  */
-@WebServlet(name = "AdminHome", urlPatterns = { "/adminhome" })
+@WebServlet(name = "AdminHome", urlPatterns = { "/AdminHome" })
 public class AdminHome extends HttpServlet {
 
     /**

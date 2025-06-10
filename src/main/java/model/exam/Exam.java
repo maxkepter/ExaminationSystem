@@ -44,4 +44,61 @@ public class Exam {
     private User user;
 
     // Getters and Setters
+
+    public int getExamID() {
+        return examID;
+    }
+
+    public void setExamID(int examID) {
+        this.examID = examID;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getExamDate() {
+        return examDate;
+    }
+
+    public void setExamDate(LocalDateTime examDate) {
+        this.examDate = examDate;
+    }
+
+    public LocalDate getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDate deadline) {
+        this.deadline = deadline;
+    }
+
+    public String getExamCode() {
+        return examCode;
+    }
+
+    public void setExamCode(String examCode) {
+        this.examCode = examCode;
+    }
+
+    public String getExamName() {
+        return examName;
+    }
+
+    public void setExamName(String examName) {
+        this.examName = examName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }
