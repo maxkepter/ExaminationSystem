@@ -1,2 +1,15 @@
-target/
-bin/
+# Maven target directory
+/target/
+/bin/
+
+# Logs
+*.log
+
+# IDE files
+/.idea/
+/*.iml
+*.class
+
+# OS files
+.DS_Store
+Thumbs.db

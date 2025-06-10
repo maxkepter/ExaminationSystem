@@ -21,6 +21,11 @@ import model.user.User;
 @Entity
 @Table(name = "Exam")
 public class Exam {
+    public static final String EXAM_ID = "examID";
+    public static final String EXAM_DURATION = "duration";
+    public static final String EXAM_CODE = "examCode";
+    public static final String EXAM_NAME = "examName";
+
     @Id
     private int examID;
 

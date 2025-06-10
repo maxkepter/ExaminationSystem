@@ -16,64 +16,89 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E> {
 
     @Override
     public void create(E object) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.persist(object);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            entityManager.getTransaction().begin();
+            entityManager.persist(object);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     public void createMany(List<E> objects) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        for (E object : objects) {
-            entityManager.persist(object);
+
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            entityManager.getTransaction().begin();
+            for (E object : objects) {
+                entityManager.persist(object);
+            }
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        entityManager.getTransaction().commit();
-        entityManager.close();
+
     }
 
     @Override
     public E findById(int id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        E object = null;
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            entityManager.getTransaction().begin();
+            object = entityManager.find(entityClass, id);
+            entityManager.getTransaction().commit();
+            entityManager.close();
 
-        entityManager.getTransaction().begin();
-        E object = entityManager.find(entityClass, id);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return object;
     }
 
     @Override
     public List<E> findAll() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        List<E> objects = entityManager.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e", entityClass)
-                .getResultList();
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        List<E> objects = null;
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            entityManager.getTransaction().begin();
+            objects = entityManager.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e", entityClass)
+                    .getResultList();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return objects;
     }
 
     @Override
     public long count() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        long count = entityManager.createQuery("SELECT COUNT(e) FROM " + entityClass.getSimpleName() + " e", Long.class)
-                .getSingleResult();
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        long count = 0;
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            entityManager.getTransaction().begin();
+            count = entityManager
+                    .createQuery("SELECT COUNT(e) FROM " + entityClass.getSimpleName() + " e", Long.class)
+                    .getSingleResult();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return count;
     }
 
     @Override
     public boolean exists(int id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        boolean exists = entityManager.find(entityClass, id) != null;
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        boolean exists = false;
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            entityManager.getTransaction().begin();
+            exists = entityManager.find(entityClass, id) != null;
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
         return exists;
     }
 }

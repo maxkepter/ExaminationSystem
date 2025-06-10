@@ -31,26 +31,29 @@ public class UserDao extends DeleteableObjectDao<User>
 
     @Override
     public void updatePartial(int id, Map<String, Object> fields) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        User user = entityManager.find(User.class, id);
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            User user = entityManager.find(User.class, id);
 
-        entityManager.getTransaction().begin();
+            entityManager.getTransaction().begin();
 
-        if (fields.containsKey(User.USER_FIRSTNAME)) {
-            user.setFirstName((String) fields.get(User.USER_FIRSTNAME));
+            if (fields.containsKey(User.USER_FIRSTNAME)) {
+                user.setFirstName((String) fields.get(User.USER_FIRSTNAME));
+            }
+            if (fields.containsKey(User.USER_LASTNAME)) {
+                user.setLastName((String) fields.get(User.USER_LASTNAME));
+            }
+            if (fields.containsKey(User.USER_ROLE)) {
+                user.setRole((Integer) fields.get(User.USER_ROLE));
+            }
+            if (fields.containsKey(User.USER_EMAIL)) {
+                user.setEmail((String) fields.get(User.USER_EMAIL));
+            }
+            entityManager.merge(user);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if (fields.containsKey(User.USER_LASTNAME)) {
-            user.setLastName((String) fields.get(User.USER_LASTNAME));
-        }
-        if (fields.containsKey(User.USER_ROLE)) {
-            user.setRole((Integer) fields.get(User.USER_ROLE));
-        }
-        if (fields.containsKey(User.USER_EMAIL)) {
-            user.setEmail((String) fields.get(User.USER_EMAIL));
-        }
-        entityManager.merge(user);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+
     }
 
 }
