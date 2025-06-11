@@ -27,6 +27,11 @@ public class Student {
     public Student() {
     }
 
+    public Student(int userID, String studentCode) {
+        this.userID = userID;
+        this.studentCode = studentCode;
+    }
+
     public int getUserID() {
         return userID;
     }

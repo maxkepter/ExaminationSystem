@@ -15,6 +15,10 @@ public class QuestionDao extends DeactivatableObjectDao<Question> implements Sea
         // TODO Auto-generated constructor stub
     }
 
+    public QuestionDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory, Question.class);
+    }
+
     @Override
     public List<Question> findPage(int pageIndex, int pageSize) {
         // TODO Auto-generated method stub

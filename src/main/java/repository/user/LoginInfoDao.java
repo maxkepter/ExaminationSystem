@@ -12,9 +12,8 @@ import repository.ObjectDao;
 import repository.UpdatableDao;
 
 public class LoginInfoDao extends ObjectDao<LoginInfo> implements UpdatableDao<LoginInfo> {
-    public LoginInfoDao(EntityManagerFactory entityManagerFactory, Class<LoginInfo> entityClass) {
-        super(entityManagerFactory, entityClass);
-        // TODO Auto-generated constructor stub
+    public LoginInfoDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory, LoginInfo.class);
     }
 
     private final String FIND_BY_USERNAME_QUERY = "select info from LoginInfo info where info.userName=:userName";

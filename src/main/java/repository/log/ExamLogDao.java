@@ -12,8 +12,8 @@ import repository.ObjectDao;
 public class ExamLogDao extends ObjectDao<ExamLog>
         implements LogDao<ExamLog> {
 
-    public ExamLogDao(EntityManagerFactory entityManagerFactory, Class<ExamLog> entityClass) {
-        super(entityManagerFactory, entityClass);
+    public ExamLogDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory, ExamLog.class);
         // TODO Auto-generated constructor stub
     }
 

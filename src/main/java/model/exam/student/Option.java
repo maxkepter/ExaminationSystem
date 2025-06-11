@@ -16,6 +16,9 @@ public class Option {
         this.isCorrect = isCorrect;
     }
 
+    public Option() {
+    }
+
     public int getOptionId() {
         return optionId;
     }
@@ -48,20 +51,22 @@ public class Option {
         return options.stream().map(o -> convertFromEntity(o)).toList();
     }
 
-    public static void randomOption(List<Option> options, List<Integer> correctId) {
+    public static List<Option> randomOption(List<Option> options) {
+        List<Option> cloneOptions = new ArrayList<>(options);
         List<Option> tempOptions = new ArrayList<>();
-        correctId.clear();
-        while (options.size() > 0) {
-            int randomIndex = (int) (Math.random() * options.size());
-            Option option = options.remove(randomIndex);
+        while (cloneOptions.size() > 0) {
+            int randomIndex = (int) (Math.random() * cloneOptions.size());
+            Option option = cloneOptions.remove(randomIndex);
             option.setOptionId(tempOptions.size());
-            if (option.isCorrect()) {
-                correctId.add(option.getOptionId());
-            }
             tempOptions.add(option);
 
         }
-        options.addAll(tempOptions);
+        return tempOptions;
+    }
+
+    @Override
+    public String toString() {
+        return "Option [optionId=" + optionId + ", content=" + content + ", isCorrect=" + isCorrect + "]";
     }
 
 }

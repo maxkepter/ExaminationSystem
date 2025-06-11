@@ -6,6 +6,7 @@ package service.exam;
 
 import model.exam.Exam;
 import repository.exam.ExamDao;
+import utils.Validate;
 
 /**
  *
@@ -19,9 +20,23 @@ public class ExamService {
     }
 
     public Exam searchExamByCode(String examCode) {
-        if (examCode == null || examCode.isEmpty()) {
+        if (!Validate.validateString(examCode)) {
             return null;
         }
         return examDao.findExamByCode(examCode);
+    }
+
+    public Exam searchExam(String examCode) throws IllegalArgumentException {
+        if (!Validate.validateString(examCode)) {
+            throw new IllegalArgumentException("Invalid exam code provided !");
+        }
+
+        Exam exam = examDao.findExamByCode(examCode);
+
+        if (exam == null) {
+            throw new IllegalArgumentException("Exam not found for exam code " + examCode);
+        }
+
+        return exam;
     }
 }

@@ -2,6 +2,7 @@ package service.log;
 
 import java.time.LocalDateTime;
 
+import factory.DAOFactory;
 import factory.EntityManagerFactoryProvider;
 import model.exam.student.StudentExam;
 import model.log.ExamLog;
@@ -15,7 +16,7 @@ public class ExamLogService {
     public static final String SUSPENDED_EXAM = "Exam is suspended";
 
     public void createLog(StudentExam studentExam, String infomation) {
-        ExamLogDao examLogDao = new ExamLogDao(EntityManagerFactoryProvider.getEntityManagerFactory(), ExamLog.class);
+        ExamLogDao examLogDao = DAOFactory.EXAM_LOG_DAO;
         ExamLog examLog = new ExamLog(LocalDateTime.now(), infomation, studentExam);
         examLogDao.create(examLog);
     }

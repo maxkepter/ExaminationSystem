@@ -1,7 +1,7 @@
 package service.user;
 
 import exception.login.AuthenticationException;
-import factory.EntityManagerFactoryProvider;
+import factory.DAOFactory;
 import model.user.LoginInfo;
 import repository.user.LoginInfoDao;
 import utils.HashInfo;
@@ -15,8 +15,7 @@ public class ChangePasswordService {
             throw new IllegalArgumentException("Invalid input data");
         }
 
-        LoginInfoDao loginInfoDao = new LoginInfoDao(EntityManagerFactoryProvider.getEntityManagerFactory(),
-                LoginInfo.class);
+        LoginInfoDao loginInfoDao = DAOFactory.LOGIN_INFO_DAO;
 
         // Find user by ID
         LoginInfo loginInfo = loginInfoDao.findById(userId);

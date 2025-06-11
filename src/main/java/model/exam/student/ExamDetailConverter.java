@@ -20,7 +20,7 @@ public class ExamDetailConverter implements AttributeConverter<List<QuestionWith
 
     @Override
     public List<QuestionWithOptions> convertToEntityAttribute(String dbData) {
-        return jsonb.fromJson(dbData, new GenericType<>() {
+        return jsonb.fromJson(dbData, new GenericType<List<QuestionWithOptions>>() {
         }.getType());
     }
 }

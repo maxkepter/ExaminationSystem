@@ -21,7 +21,7 @@ public class StudentChoiceConverter implements AttributeConverter<Map<Integer, S
 
     @Override
     public Map<Integer, Set<Integer>> convertToEntityAttribute(String dbData) {
-        return jsonb.fromJson(dbData, new GenericType<>() {
+        return jsonb.fromJson(dbData, new GenericType<Map<Integer, Set<Integer>>>() {
         }.getType());
     }
 }

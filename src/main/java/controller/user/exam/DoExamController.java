@@ -12,6 +12,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.exam.student.ExamDetailConverter;
+import model.exam.student.StudentChoiceConverter;
+import model.exam.student.StudentExam;
+import model.user.User;
+import service.student.exam.GenerateStudentExamService;
 
 /**
  *
@@ -49,7 +55,25 @@ public class DoExamController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        String examId = request.getParameter("examId");
+        GenerateStudentExamService generateStudentExamService = new GenerateStudentExamService();
+        StudentExam studentExam = null;
+        try {
+            studentExam = generateStudentExamService.generateExam(user, examId);
+        } catch (IllegalArgumentException e) {
+            String error = e.getMessage();
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("/student/do_exam.jsp").forward(request, response);
+            return;
+        }
+        request.setAttribute("examDetail", studentExam.getExamDetail());// list type
+        request.setAttribute("questionSize", studentExam.getExamDetail().size());
+        request.setAttribute("studentExam", studentExam);
+        request.setAttribute("duration", studentExam.getExam().getDuration());
+        request.getRequestDispatcher("/student/do_exam.jsp").forward(request, response);
+        return;
     }
 
     @Override

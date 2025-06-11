@@ -4,16 +4,22 @@
  */
 package model.exam;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import factory.EntityManagerFactoryProvider;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import repository.exam.QuestionOptionDao;
 
 @Entity
 @Table(name = "Question")
@@ -34,9 +40,6 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "chapterID", nullable = false)
     private Chapter chapter;
-
-    @OneToMany(mappedBy = "questionId")
-    private List<QuestionOption> options;
 
     public Question() {
     }
@@ -89,6 +92,9 @@ public class Question {
     }
 
     public List<QuestionOption> getOptions() {
-        return options;
+        QuestionOptionDao optionDao = new QuestionOptionDao(EntityManagerFactoryProvider.getEntityManagerFactory(),
+                QuestionOption.class);
+        return optionDao.getOptionsByQuestionId(this.questionId);
     }
+
 }

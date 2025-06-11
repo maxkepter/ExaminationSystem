@@ -6,9 +6,9 @@ import java.util.List;
 import constants.LogConstants;
 import exception.login.AccountBannedException;
 import exception.login.AuthenticationException;
+import factory.DAOFactory;
 import factory.EntityManagerFactoryProvider;
 import factory.LogStatusFactory;
-import jakarta.persistence.EntityManagerFactory;
 import model.log.BanLog;
 import model.log.LoginLog;
 import model.user.LoginInfo;
@@ -29,10 +29,7 @@ public class LoginService {
             throw new IllegalArgumentException("Username or password cannot be blank !");
         }
 
-        LoginInfoDao loginInfoDao = new LoginInfoDao(EntityManagerFactoryProvider.getEntityManagerFactory(),
-                LoginInfo.class);
-
-        LoginInfo loginInfo = loginInfoDao.findByUserName(userName);
+        LoginInfo loginInfo = DAOFactory.LOGIN_INFO_DAO.findByUserName(userName);
         // If loginInfo is null, it means the user does not exist or the username is
         // incorrect
         if (loginInfo == null) {
@@ -80,10 +77,7 @@ public class LoginService {
             throw new IllegalArgumentException("Username or password cannot be blank !");
         }
 
-        LoginInfoDao loginInfoDao = new LoginInfoDao(EntityManagerFactoryProvider.getEntityManagerFactory(),
-                LoginInfo.class);
-
-        LoginInfo loginInfo = loginInfoDao.findByUserName(userName);
+        LoginInfo loginInfo = DAOFactory.LOGIN_INFO_DAO.findByUserName(userName);
         // If loginInfo is null, it means the user does not exist or the username is
         // incorrect
         if (loginInfo == null) {
@@ -150,4 +144,5 @@ public class LoginService {
         return list.size() > LogConstants.LIMIT_LOGIN_ATTEMPTS;
 
     }
+
 }

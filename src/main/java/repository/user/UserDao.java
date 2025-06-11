@@ -13,7 +13,10 @@ public class UserDao extends DeleteableObjectDao<User>
 
     public UserDao(EntityManagerFactory entityManagerFactory, Class<User> entityClass) {
         super(entityManagerFactory, entityClass);
-        // TODO Auto-generated constructor stub
+    }
+
+    public UserDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory, User.class);
     }
 
     @Override

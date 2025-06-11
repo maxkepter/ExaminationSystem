@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.admin.exam;
+package controller.user.exam;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -10,6 +10,7 @@ import jakarta.persistence.PersistenceUnit;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import utils.Validate;
  *
  * @author FPT SHOP
  */
+@WebServlet(name = "ExamServlet", urlPatterns = "ExamServlet")
 public class ExamServlet extends HttpServlet {
 
     @PersistenceUnit(unitName = "quizPU")

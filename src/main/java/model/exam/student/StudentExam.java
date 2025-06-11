@@ -4,6 +4,7 @@
  */
 package model.exam.student;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
@@ -30,7 +33,7 @@ public class StudentExam {
     public static final int EXAM_SUSPENDED = 3;
     public static final String[] EXAM_STATUS_INFO = { "Exam closed", "Exam done", "Exam doing", "Exam suspended" };
     @Id
-    @Column(nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int studentExamID;
 
     @Column(nullable = false)
@@ -76,8 +79,10 @@ public class StudentExam {
         this.student = student;
     }
 
-    public void calculatescore()
-            throws ArithmeticException {
+    public StudentExam() {
+    }
+
+    public void calculatescore() throws ArithmeticException {
         if (examDetail.size() == 0) {
             throw new ArithmeticException();
         }
@@ -89,10 +94,10 @@ public class StudentExam {
                 correctAnswers++;
             }
         }
+        score = (float) correctAnswers / totalQuestions;
         System.out.println("correct:" + correctAnswers);
         System.out.println("total:" + totalQuestions);
-
-        this.score = score * 10;
+        this.score = Float.parseFloat(String.format("%.2f", score * 10));
     }
 
     public int getStudentExamID() {
@@ -181,7 +186,8 @@ public class StudentExam {
         return true;
     }
 
-    public void submitExam() throws ArithmeticException {
+    public void submitExam(Map<Integer, Set<Integer>> studentChoice) throws ArithmeticException {
+        this.studentChoice = studentChoice;
         this.setExamStatus(StudentExam.EXAM_DONE);
         this.setSubmitTime(LocalDateTime.now());
         this.calculatescore();

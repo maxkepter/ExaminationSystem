@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.lang.String" %>
 <!DOCTYPE html>
@@ -25,6 +26,7 @@
                     <div class="error"><%= error %></div>
                 <% } %>
 
+            
                 <input type="submit" value="Login" class="btn" />
             </form>
 

@@ -1,13 +1,16 @@
 package service.authentication;
 
 import exception.register.UserNameDuplicatedException;
+import factory.DAOFactory;
 import factory.EntityManagerFactoryProvider;
 import factory.LogStatusFactory;
 import model.user.LoginInfo;
+import model.user.Student;
 import model.user.User;
-import repository.user.LoginInfoDao;
+import repository.user.StudentDao;
 import service.log.LogService;
 import service.log.LoginLogService;
+import service.user.GenerateUserCodeService;
 import utils.HashInfo;
 import utils.Validate;
 
@@ -25,11 +28,8 @@ public class RegisterService {
             throw new IllegalArgumentException("User cannot be null !");
         }
 
-        LoginInfoDao loginInfoDao = new LoginInfoDao(EntityManagerFactoryProvider.getEntityManagerFactory(),
-                LoginInfo.class);
-
         // Check if the username already exists
-        if (loginInfoDao.findByUserName(userName) != null) {
+        if (DAOFactory.LOGIN_INFO_DAO.findByUserName(userName) != null) {
             throw new UserNameDuplicatedException();
         }
 
@@ -41,12 +41,22 @@ public class RegisterService {
                 userName,
                 HashInfo.hash(password),
                 LogStatusFactory.ACCOUNT_ACTIVE);
-        loginInfoDao.create(loginInfo);
+        DAOFactory.LOGIN_INFO_DAO.create(loginInfo);
 
         // Log the registration success
 
         logService.createUserLog(user, LogStatusFactory.REGISTRATION_SUCCESS);
 
+        createStudent(user);
+
         return user;
+    }
+
+    private void createStudent(User user) {
+        GenerateUserCodeService generateUserCodeService = new GenerateUserCodeService();
+        String studentCode = generateUserCodeService.generateStudentCode(user.getFirstName(), user.getLastName());
+        StudentDao studentDao = new StudentDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Student.class);
+
+        studentDao.create(new Student(user.getUserID(), studentCode));
     }
 }

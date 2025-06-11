@@ -1,43 +1,40 @@
 <%-- 
-    Document   : findCode
-    Created on : May 31, 2025, 7:18:20 PM
-    Author     : FPT SHOP
+    Document   : view_exam
+    Created on : Jun 10, 2025, 10:49:36 AM
+    Author     : Admin
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="model.exam.Exam" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Tìm kiếm đề thi</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>View Exam</title>
     </head>
     <body>
-        <h2>Tìm kiếm đề thi</h2>
+<h1>View Exam</h1>
+<h2>Exam search</h2>
 
         <form method="post" action="${pageContext.request.contextPath}/ExamServlet">
             <input type="hidden" name="action" value="search"/>
-            Mã đề thi: <input type="text" name="examCode" required>
+            Exam Code: <input type="text" name="examCode" required>
             <input type="submit" value="Tìm kiếm">
-        </form>
+        </form> 
 
         <!-- Kiểm tra xem examResult có tồn tại không -->
         <c:if test="${not empty exam}">
             <h3>Thông tin đề thi:</h3>
             <ul>
-                <li><strong>Mã đề:</strong> ${exam.examCode}</li>
-                <li><strong>Tên đề thi:</strong> ${exam.examName}</li>
-                <li><strong>Thời gian làm bài:</strong> ${exam.duration} phút</li>
-                <li><strong>Người tạo:</strong> ${exam.user.lastName}</li>
+                <li><strong>Exam code:</strong> ${exam.examCode}</li>
+                <li><strong>Exam name:</strong> ${exam.examName}</li>
+                <li><strong>Exam duration:</strong> ${exam.duration} Min</li>
+                <li><strong>Deadline:</strong> ${exams.deadline}</li>
                 <a href="DoExam?examId=${exam.examID}">
                     <button>Do Exam</button>
                 </a>
             </ul>
         </c:if>
-
-
-
-
+        
     </body>
 </html>

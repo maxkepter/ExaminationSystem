@@ -1,5 +1,5 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.wtxt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Filter.java to edit this template
  */
 package filter;
@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.http.HttpRequest;
+
+import factory.DAOFactory;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
@@ -15,13 +18,17 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import model.user.User;
 
 /**
  *
  * @author Admin
  */
-@WebFilter(filterName = "AuthorizationFilter", urlPatterns = { "/*" })
-public class AuthorizationFilter implements Filter {
+@WebFilter(filterName = "RememberLoginFilter", urlPatterns = {"/*"})
+public class RememberLoginFilter implements Filter {
 
     private static final boolean debug = true;
 
@@ -30,13 +37,13 @@ public class AuthorizationFilter implements Filter {
     // configured.
     private FilterConfig filterConfig = null;
 
-    public AuthorizationFilter() {
+    public RememberLoginFilter() {
     }
 
     private void doBeforeProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("AuthorizationFilter:DoBeforeProcessing");
+            log("RememberLoginFilter:DoBeforeProcessing");
         }
 
         // Write code here to process the request and/or response before
@@ -44,27 +51,27 @@ public class AuthorizationFilter implements Filter {
         // For example, a logging filter might log items on the request object,
         // such as the parameters.
         /*
-         * for (Enumeration en = request.getParameterNames(); en.hasMoreElements(); ) {
-         * String name = (String)en.nextElement();
-         * String values[] = request.getParameterValues(name);
-         * int n = values.length;
-         * StringBuffer buf = new StringBuffer();
-         * buf.append(name);
-         * buf.append("=");
-         * for(int i=0; i < n; i++) {
-         * buf.append(values[i]);
-         * if (i < n-1)
-         * buf.append(",");
-         * }
-         * log(buf.toString());
-         * }
+		 * for (Enumeration en = request.getParameterNames(); en.hasMoreElements(); ) {
+		 * String name = (String)en.nextElement();
+		 * String values[] = request.getParameterValues(name);
+		 * int n = values.length;
+		 * StringBuffer buf = new StringBuffer();
+		 * buf.append(name);
+		 * buf.append("=");
+		 * for(int i=0; i < n; i++) {
+		 * buf.append(values[i]);
+		 * if (i < n-1)
+		 * buf.append(",");
+		 * }
+		 * log(buf.toString());
+		 * }
          */
     }
 
     private void doAfterProcessing(ServletRequest request, ServletResponse response)
             throws IOException, ServletException {
         if (debug) {
-            log("AuthorizationFilter:DoAfterProcessing");
+            log("RememberLoginFilter:DoAfterProcessing");
         }
 
         // Write code here to process the request and/or response after
@@ -72,63 +79,65 @@ public class AuthorizationFilter implements Filter {
         // For example, a logging filter might log the attributes on the
         // request object after the request has been processed.
         /*
-         * for (Enumeration en = request.getAttributeNames(); en.hasMoreElements(); ) {
-         * String name = (String)en.nextElement();
-         * Object value = request.getAttribute(name);
-         * log("attribute: " + name + "=" + value.toString());
-         * 
-         * }
+		 * for (Enumeration en = request.getAttributeNames(); en.hasMoreElements(); ) {
+		 * String name = (String)en.nextElement();
+		 * Object value = request.getAttribute(name);
+		 * log("attribute: " + name + "=" + value.toString());
+		 * 
+		 * }
          */
         // For example, a filter might append something to the response.
         /*
-         * PrintWriter respOut = new PrintWriter(response.getWriter());
-         * respOut.println("<P><B>This has been appended by an intrusive filter.</B>");
+		 * PrintWriter respOut = new PrintWriter(response.getWriter());
+		 * respOut.println("<P><B>This has been appended by an intrusive filter.</B>");
          */
     }
 
     /**
      *
-     * @param request  The servlet request we are processing
+     * @param request The servlet request we are processing
      * @param response The servlet response we are creating
-     * @param chain    The filter chain we are processing
+     * @param chain The filter chain we are processing
      *
-     * @exception IOException      if an input/output error occurs
+     * @exception IOException if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
-    public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain)
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-
-        if (debug) {
-            log("AuthorizationFilter:doFilter()");
-        }
-
-        doBeforeProcessing(request, response);
-
-        Throwable problem = null;
-        try {
-            chain.doFilter(request, response);
-        } catch (Throwable t) {
-            // If an exception is thrown somewhere down the filter chain,
-            // we still want to execute our after processing, and then
-            // rethrow the problem after that.
-            problem = t;
-            t.printStackTrace();
-        }
-
-        doAfterProcessing(request, response);
-
-        // If there was a problem, we want to rethrow it if it is
-        // a known type, otherwise log it.
-        if (problem != null) {
-            if (problem instanceof ServletException) {
-                throw (ServletException) problem;
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpSession session = req.getSession();
+        System.out.println("Filter running...");
+        System.out.println("Session ID: " + session.getId());
+        System.out.println("User attribute: " + session.getAttribute("user"));
+        if (session.getAttribute("user") == null) {
+            Cookie[] cookies = req.getCookies();
+            if (cookies == null) {
+                System.out.println("Cookies is null");
+            } else {
+                System.out.println("Cookies length: " + cookies.length);
             }
-            if (problem instanceof IOException) {
-                throw (IOException) problem;
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                      System.out.println("Cookie name: " + cookie.getName() + ", value: " + cookie.getValue());
+                    if ("rememberUser".equals(cookie.getName())) {
+                        String userId = cookie.getValue();
+                        System.out.println("Test");
+                        try {
+                            User user = DAOFactory.USER_DAO.findById(Integer.parseInt(userId));
+
+                            if (user != null) {
+                                System.out.println(user.toString());
+                                req.getSession().setAttribute("user", user);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    }
+                }
             }
-            sendProcessingError(problem, response);
         }
+        chain.doFilter(request, response);
     }
 
     /**
@@ -160,7 +169,7 @@ public class AuthorizationFilter implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {
-                log("AuthorizationFilter:Initializing filter");
+                log("RememberLoginFilter:Initializing filter");
             }
         }
     }
@@ -171,9 +180,9 @@ public class AuthorizationFilter implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("AuthorizationFilter()");
+            return ("RememberLoginFilter()");
         }
-        StringBuffer sb = new StringBuffer("AuthorizationFilter(");
+        StringBuffer sb = new StringBuffer("RememberLoginFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());

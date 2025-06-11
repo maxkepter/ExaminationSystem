@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -52,7 +53,7 @@ public class LoginController extends HttpServlet {
             throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        String rememberLogin = request.getParameter("rememberLogin");
+        String rememberLogin = request.getParameter("remember");
         LoginService loginService = new LoginService();
         User user = null;
         try {
@@ -74,6 +75,14 @@ public class LoginController extends HttpServlet {
         // Create session and storge user info
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
+        System.out.println(rememberLogin);
+
+        if (Validate.validateString(rememberLogin)) {
+            Cookie cookie = new Cookie("rememberUser", user.getUserID().toString());
+            cookie.setMaxAge(60 * 60 * 24 * 30); // 30 ngày
+            cookie.setPath("/");
+            response.addCookie(cookie);
+        }
         // If login is successful, redirect to the home page
         response.sendRedirect(request.getContextPath() + "/Home");
 

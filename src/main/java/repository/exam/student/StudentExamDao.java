@@ -16,6 +16,11 @@ public class StudentExamDao extends ObjectDao<StudentExam> implements UpdatableD
         // TODO Auto-generated constructor stub
     }
 
+    public StudentExamDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory, StudentExam.class);
+        // TODO Auto-generated constructor stub
+    }
+
     @Override
     public void update(StudentExam object) throws IllegalStateException, RollbackException {
         EntityManager entityManager = entityManagerFactory.createEntityManager();

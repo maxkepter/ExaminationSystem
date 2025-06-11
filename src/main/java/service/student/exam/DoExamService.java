@@ -13,14 +13,6 @@ public class DoExamService {
     private StudentExamDao studentExamDao = new StudentExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(),
             StudentExam.class);
 
-    public void submitExam(StudentExam studentExam) {
-        ExamLogService examLogService = new ExamLogService();
-
-        examLogService.createLog(studentExam, ExamLogService.SUBMIT_EXAM);
-        studentExam.submitExam();
-        studentExamDao.update(studentExam);
-    }
-
     public void saveStudentChoice(int questionNo, int optionNo, StudentExam studentExam, boolean isRemoveChoice) {
 
         Map<Integer, Set<Integer>> studenChoice = studentExam.getStudentChoice();

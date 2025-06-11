@@ -2,6 +2,7 @@ package model.exam.student;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import model.exam.Question;
 
@@ -9,21 +10,27 @@ public class QuestionWithOptions {
     private int questionId;
     private String content;
     private List<Option> options;
-    private List<Integer> correctId;
 
     public QuestionWithOptions(String content, List<Option> options) {
         this.content = content;
-        this.options = options;
-        this.correctId = new ArrayList<>();
-        Option.randomOption(options, correctId);
+        this.options = Option.randomOption(options);
     }
 
     public int getQuestionId() {
         return questionId;
     }
 
+    public QuestionWithOptions(int questionId, String content, List<Option> options, List<Integer> correctId) {
+        this.questionId = questionId;
+        this.content = content;
+        this.options = options;
+    }
+
     public List<Integer> getCorrectId() {
-        return correctId;
+        return options.stream()
+                .filter(Option::isCorrect)
+                .map(Option::getOptionId)
+                .collect(Collectors.toList());
     }
 
     public void setQuestionId(int questionId) {
@@ -52,10 +59,16 @@ public class QuestionWithOptions {
         return new QuestionWithOptions(question.getQuestionContent(), options);
     }
 
+    public QuestionWithOptions() {
+    }
+
     public static List<QuestionWithOptions> convertFromEntities(List<Question> questions) {
-        return questions.stream()
-                .map(q -> convertFromEntity(q))
-                .toList();
+        List<QuestionWithOptions> questionWithOptions = new ArrayList<>();
+        for (Question question : questions) {
+            questionWithOptions.add(convertFromEntity(question));
+        }
+
+        return questionWithOptions;
     }
 
     public static void randomQuestion(List<QuestionWithOptions> questions) {
@@ -67,6 +80,11 @@ public class QuestionWithOptions {
             tempQuestions.add(question);
         }
         questions.addAll(tempQuestions);
+    }
+
+    @Override
+    public String toString() {
+        return "QuestionWithOptions [questionId=" + questionId + ", content=" + content + ", options=" + options + "]";
     }
 
 }
