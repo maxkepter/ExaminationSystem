@@ -11,10 +11,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Do Exam</title>
+        <script src="./js/ExamLog.js"></script>
     </head>
     <body>
 
-        <div class="header" ><img
+        <div class="header" >
+            <p id="countdown" data-endtime="${endTimeMillis}">Test</p>
+            <img
                 src="https://s14.gifyu.com/images/bxI4U.gif"
                 alt="Di chuột để vào toàn màn hình"
                 />
@@ -28,7 +31,7 @@
         <div class="content">
             <form action="submitexam" method="post">
                 <input type="hidden" name="sizeQuestion" value="${questionSize}">
-                <input type="hidden" name="studentExamId" value="${studentExam.studentExamID}"> 
+                <input type="hidden" name="studentExamId" id="studentExamId" value="${studentExam.studentExamID}"> 
                 <div class="content">
                     <c:forEach var="question" items="${examDetail}" varStatus="qustionNo">
                         <div class="question" id="question-${question.questionId}">
@@ -39,7 +42,10 @@
                                     <label>
                                         <input type="checkbox" 
                                                name="answers[${question.questionId}]" 
-                                               value="${opt.optionId}" />
+                                               value="${opt.optionId}" 
+                                               data-question-id="${question.questionId}" 
+                                               data-option-id="${opt.optionId}" 
+                                               class="answer-checkbox" />
                                         ${opt.content}
                                     </label>
                                 </div>
@@ -56,5 +62,44 @@
             <!--làm một hàm lưu những thay đổi khi chọn đáp án, cứ mỗi 5s thì sẽ gửi về servler bằng ajax-->
 
         </div>
+        <script>
+            const countdownElement = document.getElementById("countdown");
+            const endTimeMillis = parseInt(countdownElement.dataset.endtime);
+
+            function updateCountdown() {
+                const now = Date.now();
+                const diff = endTimeMillis - now;
+
+                if (diff <= 0) {
+                    countdownElement.textContent = "Hết giờ";
+                    clearInterval(timer);
+                    return;
+                }
+
+                const minutes = Math.floor(diff / 1000 / 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+
+                // Chống âm tuyệt đối
+                const displayMinutes = Math.max(0, minutes);
+                const displaySeconds = Math.max(0, seconds);
+
+                countdownElement.textContent = displayMinutes + ` : ` + displaySeconds;
+
+                if (displayMinutes === 0 && displaySeconds === 0) {
+                    clearInterval(timer);
+                    autoSubmit();
+                }
+            }
+            updateCountdown();
+            const timer = setInterval(updateCountdown, 1000);
+
+            function autoSubmit() {
+                // Gọi submit form
+                const form = document.querySelector("form");
+                if (form) {
+                    form.submit();
+                }
+            }
+        </script>
     </body>
 </html>

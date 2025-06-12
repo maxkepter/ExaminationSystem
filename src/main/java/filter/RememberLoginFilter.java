@@ -111,22 +111,15 @@ public class RememberLoginFilter implements Filter {
         System.out.println("User attribute: " + session.getAttribute("user"));
         if (session.getAttribute("user") == null) {
             Cookie[] cookies = req.getCookies();
-            if (cookies == null) {
-                System.out.println("Cookies is null");
-            } else {
-                System.out.println("Cookies length: " + cookies.length);
-            }
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
-                      System.out.println("Cookie name: " + cookie.getName() + ", value: " + cookie.getValue());
                     if ("rememberUser".equals(cookie.getName())) {
                         String userId = cookie.getValue();
-                        System.out.println("Test");
+
                         try {
                             User user = DAOFactory.USER_DAO.findById(Integer.parseInt(userId));
 
                             if (user != null) {
-                                System.out.println(user.toString());
                                 req.getSession().setAttribute("user", user);
                             }
                         } catch (Exception e) {

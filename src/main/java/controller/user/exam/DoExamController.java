@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.time.ZoneId;
 import model.exam.student.ExamDetailConverter;
 import model.exam.student.StudentChoiceConverter;
 import model.exam.student.StudentExam;
@@ -71,7 +72,8 @@ public class DoExamController extends HttpServlet {
         request.setAttribute("examDetail", studentExam.getExamDetail());// list type
         request.setAttribute("questionSize", studentExam.getExamDetail().size());
         request.setAttribute("studentExam", studentExam);
-        request.setAttribute("duration", studentExam.getExam().getDuration());
+        long endTimeMillis=studentExam.getStartTime().plusMinutes(studentExam.getExam().getDuration()).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        request.setAttribute("endTimeMillis",endTimeMillis );
         request.getRequestDispatcher("/student/do_exam.jsp").forward(request, response);
         return;
     }

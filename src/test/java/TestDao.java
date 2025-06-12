@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import controller.admin.exam.GenerateExam;
+import factory.DAOFactory;
 import model.exam.student.StudentExam;
 import service.exam.GenerateExamService;
 import service.student.exam.GenerateStudentExamService;
@@ -12,8 +13,11 @@ import service.student.exam.SubmitExamService;
 
 public class TestDao {
     public static void main(String[] args) {
-        Map<Integer, Set<Integer>> studentChoice = genChoice(100);
-        testExam(studentChoice, "3");
+        // Map<Integer, Set<Integer>> studentChoice = genChoice(100);
+        // testExam(studentChoice, "1007");
+        StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.findById(1007);
+        studentExam.calculatescore();
+        System.out.println(studentExam.getScore());
     }
 
     public static void testExam(Map<Integer, Set<Integer>> studentChoice, String studentExamIdstr) {

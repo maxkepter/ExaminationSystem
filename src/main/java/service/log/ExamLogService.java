@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import factory.DAOFactory;
 import factory.EntityManagerFactoryProvider;
+import model.exam.student.StudentChoice;
 import model.exam.student.StudentExam;
 import model.log.ExamLog;
 import repository.log.ExamLogDao;
@@ -21,8 +22,11 @@ public class ExamLogService {
         examLogDao.create(examLog);
     }
 
-    public void examActionLog(StudentExam studentExam, int questionNo, int optionNo) {
-        String examAction = "Choose option " + optionNo + " in question " + questionNo;
+    public void examActionLog(StudentExam studentExam, StudentChoice studentChoice) {
+        String examAction = (studentChoice.isChecked() ? "Choice"
+                : "Remove") + " option " + studentChoice.getOptionId() + " in question "
+                + studentChoice.getQuestionId();
+        System.out.println(examAction);
         createLog(studentExam, examAction);
     }
 

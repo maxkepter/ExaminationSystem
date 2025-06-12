@@ -120,7 +120,8 @@ public class SubmitExamController extends HttpServlet {
         }
         float score = studentExam.getScore();
         request.setAttribute("score", score);
-        request.getRequestDispatcher("student/submit_exam.jsp");
+        request.getRequestDispatcher("student/submit_exam.jsp").forward(request, response);
+        return;
 
     }
 

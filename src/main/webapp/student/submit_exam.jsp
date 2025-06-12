@@ -16,7 +16,7 @@
         </div>
         <div class="content">
             <strong>Your result:</strong> <p>${score}</p>
-            <a href="../Home">Exit</a>
+            <a href="./Home">Exit</a>
         </div>
     </body>
 </html>

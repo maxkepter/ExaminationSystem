@@ -1,29 +1,56 @@
 package service.student.exam;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import factory.EntityManagerFactoryProvider;
+import factory.DAOFactory;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
+import model.exam.student.ExamChoice;
+import model.exam.student.StudentChoice;
 import model.exam.student.StudentExam;
-import repository.exam.student.StudentExamDao;
 import service.log.ExamLogService;
+import utils.Validate;
 
 public class DoExamService {
-    private StudentExamDao studentExamDao = new StudentExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(),
-            StudentExam.class);
+    private ExamLogService examLogService = new ExamLogService();
 
-    public void saveStudentChoice(int questionNo, int optionNo, StudentExam studentExam, boolean isRemoveChoice) {
-
-        Map<Integer, Set<Integer>> studenChoice = studentExam.getStudentChoice();
-        if (isRemoveChoice) {
-            removeChoice(studenChoice, questionNo, optionNo);
-        } else {
-            addChoice(studenChoice, questionNo, optionNo);
+    public void convertJson(String jsonBody) throws IllegalArgumentException {
+        if (!Validate.validateString(jsonBody)) {
+            throw new IllegalArgumentException("Invalid input !");
         }
 
-        studentExamDao.update(studentExam);
+        // convert json to object
+        Jsonb json = JsonbBuilder.create();
+        ExamChoice examChoice = json.fromJson(jsonBody, ExamChoice.class);
 
+        StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.findById(examChoice.getStudentExamId());
+
+        if (studentExam == null) {
+            throw new IllegalArgumentException("Student exam not found !");
+        }
+
+        saveStudentChoice(examChoice.getStudentChoices(), studentExam.getStudentChoice(), studentExam);
+
+        DAOFactory.STUDENT_EXAM_DAO.update(studentExam);
+
+    }
+
+    public void saveStudentChoice(List<StudentChoice> choices, Map<Integer, Set<Integer>> studenChoice,
+            StudentExam studentExam) {
+
+        for (StudentChoice choice : choices) {
+            System.out.println(choice);
+            examLogService.examActionLog(studentExam, choice);
+            if (!choice.isChecked()) {
+                removeChoice(studenChoice, choice.getQuestionId(), choice.getOptionId());
+            } else {
+                addChoice(studenChoice, choice.getQuestionId(), choice.getOptionId());
+            }
+        }
+        studentExam.setStudentChoice(studenChoice);
     }
 
     private void removeChoice(Map<Integer, Set<Integer>> studenChoice, int questionNo, int optionNo) {
