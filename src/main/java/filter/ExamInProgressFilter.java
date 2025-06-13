@@ -7,6 +7,7 @@ package filter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
 import factory.DAOFactory;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -15,17 +16,18 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebFilter;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.exam.student.StudentExam;
 import model.user.User;
 
 /**
  *
  * @author Admin
  */
-@WebFilter(filterName = "RememberLoginFilter", urlPatterns = { "/*" })
-public class RememberLoginFilter implements Filter {
+@WebFilter(filterName = "ExamInProgressFilter", urlPatterns = { "/*" })
+public class ExamInProgressFilter implements Filter {
 
     private static final boolean debug = true;
 
@@ -34,7 +36,7 @@ public class RememberLoginFilter implements Filter {
     // configured.
     private FilterConfig filterConfig = null;
 
-    public RememberLoginFilter() {
+    public ExamInProgressFilter() {
     }
 
     /**
@@ -46,32 +48,58 @@ public class RememberLoginFilter implements Filter {
      * @exception IOException      if an input/output error occurs
      * @exception ServletException if a servlet error occurs
      */
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-        HttpSession session = req.getSession();
-        if (session.getAttribute("user") == null) {
-            Cookie[] cookies = req.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if ("rememberUser".equals(cookie.getName())) {
-                        String userId = cookie.getValue();
+        HttpServletResponse res = (HttpServletResponse) response;
 
-                        try {
-                            User user = DAOFactory.USER_DAO.findById(Integer.parseInt(userId));
+        HttpSession session = req.getSession(false);
+        String path = req.getServletPath();
 
-                            if (user != null) {
-                                req.getSession().setAttribute("user", user);
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    }
+        if (path.startsWith("/Login") || path.startsWith("/Register") || path.startsWith("/static/")
+                || path.endsWith(".css") || path.endsWith(".js")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        if (session == null) {
+            chain.doFilter(request, response);
+            return;
+        }
+        // check login and is student
+        User user = (User) session.getAttribute("user");
+
+        if (RoleFilter.isAdmin(user)) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+        Integer currentExamId = (Integer) session.getAttribute("currentExamId");
+        if (currentExamId == null) {
+            try {
+                StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.getDoingExam(user);
+                if (studentExam != null) {
+                    currentExamId = studentExam.getExam().getExamID();
+                    session.setAttribute("currentExamId", currentExamId);
+                } else {
+                    return;
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                chain.doFilter(request, response);
+                return;
+            }
+        }
+
+        if (currentExamId != null) {
+            if (!path.equals("/DoExam")) {
+                res.sendRedirect(req.getContextPath() + "/DoExam?examId=" + currentExamId);
+                return;
             }
         }
         chain.doFilter(request, response);
+
     }
 
     /**
@@ -103,7 +131,7 @@ public class RememberLoginFilter implements Filter {
         this.filterConfig = filterConfig;
         if (filterConfig != null) {
             if (debug) {
-                log("RememberLoginFilter:Initializing filter");
+                log("ExamInProgressFilter:Initializing filter");
             }
         }
     }
@@ -114,9 +142,9 @@ public class RememberLoginFilter implements Filter {
     @Override
     public String toString() {
         if (filterConfig == null) {
-            return ("RememberLoginFilter()");
+            return ("ExamInProgressFilter()");
         }
-        StringBuffer sb = new StringBuffer("RememberLoginFilter(");
+        StringBuffer sb = new StringBuffer("ExamInProgressFilter(");
         sb.append(filterConfig);
         sb.append(")");
         return (sb.toString());

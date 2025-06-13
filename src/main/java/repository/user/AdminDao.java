@@ -7,8 +7,7 @@ import model.user.Admin;
 import repository.DeleteableObjectDao;
 import repository.UpdatableDao;
 
-public class AdminDao extends DeleteableObjectDao<Admin>
-        implements UpdatableDao<Admin> {
+public class AdminDao extends DeleteableObjectDao<Admin> {
 
     public AdminDao(EntityManagerFactory entityManagerFactory, Class<Admin> entityClass) {
         super(entityManagerFactory, entityClass);

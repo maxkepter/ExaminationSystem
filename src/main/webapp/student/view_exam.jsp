@@ -13,9 +13,11 @@
         <title>View Exam</title>
     </head>
     <body>
-<h1>View Exam</h1>
-<h2>Exam search</h2>
-
+        <h1>View Exam</h1>
+        <h2>Exam search</h2>
+        <c:if test="${not empty error}">
+            <strong>${error}</strong>
+        </c:if>
         <form method="post" action="${pageContext.request.contextPath}/ExamServlet">
             <input type="hidden" name="action" value="search"/>
             Exam Code: <input type="text" name="examCode" required>
@@ -35,6 +37,6 @@
                 </a>
             </ul>
         </c:if>
-        
+
     </body>
 </html>

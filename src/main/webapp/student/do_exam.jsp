@@ -45,7 +45,10 @@
                                                value="${opt.optionId}" 
                                                data-question-id="${question.questionId}" 
                                                data-option-id="${opt.optionId}" 
-                                               class="answer-checkbox" />
+                                               class="answer-checkbox" 
+                                               <c:if test="${studentChoice[question.questionId] != null 
+                                                             and studentChoice[question.questionId].contains(opt.optionId)}">checked</c:if>
+                                                     />
                                         ${opt.content}
                                     </label>
                                 </div>
@@ -62,6 +65,7 @@
             <!--làm một hàm lưu những thay đổi khi chọn đáp án, cứ mỗi 5s thì sẽ gửi về servler bằng ajax-->
 
         </div>
+        <script src="./js/ExamTracking.js"></script>
         <script>
             const countdownElement = document.getElementById("countdown");
             const endTimeMillis = parseInt(countdownElement.dataset.endtime);
@@ -72,6 +76,7 @@
 
                 if (diff <= 0) {
                     countdownElement.textContent = "Hết giờ";
+                    autoSubmit();
                     clearInterval(timer);
                     return;
                 }
@@ -85,10 +90,6 @@
 
                 countdownElement.textContent = displayMinutes + ` : ` + displaySeconds;
 
-                if (displayMinutes === 0 && displaySeconds === 0) {
-                    clearInterval(timer);
-                    autoSubmit();
-                }
             }
             updateCountdown();
             const timer = setInterval(updateCountdown, 1000);

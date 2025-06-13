@@ -106,4 +106,7 @@ public class Exam {
         this.user = user;
     }
 
+    public boolean isEnd() {
+        return this.deadline.isBefore(LocalDate.now());
+    }
 }

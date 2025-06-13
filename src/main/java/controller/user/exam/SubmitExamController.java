@@ -17,6 +17,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.exam.student.StudentExam;
 import model.user.Student;
 import service.student.exam.SubmitExamService;
@@ -118,6 +119,12 @@ public class SubmitExamController extends HttpServlet {
             request.getRequestDispatcher(studentExamid);
             return;
         }
+
+        HttpSession session = request.getSession();
+        if (session.getAttribute("currentExamId") != null) {
+            request.getSession().removeAttribute("currentExamId");
+        }
+
         float score = studentExam.getScore();
         request.setAttribute("score", score);
         request.getRequestDispatcher("student/submit_exam.jsp").forward(request, response);

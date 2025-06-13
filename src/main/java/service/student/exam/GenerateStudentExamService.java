@@ -17,16 +17,11 @@ import model.user.User;
 import utils.Validate;
 
 public class GenerateStudentExamService {
-    public StudentExam generateExam(User user, String examIdStr) throws IllegalArgumentException {
+    public StudentExam generateExam(User user, int examId) throws IllegalArgumentException {
         // Validate the input parameters
         if (user == null || user.getUserID() <= 0) {
             throw new IllegalArgumentException("Invalid user information provided.");
         }
-        if (!Validate.validateInteger(examIdStr)) {
-            throw new IllegalArgumentException("Invalid exam information provided.");
-        }
-
-        int examId = Integer.parseInt(examIdStr);
 
         // Check if the user is a student
         Student student = DAOFactory.STUDENT_DAO.findById(user.getUserID());
@@ -35,6 +30,10 @@ public class GenerateStudentExamService {
         }
 
         Exam exam = DAOFactory.EXAM_DAO.findById(examId);
+
+        if (exam == null) {
+            throw new IllegalArgumentException("Exam not found for ID: " + examId);
+        }
 
         // convert entity to object
         List<QuestionWithOptions> questionWithOptions = generateQuestionWithOptions(exam);

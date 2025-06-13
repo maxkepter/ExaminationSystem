@@ -45,10 +45,7 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E> {
     public E findById(int id) {
         E object = null;
         try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
-            entityManager.getTransaction().begin();
             object = entityManager.find(entityClass, id);
-            entityManager.getTransaction().commit();
-            entityManager.close();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,10 +58,8 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E> {
     public List<E> findAll() {
         List<E> objects = null;
         try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
-            entityManager.getTransaction().begin();
             objects = entityManager.createQuery("SELECT e FROM " + entityClass.getSimpleName() + " e", entityClass)
                     .getResultList();
-            entityManager.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         }

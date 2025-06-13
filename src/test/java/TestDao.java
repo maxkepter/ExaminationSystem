@@ -4,20 +4,19 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import controller.admin.exam.GenerateExam;
 import factory.DAOFactory;
 import model.exam.student.StudentExam;
-import service.exam.GenerateExamService;
-import service.student.exam.GenerateStudentExamService;
+import model.user.User;
+import service.student.exam.ReloadExamService;
 import service.student.exam.SubmitExamService;
 
 public class TestDao {
     public static void main(String[] args) {
-        // Map<Integer, Set<Integer>> studentChoice = genChoice(100);
-        // testExam(studentChoice, "1007");
-        StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.findById(1007);
-        studentExam.calculatescore();
-        System.out.println(studentExam.getScore());
+        ReloadExamService reloadExamService = new ReloadExamService();
+        User user = DAOFactory.USER_DAO.findById(5);
+
+        StudentExam studentExam = reloadExamService.reloadExam(user, 3);
+        System.out.println(studentExam.getStudentExamID());
     }
 
     public static void testExam(Map<Integer, Set<Integer>> studentChoice, String studentExamIdstr) {

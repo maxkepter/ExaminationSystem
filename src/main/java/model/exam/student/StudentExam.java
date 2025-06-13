@@ -4,7 +4,6 @@
  */
 package model.exam.student;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +31,27 @@ public class StudentExam {
     public static final int EXAM_DOING = 2;
     public static final int EXAM_SUSPENDED = 3;
     public static final String[] EXAM_STATUS_INFO = { "Exam closed", "Exam done", "Exam doing", "Exam suspended" };
+    public static final String STUDENT_EXAM_ID = "studentExamID";
+    public static final String EXAM_STATUS = "examStatus";
+    public static final String SCORE = "score";
+    public static final String SUBMIT_TIME = "submitTime";
+    public static final String START_TIME = "startTime";
+    public static final String EXAM_DETAIL = "examDetail";
+    public static final String STUDENT_CHOICE = "studentChoice";
+    public static final String EXAM = "exam";
+    public static final String STUDENT = "student";
+    public static final String[] ATTRIBUTE_NAME = {
+            STUDENT_EXAM_ID,
+            EXAM_STATUS,
+            SCORE,
+            SUBMIT_TIME,
+            START_TIME,
+            EXAM_DETAIL,
+            STUDENT_CHOICE,
+            EXAM,
+            STUDENT
+    };
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int studentExamID;
@@ -175,7 +195,9 @@ public class StudentExam {
     private static boolean checkCorrect(List<Integer> correct, Set<Integer> studentChoice) {
         System.out.println("correct:" + correct);
         System.out.println("choice:" + studentChoice);
-        if (correct.size() != studentChoice.size()) {
+
+        if (studentChoice == null || studentChoice.isEmpty() || correct == null || correct.isEmpty()
+                || correct.size() != studentChoice.size()) {
             return false;
         }
         for (Integer id : correct) {
@@ -188,7 +210,9 @@ public class StudentExam {
 
     public void submitExam(Map<Integer, Set<Integer>> studentChoice) throws ArithmeticException {
         this.studentChoice = studentChoice;
-        this.setExamStatus(StudentExam.EXAM_DONE);
+        if (this.examStatus == EXAM_DOING) {
+            this.setExamStatus(StudentExam.EXAM_DONE);
+        }
         this.setSubmitTime(LocalDateTime.now());
         this.calculatescore();
     }

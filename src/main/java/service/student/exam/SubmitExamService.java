@@ -15,7 +15,7 @@ public class SubmitExamService {
         if (studentExamId <= 0) {
             throw new IllegalArgumentException("Invalid student exam ID: " + studentExamId);
         }
-        if (studentChoice == null || studentChoice.isEmpty()) {
+        if (studentChoice == null) {
             throw new IllegalArgumentException("Student choice cannot be null or empty.");
         }
         // Retrieve the StudentExam object from the database using the studentExamId

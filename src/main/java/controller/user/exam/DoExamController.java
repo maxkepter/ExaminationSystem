@@ -14,11 +14,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.time.ZoneId;
-import model.exam.student.ExamDetailConverter;
-import model.exam.student.StudentChoiceConverter;
+
+import factory.DAOFactory;
 import model.exam.student.StudentExam;
 import model.user.User;
+import service.student.exam.DoExamService;
 import service.student.exam.GenerateStudentExamService;
+import service.student.exam.ReloadExamService;
 
 /**
  *
@@ -60,20 +62,35 @@ public class DoExamController extends HttpServlet {
         User user = (User) session.getAttribute("user");
         String examId = request.getParameter("examId");
         GenerateStudentExamService generateStudentExamService = new GenerateStudentExamService();
+        ReloadExamService reloadExamService = new ReloadExamService();
         StudentExam studentExam = null;
+        String test = "Test";
         try {
-            studentExam = generateStudentExamService.generateExam(user, examId);
-        } catch (IllegalArgumentException e) {
+            studentExam = reloadExamService.reloadExam(user, Integer.parseInt(examId));
+
+            // if not there is no examin progess generate new exam
+            if (studentExam == null) {
+                test = "Test--1";
+                studentExam = generateStudentExamService.generateExam(user, Integer.parseInt(examId));
+            }
+
+        } catch (Exception e) {
             String error = e.getMessage();
-            request.setAttribute("error", error);
-            request.getRequestDispatcher("/student/do_exam.jsp").forward(request, response);
+            request.setAttribute("error", error + test);
+            request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
             return;
         }
+
         request.setAttribute("examDetail", studentExam.getExamDetail());// list type
         request.setAttribute("questionSize", studentExam.getExamDetail().size());
         request.setAttribute("studentExam", studentExam);
-        long endTimeMillis=studentExam.getStartTime().plusMinutes(studentExam.getExam().getDuration()).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-        request.setAttribute("endTimeMillis",endTimeMillis );
+        request.setAttribute(StudentExam.STUDENT_CHOICE, studentExam.getStudentChoice());
+
+        session.setAttribute("currentExamId", examId);
+
+        long endTimeMillis = studentExam.getStartTime().plusMinutes(studentExam.getExam().getDuration())
+                .atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        request.setAttribute("endTimeMillis", endTimeMillis);
         request.getRequestDispatcher("/student/do_exam.jsp").forward(request, response);
         return;
     }

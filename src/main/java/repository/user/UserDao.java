@@ -6,10 +6,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import model.user.User;
 import repository.DeleteableObjectDao;
-import repository.UpdatableDao;
 
-public class UserDao extends DeleteableObjectDao<User>
-        implements UpdatableDao<User> {
+public class UserDao extends DeleteableObjectDao<User> {
 
     public UserDao(EntityManagerFactory entityManagerFactory, Class<User> entityClass) {
         super(entityManagerFactory, entityClass);
