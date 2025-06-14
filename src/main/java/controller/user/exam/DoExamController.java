@@ -7,18 +7,16 @@ package controller.user.exam;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.ZoneId;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.time.ZoneId;
-
-import factory.DAOFactory;
 import model.exam.student.StudentExam;
 import model.user.User;
-import service.student.exam.DoExamService;
 import service.student.exam.GenerateStudentExamService;
 import service.student.exam.ReloadExamService;
 
@@ -64,19 +62,21 @@ public class DoExamController extends HttpServlet {
         GenerateStudentExamService generateStudentExamService = new GenerateStudentExamService();
         ReloadExamService reloadExamService = new ReloadExamService();
         StudentExam studentExam = null;
-        String test = "Test";
+
+        // Trường hợp student đang làm bài thi thì dùng url tạo bài thì mới thì sẽ tự
+        // động chuyển về bài thi đang làm giở
+
         try {
-            studentExam = reloadExamService.reloadExam(user, Integer.parseInt(examId));
+            studentExam = reloadExamService.reloadExam(user);
 
             // if not there is no examin progess generate new exam
             if (studentExam == null) {
-                test = "Test--1";
                 studentExam = generateStudentExamService.generateExam(user, Integer.parseInt(examId));
             }
 
         } catch (Exception e) {
             String error = e.getMessage();
-            request.setAttribute("error", error + test);
+            request.setAttribute("error", error);
             request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
             return;
         }

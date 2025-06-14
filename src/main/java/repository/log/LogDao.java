@@ -5,11 +5,10 @@ import java.util.List;
 
 import model.user.User;
 import repository.CreatableDao;
-import repository.PageableDao;
 import repository.ReadableDao;
 import repository.SearchableDao;
 
-public interface LogDao<E> extends ReadableDao<E>, CreatableDao<E>, SearchableDao<E>, PageableDao<E> {
+public interface LogDao<E> extends ReadableDao<E>, CreatableDao<E>, SearchableDao<E> {
     // find within a specific time range
     List<E> findByTimeRange(LocalDateTime startTime, LocalDateTime endTime);
 

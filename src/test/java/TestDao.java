@@ -12,9 +12,13 @@ import service.student.exam.SubmitExamService;
 
 public class TestDao {
     public static void main(String[] args) {
-        ReloadExamService reloadExamService = new ReloadExamService();
-        User user = DAOFactory.USER_DAO.findById(5);
+        // User user = DAOFactory.USER_DAO.findById(5);
+        // StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.getDoingExam(user);
 
+        // System.out.println(studentExam.getStudentExamID());
+
+        User user = DAOFactory.USER_DAO.findById(5);
+        ReloadExamService reloadExamService = new ReloadExamService();
         StudentExam studentExam = reloadExamService.reloadExam(user, 3);
         System.out.println(studentExam.getStudentExamID());
     }

@@ -4,10 +4,10 @@
  */
 package controller.user.login;
 
+import java.io.IOException;
+
 import exception.login.AccountBannedException;
 import exception.login.AuthenticationException;
-import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -37,6 +37,10 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (request.getSession() != null && (User) request.getSession().getAttribute("user") != null) {
+            response.sendRedirect(request.getContextPath() + "/Home");
+            return;
+        }
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 

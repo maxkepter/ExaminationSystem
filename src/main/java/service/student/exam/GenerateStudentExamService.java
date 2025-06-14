@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import exception.user.exam.ExamOverException;
 import factory.DAOFactory;
 import model.exam.Exam;
 import model.exam.Question;
@@ -14,10 +15,8 @@ import model.exam.student.StudentExam;
 import model.user.Student;
 import model.user.User;
 
-import utils.Validate;
-
 public class GenerateStudentExamService {
-    public StudentExam generateExam(User user, int examId) throws IllegalArgumentException {
+    public StudentExam generateExam(User user, int examId) throws IllegalArgumentException, ExamOverException {
         // Validate the input parameters
         if (user == null || user.getUserID() <= 0) {
             throw new IllegalArgumentException("Invalid user information provided.");
@@ -33,6 +32,10 @@ public class GenerateStudentExamService {
 
         if (exam == null) {
             throw new IllegalArgumentException("Exam not found for ID: " + examId);
+        }
+
+        if (exam.isEnd()) {
+            throw new ExamOverException();
         }
 
         // convert entity to object

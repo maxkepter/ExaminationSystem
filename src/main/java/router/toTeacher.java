@@ -6,6 +6,7 @@ package router;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,7 +35,7 @@ public class toTeacher extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet toTeacher</title>");            
+            out.println("<title>Servlet toTeacher</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet toTeacher at " + request.getContextPath() + "</h1>");

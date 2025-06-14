@@ -1,7 +1,6 @@
 package factory;
 
 import jakarta.persistence.EntityManagerFactory;
-import model.user.User;
 import repository.exam.ExamDao;
 import repository.exam.QuestionDao;
 import repository.exam.student.StudentExamDao;

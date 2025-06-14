@@ -7,6 +7,7 @@ package controller.admin.exam;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ public class createExam extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     * 
+     *
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -48,7 +49,7 @@ public class createExam extends HttpServlet {
     // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     * 
+     *
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -62,7 +63,7 @@ public class createExam extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     * 
+     *
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -76,7 +77,7 @@ public class createExam extends HttpServlet {
 
     /**
      * Returns a short description of the servlet.
-     * 
+     *
      * @return a String containing servlet description
      */
     @Override

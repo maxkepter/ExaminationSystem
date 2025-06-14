@@ -4,11 +4,11 @@
  */
 package repository.exam;
 
+import java.util.List;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
-import java.util.List;
-import java.util.Map;
 import model.exam.Exam;
 import repository.FullOptionDAO;
 

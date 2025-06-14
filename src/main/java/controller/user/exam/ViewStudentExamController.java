@@ -5,7 +5,6 @@
 
 package controller.user.exam;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -14,19 +13,21 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import service.student.exam.DoExamService;
+import model.exam.student.StudentExam;
+import model.user.User;
+import service.student.exam.ViewStudentExamService;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "ExamLogController", urlPatterns = { "/ExamLog" })
-public class ExamLogController extends HttpServlet {
+@WebServlet(name = "ViewStudentExamController", urlPatterns = { "/ExamHistory/viewexam" })
+public class ViewStudentExamController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     *
+     * 
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -34,17 +35,16 @@ public class ExamLogController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getCookies();
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ExamLogController</title>");
+            out.println("<title>Servlet ViewStudentExamController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ExamLogController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ViewStudentExamController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -54,7 +54,7 @@ public class ExamLogController extends HttpServlet {
     // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     *
+     * 
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -63,12 +63,38 @@ public class ExamLogController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String studentExamIdStr = request.getParameter(StudentExam.STUDENT_EXAM_ID);
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+
+        StudentExam studentExam = null;
+        try {
+            ViewStudentExamService examService = new ViewStudentExamService();
+            studentExam = examService.getExam(user.getUserID(), Integer.parseInt(studentExamIdStr));
+        } catch (Exception e) {
+            String error = e.getMessage();
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("/student/view_student_exam.jsp").forward(request, response);
+            return;
+        }
+
+        request.setAttribute("examDetail", studentExam.getExamDetail());// list type
+        request.setAttribute("questionSize", studentExam.getExamDetail().size());
+        request.setAttribute("studentExam", studentExam);
+        request.setAttribute(StudentExam.STUDENT_CHOICE, studentExam.getStudentChoice());
+
+        request.getRequestDispatcher("/student/view_student_exam.jsp").forward(request, response);
+
+        return;
+
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
+     * 
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -77,24 +103,12 @@ public class ExamLogController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getProtocol();
-        StringBuilder builder = new StringBuilder();
-        BufferedReader bufferedReader = request.getReader();
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            builder.append(line);
-        }
-        String requestBody = builder.toString();
-        response.setStatus(HttpServletResponse.SC_OK);
-        DoExamService doExamService = new DoExamService();
-        doExamService.convertJson(requestBody);
-        return;
-
+        processRequest(request, response);
     }
 
     /**
      * Returns a short description of the servlet.
-     *
+     * 
      * @return a String containing servlet description
      */
     @Override

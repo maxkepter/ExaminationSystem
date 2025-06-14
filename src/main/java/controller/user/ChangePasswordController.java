@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.user.User;
-import repository.user.LoginInfoDao;
 import service.user.ChangePasswordService;
 
 /**
@@ -29,7 +28,7 @@ public class ChangePasswordController extends HttpServlet {
     // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     * 
+     *
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -53,7 +52,7 @@ public class ChangePasswordController extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     * 
+     *
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -97,7 +96,7 @@ public class ChangePasswordController extends HttpServlet {
 
     /**
      * Returns a short description of the servlet.
-     * 
+     *
      * @return a String containing servlet description
      */
     @Override

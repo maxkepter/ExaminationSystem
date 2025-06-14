@@ -16,7 +16,6 @@ public class Validate {
             Integer.parseInt(string);
             return true;
         } catch (NumberFormatException e) {
-            e.printStackTrace();
             return false;
         }
     }

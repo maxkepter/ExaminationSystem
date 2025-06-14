@@ -19,7 +19,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.exam.student.StudentExam;
-import model.user.Student;
 import service.student.exam.SubmitExamService;
 
 /**
@@ -32,7 +31,7 @@ public class SubmitExamController extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     * 
+     *
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -59,7 +58,7 @@ public class SubmitExamController extends HttpServlet {
     // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     * 
+     *
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -72,7 +71,7 @@ public class SubmitExamController extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     * 
+     *
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -134,7 +133,7 @@ public class SubmitExamController extends HttpServlet {
 
     /**
      * Returns a short description of the servlet.
-     * 
+     *
      * @return a String containing servlet description
      */
     @Override

@@ -5,7 +5,6 @@ import java.util.Map;
 import jakarta.persistence.EntityManagerFactory;
 import model.user.Admin;
 import repository.DeleteableObjectDao;
-import repository.UpdatableDao;
 
 public class AdminDao extends DeleteableObjectDao<Admin> {
 

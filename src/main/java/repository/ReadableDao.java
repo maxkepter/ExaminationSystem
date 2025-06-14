@@ -13,6 +13,6 @@ import java.util.List;
 public interface ReadableDao<E> {
     E findById(int id);
     List<E> findAll();
-    long count(); 
-    boolean exists(int id); 
+    long count();
+    boolean exists(int id);
 }

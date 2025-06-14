@@ -11,8 +11,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>User Info - FPT University</title>
-        <link rel="stylesheet" type="text/css" href="css/style2.css">
+        <title>Exam History - FPT University</title>
+        <link rel="stylesheet" type="text/css" href="./css/style2.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     </head>
     <body>
@@ -37,8 +37,8 @@
         <div class="content">
             <!-- Sidebar Navigation -->
             <div class="sidebar">
-                <a href="UserProfile" class="active"><i class="fa fa-user"></i> User Profile</a>
-                <a href="ExamHistory"><i class="fa fa-history"></i> View Exam History</a>
+                <a href="UserProfile"><i class="fa fa-user"></i> User Profile</a>
+                <a href="ExamHistory" class="active"><i class="fa fa-history"></i> View Exam History</a>
                 <a href="ChangePassword"><i class="fa fa-lock"></i> Change Password</a>
                 <a href="Logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
             </div>
@@ -46,7 +46,7 @@
             <!-- Main Content Area -->
             <div class="main-content">
                 <div class="form-container">
-                    <h1><i class="fa fa-user-edit"></i> User Information</h1>
+                    <h1><i class="fa fa-user-edit"></i> Exam history</h1>
 
                     <!-- Success Message -->
                     <c:if test="${not empty success}">
@@ -61,44 +61,46 @@
                             <i class="fa fa-exclamation-triangle"></i> ${error}
                         </div>
                     </c:if>
+                    <div class="content"></div>
+                    <c:forEach var="studentExam" items="${studentExams}" varStatus="examNo">
+                        <div>
+                            <p><strong>${examNo.index + 1}.${studentExam.exam.examName}</strong></p>
+                            <p>Score: ${studentExam.score}</p>
 
-                    <form action="UserProfile" method="post">
-                        <div class="form-group">
-                            <label for="firstName"><i class="fa fa-user"></i> First Name:</label>
-                            <input type="text" 
-                                   id="firstName" 
-                                   name="firstName" 
-                                   value="${user.firstName}" 
-                                   placeholder="Enter your first name"
-                                   required />
+                            <p>Start:${studentExam.startTimeFormatted}</p>
+                            <p>Submit:${studentExam.submitTimeFormatted}</p>
+                            <p>${studentExam.statusInfo}</p>
+                          <a href="${pageContext.request.contextPath}/ExamHistory/viewexam?studentExamID=${studentExam.studentExamID}">View exam</a>
                         </div>
+                    </c:forEach>
+                    <!-- Pagination buttons -->
+                    <form action="ExamHistory" method="get">
+                        <c:if test="${numPage > 0}">
+                            <button type="submit" name="numPage" value="${numPage - 1}">Previous</button>
+                        </c:if>
 
-                        <div class="form-group">
-                            <label for="lastName"><i class="fa fa-user"></i> Last Name:</label>
-                            <input type="text" 
-                                   id="lastName" 
-                                   name="lastName" 
-                                   value="${user.lastName}" 
-                                   placeholder="Enter your last name"
-                                   required />
-                        </div>
+                        <button type="submit" name="numPage" value="${numPage}">${numPage + 1}</button>
 
-                        <div class="form-group">
-                            <label for="email"><i class="fa fa-envelope"></i> Email:</label>
-                            <input type="email" 
-                                   id="email" 
-                                   name="email" 
-                                   value="${user.email}" 
-                                   placeholder="Enter your email address"
-                                   required />
-                        </div>
-
-                        <div class="form-group">
-                            <button type="submit" id="submitUpdate">
-                                <i class="fa fa-save"></i> Update Information
-                            </button>
-                        </div>
+                        <c:if test="${numPage < maxNumPage}">
+                            <button type="submit" name="numPage" value="${numPage + 1}">Next</button>
+                        </c:if>
                     </form>
+
+                    <form action="ExamHistory" method="get"
+                          onsubmit="return adjustPageNumber()">
+                        <label for="numPage">Page:</label> <input type="number" id="numPage"
+                                                                  name="numPage" value="${numPage+1}" min="1"
+                                                                  max="${maxNumPage+1}" required />
+                        <button type="submit">Go</button>
+                    </form>
+
+                    <script>
+                        function adjustPageNumber() {
+                            const input = document.getElementById('numPage');
+                            input.value = parseInt(input.value) - 1;
+                            return true
+                        }
+                    </script>
                 </div>
             </div>
         </div>

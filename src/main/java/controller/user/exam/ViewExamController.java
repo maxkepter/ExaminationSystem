@@ -2,14 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.user.exam;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import factory.EntityManagerFactoryProvider;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -30,7 +28,7 @@ public class ViewExamController extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     * 
+     *
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -57,7 +55,7 @@ public class ViewExamController extends HttpServlet {
     // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     * 
+     *
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -67,11 +65,8 @@ public class ViewExamController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
-
         String action = request.getParameter("action");
         if (!Validate.validateString(action)) {
-            request.setAttribute("error", "Invalid action !");
             request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
             return;
         }
@@ -87,12 +82,12 @@ public class ViewExamController extends HttpServlet {
             request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
             return;
         }
-        return;
+        request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     * 
+     *
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -106,7 +101,7 @@ public class ViewExamController extends HttpServlet {
 
     /**
      * Returns a short description of the servlet.
-     * 
+     *
      * @return a String containing servlet description
      */
     @Override

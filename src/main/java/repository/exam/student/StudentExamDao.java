@@ -8,17 +8,15 @@ import factory.DAOFactory;
 import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Query;
 import jakarta.persistence.RollbackException;
 import jakarta.persistence.TypedQuery;
 import model.exam.student.StudentExam;
 import model.user.User;
 import repository.ObjectDao;
-import repository.SearchableDao;
 import repository.UpdatableDao;
 
 public class StudentExamDao extends ObjectDao<StudentExam>
-        implements UpdatableDao<StudentExam>, SearchableDao<StudentExam> {
+        implements UpdatableDao<StudentExam> {
 
     public StudentExamDao(EntityManagerFactory entityManagerFactory, Class<StudentExam> entityClass) {
         super(entityManagerFactory, entityClass);
@@ -43,12 +41,6 @@ public class StudentExamDao extends ObjectDao<StudentExam>
     public void updatePartial(int id, Map<String, Object> fields) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updatePartial'");
-    }
-
-    @Override
-    public List<StudentExam> findPage(int pageIndex, int pageSize) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findPage'");
     }
 
     @Override
@@ -103,11 +95,11 @@ public class StudentExamDao extends ObjectDao<StudentExam>
         return exams.isEmpty() ? null : exams.get(0);
     }
 
-    public StudentExam findWithExam(int id) {
+    public StudentExam findWithStudent(int id) {
         StudentExam studentExam = null;
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
-            EntityGraph entityGraph = entityManager.createEntityGraph(entityClass);
-            entityGraph.addAttributeNodes(StudentExam.EXAM);
+            EntityGraph<StudentExam> entityGraph = entityManager.createEntityGraph(entityClass);
+            entityGraph.addAttributeNodes(StudentExam.STUDENT);
 
             Map<String, Object> hints = new HashMap<>();
             hints.put("javax.persistence.fetchgraph", entityGraph);

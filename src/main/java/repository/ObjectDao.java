@@ -1,11 +1,13 @@
 package repository;
 
 import java.util.List;
+import java.util.Map;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
 
-public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E> {
+public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E>, SearchableDao<E> {
     protected EntityManagerFactory entityManagerFactory;
     protected final Class<E> entityClass;
 
@@ -96,4 +98,83 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E> {
 
         return exists;
     }
+
+    @Override
+    public List<E> findByField(Map<String, Object> fieldValues) throws IllegalArgumentException {
+        if (fieldValues == null || fieldValues.isEmpty()) {
+            return findAll();
+        }
+
+        StringBuilder queryBuilder = new StringBuilder("SELECT b FROM " + entityClass.getSimpleName() + " b WHERE ");
+
+        for (Map.Entry<String, Object> entry : fieldValues.entrySet()) {
+            String fieldName = entry.getKey();
+            Object value = entry.getValue();
+            if (value == null) {
+                throw new IllegalArgumentException("Value for field " + fieldName + " cannot be null");
+            }
+            queryBuilder.append("b.").append(fieldName).append(" = :").append(fieldName).append(" AND ");
+        }
+
+        // Remove the last AND
+        queryBuilder.setLength(queryBuilder.length() - 5);
+        List<E> result = null;
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            TypedQuery<E> query = entityManager.createQuery(queryBuilder.toString(), entityClass);
+
+            for (Map.Entry<String, Object> entry : fieldValues.entrySet()) {
+                String fieldName = entry.getKey();
+                Object value = entry.getValue();
+                query.setParameter(fieldName, value);
+            }
+
+            result = query.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Error when querying", e);
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<E> findPage(Map<String, Object> fieldValues, int pageIndex, int pageSize)
+            throws IllegalArgumentException {
+
+        if (fieldValues == null || fieldValues.isEmpty()) {
+            return findAll();
+        }
+
+        StringBuilder queryBuilder = new StringBuilder("SELECT b FROM " + entityClass.getSimpleName() + " b WHERE ");
+
+        for (Map.Entry<String, Object> entry : fieldValues.entrySet()) {
+            String fieldName = entry.getKey();
+            Object value = entry.getValue();
+            if (value == null) {
+                throw new IllegalArgumentException("Value for field " + fieldName + " cannot be null");
+            }
+            queryBuilder.append("b.").append(fieldName).append(" = :").append(fieldName).append(" AND ");
+        }
+
+        // Remove the last AND
+        queryBuilder.setLength(queryBuilder.length() - 5);
+        List<E> result = null;
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            TypedQuery<E> query = entityManager.createQuery(queryBuilder.toString(), entityClass);
+
+            for (Map.Entry<String, Object> entry : fieldValues.entrySet()) {
+                String fieldName = entry.getKey();
+                Object value = entry.getValue();
+                query.setParameter(fieldName, value);
+            }
+            query.setFirstResult(pageSize * pageIndex);
+            query.setMaxResults(pageSize);
+
+            result = query.getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Error when querying", e);
+        }
+
+        return result;
+    }
+
 }

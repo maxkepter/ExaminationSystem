@@ -1,7 +1,6 @@
 package service.user;
 
 import factory.EntityManagerFactoryProvider;
-import jakarta.persistence.EntityManagerFactory;
 import model.user.Student;
 import repository.user.StudentDao;
 
@@ -12,8 +11,9 @@ public class GenerateUserCodeService {
         }
         String fullName = (firstName + " " + lastName).trim();
         String[] parts = fullName.split("\\s+");
-        if (parts.length == 0)
+        if (parts.length == 0) {
             return "";
+        }
 
         StringBuilder code = new StringBuilder();
         // Lấy từ cuối (họ hoặc tên chính) làm gốc

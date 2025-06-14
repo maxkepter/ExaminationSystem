@@ -27,6 +27,7 @@
 
                         <a class="btn" href="Logout">Logout</a>
                         <a class="btn " href="UserProfile">UserProfile</a>
+                        <a class="btn" href="viewexam">View Exam</a>
                     </c:when>
                     <c:otherwise>
                         <p>Test</p>

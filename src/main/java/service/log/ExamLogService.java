@@ -3,12 +3,10 @@ package service.log;
 import java.time.LocalDateTime;
 
 import factory.DAOFactory;
-import factory.EntityManagerFactoryProvider;
 import model.exam.student.StudentChoice;
 import model.exam.student.StudentExam;
 import model.log.ExamLog;
 import repository.log.ExamLogDao;
-import service.student.exam.SubmitExamService;
 
 public class ExamLogService {
 

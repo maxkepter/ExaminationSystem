@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.exam.student.StudentExam;
 import model.user.User;
+import service.log.ExamLogService;
 
 /**
  *
@@ -64,11 +65,15 @@ public class ExamInProgressFilter implements Filter {
         }
 
         if (session == null) {
-            chain.doFilter(request, response);
+            res.sendRedirect(req.getContextPath() + "/Login");
             return;
         }
         // check login and is student
         User user = (User) session.getAttribute("user");
+        if (user == null) {
+            res.sendRedirect(req.getContextPath() + "/Login");
+            return;
+        }
 
         if (RoleFilter.isAdmin(user)) {
             chain.doFilter(request, response);
@@ -78,7 +83,12 @@ public class ExamInProgressFilter implements Filter {
         Integer currentExamId = (Integer) session.getAttribute("currentExamId");
         if (currentExamId == null) {
             try {
+                // Get doing exam if currentExam is null
                 StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.getDoingExam(user);
+
+                ExamLogService examLogService = new ExamLogService();
+                examLogService.createLog(studentExam.getStudentExamID(), "Test Filter " + studentExam.getExamStatus());
+
                 if (studentExam != null) {
                     currentExamId = studentExam.getExam().getExamID();
                     session.setAttribute("currentExamId", currentExamId);
@@ -86,18 +96,16 @@ public class ExamInProgressFilter implements Filter {
                     return;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
-                chain.doFilter(request, response);
+                res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "System error !");
                 return;
             }
         }
 
-        if (currentExamId != null) {
-            if (!path.equals("/DoExam")) {
-                res.sendRedirect(req.getContextPath() + "/DoExam?examId=" + currentExamId);
-                return;
-            }
+        if (currentExamId != null && !path.equals("/DoExam")) {
+            res.sendRedirect(req.getContextPath() + "/DoExam?examId=" + currentExamId);
+            return;
         }
+
         chain.doFilter(request, response);
 
     }

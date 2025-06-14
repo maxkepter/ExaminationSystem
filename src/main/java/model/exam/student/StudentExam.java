@@ -78,7 +78,7 @@ public class StudentExam {
     @Convert(converter = StudentChoiceConverter.class)
     private Map<Integer, Set<Integer>> studentChoice;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ExamID", nullable = false)
     private Exam exam;
 
@@ -124,6 +124,10 @@ public class StudentExam {
         return studentExamID;
     }
 
+    public String getStatusInfo() {
+        return EXAM_STATUS_INFO[examStatus];
+    }
+
     public void setStudentExamID(int studentExamID) {
         this.studentExamID = studentExamID;
     }
@@ -158,6 +162,32 @@ public class StudentExam {
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
+    }
+
+    public String getSubmitTimeFormatted() {
+        if (submitTime == null) {
+            return "";
+        }
+        return String.format("%02d/%d/%d-%d:%02d:%02d",
+                submitTime.getYear() % 100,
+                submitTime.getMonthValue(),
+                submitTime.getDayOfMonth(),
+                submitTime.getHour(),
+                submitTime.getMinute(),
+                submitTime.getSecond());
+    }
+
+    public String getStartTimeFormatted() {
+        if (startTime == null) {
+            return "";
+        }
+        return String.format("%02d/%d/%d-%d:%02d:%02d",
+                startTime.getYear() % 100,
+                startTime.getMonthValue(),
+                startTime.getDayOfMonth(),
+                startTime.getHour(),
+                startTime.getMinute(),
+                startTime.getSecond());
     }
 
     public List<QuestionWithOptions> getExamDetail() {

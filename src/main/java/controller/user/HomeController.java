@@ -6,7 +6,7 @@
 package controller.user;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -24,7 +24,7 @@ public class HomeController extends HttpServlet {
     // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     * 
+     *
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -38,7 +38,7 @@ public class HomeController extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     * 
+     *
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -52,7 +52,7 @@ public class HomeController extends HttpServlet {
 
     /**
      * Returns a short description of the servlet.
-     * 
+     *
      * @return a String containing servlet description
      */
     @Override

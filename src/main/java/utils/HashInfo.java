@@ -12,8 +12,9 @@ public class HashInfo {
             StringBuilder hexString = new StringBuilder();
             for (byte b : hashBytes) {
                 String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1)
-                    hexString.append('0');
+                if (hex.length() == 1) {
+					hexString.append('0');
+				}
                 hexString.append(hex);
             }
 

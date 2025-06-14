@@ -1,26 +1,16 @@
 package controller.admin.exam;
 
-/// *
-// * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt
-/// to change this license
-// * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to
-/// edit this template
-// */
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import model.exam.Exam;
 import model.exam.Question;
-import model.user.User;
 import repository.exam.student.GenerateExamDao;
 import service.exam.GenerateExamService;
 
@@ -104,7 +94,6 @@ public class GenerateExam extends HttpServlet {
         request.getRequestDispatcher("/student/questionList.jsp").forward(request, response);
     }
 
-    
 }
 
 /**

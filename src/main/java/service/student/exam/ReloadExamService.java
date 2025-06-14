@@ -7,13 +7,11 @@ import model.user.User;
 import service.log.ExamLogService;
 
 public class ReloadExamService {
-    public StudentExam reloadExam(User user, int examId) throws ExamOverException {
-        StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.getDoingExam(user, examId);
+    public StudentExam reloadExam(User user) throws ExamOverException {
+        StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.getDoingExam(user);
         if (studentExam == null) {
             return studentExam;
         }
-        // load exam
-        studentExam = DAOFactory.STUDENT_EXAM_DAO.findWithExam(studentExam.getStudentExamID());
 
         // Về bài thi bị sú thì khi bị đánh sú thì nó sẽ set thành submit nên sẽ không
         // cần kiểm tra ở đây.

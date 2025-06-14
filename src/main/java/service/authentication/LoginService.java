@@ -15,7 +15,6 @@ import model.user.LoginInfo;
 import model.user.User;
 import repository.log.BanLogDao;
 import repository.log.LoginLogDao;
-import repository.user.LoginInfoDao;
 import service.log.LogService;
 import service.log.LoginLogService;
 import utils.Validate;

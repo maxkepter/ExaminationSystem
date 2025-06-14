@@ -22,17 +22,11 @@ public class BanLogDao extends ObjectDao<BanLog>
     }
 
     @Override
-    public List<BanLog> findPage(int pageIndex, int pageSize) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findPage'");
-    }
-
-    @Override
     // This method is used to find BanLog entries based on a specific field and its
     // value
-    public List<BanLog> findByField(Map<String, Object> fieldValues) {
+    public List<BanLog> findByField(Map<String, Object> fieldValues) throws IllegalArgumentException {
         if (fieldValues == null || fieldValues.isEmpty()) {
-            throw new IllegalArgumentException("Field values cannot be null or empty");
+            return findAll();
         }
 
         StringBuilder queryBuilder = new StringBuilder(FIND_BY_FIELD);
@@ -67,12 +61,6 @@ public class BanLogDao extends ObjectDao<BanLog>
         entityManager.close();
         return results;
 
-    }
-
-    @Override
-    public List<BanLog> findPageSorted(int pageIndex, int pageSize, String sortBy, boolean asc) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findPageSorted'");
     }
 
     public boolean isBanned(User user) {

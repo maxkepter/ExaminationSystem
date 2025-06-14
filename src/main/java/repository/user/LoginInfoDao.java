@@ -6,7 +6,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
-import jakarta.persistence.TypedQuery;
 import model.user.LoginInfo;
 import repository.ObjectDao;
 import repository.UpdatableDao;

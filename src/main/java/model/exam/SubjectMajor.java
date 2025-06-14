@@ -44,10 +44,12 @@ class SubjectMajorId implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (!(o instanceof SubjectMajorId))
-            return false;
+        if (this == o) {
+			return true;
+		}
+        if (!(o instanceof SubjectMajorId)) {
+			return false;
+		}
         SubjectMajorId that = (SubjectMajorId) o;
         return majorId == that.majorId && subID == that.subID;
     }

@@ -9,7 +9,6 @@ import java.util.Set;
 
 import model.exam.student.Option;
 import model.exam.student.QuestionWithOptions;
-import model.exam.student.StudentExam;
 
 public class TestDataGenerator {
     public static void main(String[] args) {

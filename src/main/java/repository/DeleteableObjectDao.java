@@ -1,6 +1,7 @@
 package repository;
 
 import java.util.List;
+import java.util.Map;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -54,6 +55,18 @@ public abstract class DeleteableObjectDao<E> extends ObjectDao<E> implements Del
     public void deleteAll() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'deleteAll'");
+    }
+
+    @Override
+    public void update(E object) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void updatePartial(int id, Map<String, Object> fields) {
+        // TODO Auto-generated method stub
+
     }
 
 }

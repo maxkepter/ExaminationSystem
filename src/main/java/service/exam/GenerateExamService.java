@@ -5,6 +5,7 @@
 package service.exam;
 
 import java.util.List;
+
 import model.exam.Question;
 import repository.exam.student.GenerateExamDao;
 
@@ -13,7 +14,7 @@ import repository.exam.student.GenerateExamDao;
  * @author FPT SHOP
  */
 public class GenerateExamService {
-   private GenerateExamDao generateExamDao;
+    private GenerateExamDao generateExamDao;
 
     public GenerateExamService(GenerateExamDao generateExamDao) {
         this.generateExamDao = generateExamDao;

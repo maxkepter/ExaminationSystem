@@ -12,7 +12,7 @@ import java.util.Map;
  * @author Admin
  */
 public interface SearchableDao<E> {
-    List<E> findPage(int pageIndex, int pageSize);
+    List<E> findPage(Map<String, Object> fieldValues, int pageIndex, int pageSize);
 
     List<E> findByField(Map<String, Object> fieldValues);
 }

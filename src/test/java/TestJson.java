@@ -1,7 +1,3 @@
-import jakarta.json.bind.Jsonb;
-import jakarta.json.bind.JsonbBuilder;
-import model.exam.student.ExamChoice;
-import model.exam.student.StudentChoice;
 import service.student.exam.DoExamService;
 
 public class TestJson {
