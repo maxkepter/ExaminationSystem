@@ -7,16 +7,46 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>test</title>
-    </head>
-    <body>
-        <form action="GenerateExam" method="post">
-    Chapter No: <input type="text" name="chapterNo" />
-    Difficulty: <input type="text" name="difficulty" />
-    <button type="submit">Tìm câu hỏi</button>
-</form>
+<head>
+    <meta charset="UTF-8">
+    <title>Generate Exam</title>
+</head>
+<body>
+    <h2>Nhập cấu hình đề thi</h2>
+    <form action="GenerateExam" method="post">
+        <div>
+            <label>Chapter No:</label>
+            <select name="chapterNo">
+                <option value="1">Chapter 1</option>
+                <option value="2">Chapter 2</option>
+                <option value="3">Chapter 3</option>
+                <!-- Thêm chương khác nếu cần -->
+            </select>
+        </div>
 
-    </body>
+        <div>
+            <label>Difficulty:</label>
+            <select name="difficulty">
+                <option value="1">Dễ</option>
+                <option value="2">Trung bình</option>
+                <option value="3">Khó</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Amount:</label>
+            <select name="amount">
+                <option value="1">1 câu</option>
+                <option value="2">2 câu</option>
+                <option value="5">5 câu</option>
+                <option value="10">10 câu</option>
+                <option value="15">15 câu</option>
+                <option value="20">20 câu</option>
+            </select>
+        </div>
+
+        <br>
+        <button type="submit">Tạo đề</button>
+    </form>
+</body>
 </html>
