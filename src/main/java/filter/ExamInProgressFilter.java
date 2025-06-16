@@ -63,6 +63,10 @@ public class ExamInProgressFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
+        
+        if(path.startsWith("/Login") || path.startsWith("/Register")){
+            return;
+        }
 
         if (session == null) {
             res.sendRedirect(req.getContextPath() + "/Login");

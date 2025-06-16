@@ -19,7 +19,7 @@ public class TestDao {
 
         User user = DAOFactory.USER_DAO.findById(5);
         ReloadExamService reloadExamService = new ReloadExamService();
-        StudentExam studentExam = reloadExamService.reloadExam(user, 3);
+        StudentExam studentExam = reloadExamService.reloadExam(user);
         System.out.println(studentExam.getStudentExamID());
     }
 

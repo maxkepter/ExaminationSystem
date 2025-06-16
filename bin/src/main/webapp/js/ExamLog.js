@@ -44,6 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     request.send(JSON.stringify(payload));
   }
-  //send after 10s
-  setInterval(sendBatch, 1000 * 10);
+
+  setInterval(sendBatch, 5000);
 });
