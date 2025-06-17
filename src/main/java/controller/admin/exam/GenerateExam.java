@@ -2,6 +2,7 @@ package controller.admin.exam;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.EntityManagerFactory;
@@ -11,6 +12,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.exam.Question;
+import model.exam.QuestionTemplate;
+import model.user.User;
 import repository.exam.student.GenerateExamDao;
 import service.exam.GenerateExamService;
 
@@ -85,11 +88,20 @@ public class GenerateExam extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String chapterNoStr = request.getParameter("chapterNo");
-        String difficultyStr = request.getParameter("difficulty");
+        String[] chapterNos = request.getParameterValues("chapterNo");
+        String[] difficulties = request.getParameterValues("difficulty");
+        String[] amounts = request.getParameterValues("amount");
 
-        List<Question> questions = generateExamService.getQuestionsByChapterAndDifficulty(chapterNoStr, difficultyStr);
+        List<QuestionTemplate> templates = new ArrayList<>();
+        for (int i = 0; i < chapterNos.length; i++) {
+            try {
+                int amount = Integer.parseInt(amounts[i]);
+                templates.add(new QuestionTemplate(chapterNos[i], difficulties[i], amount));
+            } catch (Exception e) {
+            }
+        }
 
+        List<Question> questions = generateExamService.generateExam(templates);
         request.setAttribute("questions", questions);
         request.getRequestDispatcher("/student/questionList.jsp").forward(request, response);
     }

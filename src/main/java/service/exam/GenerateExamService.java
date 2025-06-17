@@ -4,9 +4,12 @@
  */
 package service.exam;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import model.exam.Question;
+import model.exam.QuestionTemplate;
 import repository.exam.student.GenerateExamDao;
 
 /**
@@ -14,26 +17,28 @@ import repository.exam.student.GenerateExamDao;
  * @author FPT SHOP
  */
 public class GenerateExamService {
+
     private GenerateExamDao generateExamDao;
 
     public GenerateExamService(GenerateExamDao generateExamDao) {
         this.generateExamDao = generateExamDao;
     }
 
-    public List<Question> getQuestionsByChapterAndDifficulty(String chapterNoStr, String difficultyStr) {
-        Integer chapterNo = null;
-        Integer difficulty = null;
+    public List<Question> generateExam(List<QuestionTemplate> templates) {
+        List<Question> result = new ArrayList<>();
+        for (QuestionTemplate template : templates) {
+            String chapterNo = template.getChapterNo();
+            String difficulty = template.getDifficulty();
+            int amount = template.getAmount();
 
-        try {
-            if (chapterNoStr != null && !chapterNoStr.isEmpty()) {
-                chapterNo = Integer.parseInt(chapterNoStr);
+            List<Question> questions = generateExamDao.getQuestions(chapterNo, difficulty);
+            if (questions.size() >= amount) {
+                Collections.shuffle(questions);
+                result.addAll(questions.subList(0, amount));
+            } else {
+                result.addAll(questions);
             }
-            if (difficultyStr != null && !difficultyStr.isEmpty()) {
-                difficulty = Integer.parseInt(difficultyStr);
-            }
-        } catch (Exception e) {
         }
-
-        return generateExamDao.getQuestions(chapterNoStr, difficultyStr);
+        return result;
     }
 }
