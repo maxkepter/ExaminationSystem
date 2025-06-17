@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.exam;
+package controller.admin.exam;
 
+import factory.EntityManagerFactoryProvider;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,8 +12,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.exam.Exam;
 import model.user.User;
-import repository.exam.ExamDAO;
+import repository.exam.ExamDao;
 
 /**
  *
@@ -74,7 +76,7 @@ public class HandleUpdateAndDeleteExam extends HttpServlet {
             throws ServletException, IOException {
         boolean update = request.getParameter("update") != null;
         boolean delete = request.getParameter("delete") != null;
-        ExamDAO examDAO = new ExamDAO();
+        ExamDao examDAO = new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(),Exam.class);
         if (update) {
             HttpSession session = request.getSession(false);
             if (session != null) {
@@ -82,13 +84,14 @@ public class HandleUpdateAndDeleteExam extends HttpServlet {
                 String examName = request.getParameter("examName");
                 Integer duration = Integer.valueOf(request.getParameter("duration"));
                 User user = (User) session.getAttribute("user");
-                examDAO.updateExam(id, examName, duration, user);
+                Exam newExam = new Exam(id, duration, examName, user);
+                examDAO.update(newExam, id);
             }
              response.sendRedirect(request.getContextPath() + "/HandleViewAllExam");
         }
         if (delete) {
             int id = Integer.parseInt(request.getParameter("id"));
-            examDAO.deleteExamById(id);
+            examDAO.deleteById(id);
             response.sendRedirect(request.getContextPath() + "/HandleViewAllExam");
         }
 

@@ -10,31 +10,33 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Tìm kiếm đề thi</title>
-</head>
-<body>
-    <h2>Tìm kiếm đề thi</h2>
+    <head>
+        <title>Tìm kiếm đề thi</title>
+    </head>
+    <body>
+        <h2>Tìm kiếm đề thi</h2>
 
-    <form method="post" action="${pageContext.request.contextPath}/ExamServlet">
-        <input type="hidden" name="action" value="search"/>
-        Mã đề thi: <input type="text" name="examCode" required>
-        <input type="submit" value="Tìm kiếm">
-    </form>
-        
-    <!-- Kiểm tra xem examResult có tồn tại không -->
-    <c:if test="${not empty exam}">
-        <h3>Thông tin đề thi:</h3>
-        <ul>
-            <li><strong>Mã đề:</strong> ${exam.examCode}</li>
-            <li><strong>Tên đề thi:</strong> ${exam.examName}</li>
-            <li><strong>Thời gian làm bài:</strong> ${exam.duration} phút</li>
-            <li><strong>Người tạo:</strong> ${exam.user.lastName}</li>
-        </ul>
-    </c:if>
+        <form method="post" action="${pageContext.request.contextPath}/ExamServlet">
+            <input type="hidden" name="action" value="search"/>
+            Mã đề thi: <input type="text" name="examCode" required>
+            <input type="submit" value="Tìm kiếm">
+        </form>
 
-   
+        <!-- Kiểm tra xem examResult có tồn tại không -->
+        <c:if test="${not empty exams}">
+            <h3>Thông tin đề thi:</h3>
+            <c:forEach var="exam" items="${exams}">
+                <ul>
+                    <li><strong>Mã đề:</strong> ${exam.examCode}</li>
+                    <li><strong>Tên đề thi:</strong> ${exam.examName}</li>
+                    <li><strong>Thời gian làm bài:</strong> ${exam.duration} phút</li>
+                    <li><strong>Người tạo:</strong> ${exam.user.lastName}</li>
+                </ul>
+            </c:forEach>
+        </c:if>
 
 
-</body>
+
+
+    </body>
 </html>

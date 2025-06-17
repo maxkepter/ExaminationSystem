@@ -24,7 +24,8 @@ public class Subject {
     public Subject() {
     }
 
-    public Subject(String subjectName, boolean isDisable) {
+    public Subject(int subID, String subjectName, boolean isDisable) {
+        this.subID = subID;
         this.subjectName = subjectName;
         this.isDisable = isDisable;
     }

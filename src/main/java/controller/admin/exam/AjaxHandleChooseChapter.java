@@ -6,23 +6,29 @@
 package controller.admin.exam;
 
 import factory.EntityManagerFactoryProvider;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import model.exam.Exam;
-import repository.exam.ExamDao;
+import model.exam.Chapter;
+import model.exam.Subject;
+import model.exam.SubjectMajor;
+import repository.exam.ChapterDao;
+import repository.exam.SubjectDao;
+import repository.exam.SubjectMajorDao;
 
 /**
  *
  * @author MasterLong
  */
-public class HandleViewAllExam extends HttpServlet {
+public class AjaxHandleChooseChapter extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -39,10 +45,10 @@ public class HandleViewAllExam extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HandleViewAllExam</title>");  
+            out.println("<title>Servlet AjaxHandleChooseChapter</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HandleViewAllExam at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet AjaxHandleChooseChapter at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,10 +65,28 @@ public class HandleViewAllExam extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        ExamDao examDAO = new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(),Exam.class);
-        List<Exam> exams = examDAO.findAll();
-        request.setAttribute("exams", exams);
-        request.getRequestDispatcher("/functionpage/viewallexam.jsp").forward(request, response);
+        SubjectDao subjectDAO = new SubjectDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Subject.class);
+        SubjectMajorDao subjectmajorDAO = new SubjectMajorDao(EntityManagerFactoryProvider.getEntityManagerFactory(), SubjectMajor.class);
+        ChapterDao chapterDAO = new ChapterDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Chapter.class);
+        //request.setAttribute("listMajor", allMajor);
+        response.setContentType("application/json; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        String action = request.getParameter("action");
+        if ("getSubjects".equals(action)){
+            List<Subject> allSubject = new ArrayList();
+            int majorId = Integer.parseInt(request.getParameter("majorId"));
+            List<SubjectMajor> allSubjectMajor = subjectmajorDAO.findByProperty("major.id", majorId);
+            for (SubjectMajor c : allSubjectMajor){
+                Subject newSubject = subjectDAO.findById(c.getSubject().getSubID());
+                allSubject.add(newSubject);
+            }
+            Jsonb jsonb = JsonbBuilder.create();
+            String json = jsonb.toJson(allSubject);
+            out.print(json);
+            out.flush();
+        } if("getChapter".equals(action)){
+            
+        }
     } 
 
     /** 

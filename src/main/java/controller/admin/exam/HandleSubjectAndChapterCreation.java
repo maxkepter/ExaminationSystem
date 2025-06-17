@@ -12,17 +12,20 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import model.exam.Exam;
-import repository.exam.ExamDao;
+import model.exam.Chapter;
+import model.exam.Major;
+import model.exam.Subject;
+import model.exam.SubjectMajor;
+import repository.exam.ChapterDao;
+import repository.exam.MajorDao;
+import repository.exam.SubjectDao;
+import repository.exam.SubjectMajorDao;
 
 /**
  *
  * @author MasterLong
  */
-public class HandleViewAllExam extends HttpServlet {
+public class HandleSubjectAndChapterCreation extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -39,10 +42,10 @@ public class HandleViewAllExam extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HandleViewAllExam</title>");  
+            out.println("<title>Servlet HandleSubjectAndChapterCreation</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HandleViewAllExam at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet HandleSubjectAndChapterCreation at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,10 +62,28 @@ public class HandleViewAllExam extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        ExamDao examDAO = new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(),Exam.class);
-        List<Exam> exams = examDAO.findAll();
-        request.setAttribute("exams", exams);
-        request.getRequestDispatcher("/functionpage/viewallexam.jsp").forward(request, response);
+        MajorDao majorDAO = new MajorDao(EntityManagerFactoryProvider.getEntityManagerFactory(),Major.class);
+        SubjectDao subjectDAO = new SubjectDao(EntityManagerFactoryProvider.getEntityManagerFactory(),Subject.class);
+        SubjectMajorDao subjectMajorDAO = new SubjectMajorDao(EntityManagerFactoryProvider.getEntityManagerFactory(), SubjectMajor.class);
+        ChapterDao chapterDAO = new ChapterDao(EntityManagerFactoryProvider.getEntityManagerFactory(),Chapter.class);
+        
+        String subjectName = request.getParameter("subjectName");
+        Subject newSubject = new Subject(subjectDAO.findAll().size()+1,subjectName, false);
+        subjectDAO.create(newSubject);
+        
+        int majorId = Integer.parseInt(request.getParameter("majorId"));
+        Major newMajor = majorDAO.findById(majorId);
+        SubjectMajor.SubjectMajorId newSubjectMajorId = new SubjectMajor.SubjectMajorId(majorId, newSubject.getSubID());
+        SubjectMajor newSubjectMajor = new SubjectMajor(newSubjectMajorId,newMajor , newSubject);
+        subjectMajorDAO.create(newSubjectMajor);
+        
+        int numberChapter = Integer.parseInt(request.getParameter("numberOfChapter"));
+        for (int i =1; i<=numberChapter; i++){
+            Chapter newChapter = new Chapter(chapterDAO.findAll().size()+1 ,i, false, newSubject);
+            chapterDAO.create(newChapter);
+        }
+        
+        response.sendRedirect(request.getContextPath() + "/toSubjectAndChapterCreation");
     } 
 
     /** 

@@ -1,6 +1,4 @@
 
-import factory.EntityManagerFactoryProvider;
-import factory.LogStatusFactory;
 import model.log.LogStatus;
 import model.user.User;
 import repository.log.LogStatusDao;

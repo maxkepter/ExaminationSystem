@@ -4,6 +4,7 @@
  */
 package service.exam;
 
+import java.util.List;
 import model.exam.Exam;
 import repository.exam.ExamDao;
 
@@ -18,10 +19,10 @@ public class ExamService {
         this.examDao = examDao;
     }
 
-    public Exam searchExamByCode(String examCode) {
+    public List<Exam> searchExamByCode(String examCode) {
         if (examCode == null || examCode.isEmpty()) {
             return null;
         }
-        return examDao.findExamByCode(examCode);
+        return examDao.findByProperty("examCode",examCode);
     }
 }

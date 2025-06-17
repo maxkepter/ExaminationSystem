@@ -17,6 +17,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import model.user.User;
+import service.exam.ExamCodeGenerator;
 
 @Entity
 @Table(name = "Exam")
@@ -26,6 +27,10 @@ public class Exam {
     public static final String EXAM_CODE = "examCode";
     public static final String EXAM_NAME = "examName";
 
+    
+
+    
+    
     @Id
     private int examID;
 
@@ -36,7 +41,7 @@ public class Exam {
     private LocalDateTime examDate;
 
     @Column(nullable = false)
-    private LocalDate deadline;
+    private LocalDateTime deadline;
 
     @Column(nullable = false, unique = true, length = 50)
     private String examCode;
@@ -47,7 +52,20 @@ public class Exam {
     @ManyToOne
     @JoinColumn(name = "userID", nullable = false)
     private User user;
+    
+    public Exam() {
+    }
 
+    public Exam(int examID, int duration, String examName, User user) {
+        this.examID = examID;
+        this.duration = duration;
+        this.examName = examName;
+        this.user = user;
+        this.examDate = LocalDateTime.now();
+        this.deadline = this.examDate.plusDays(7);
+        this.examCode = ExamCodeGenerator.getExamCode();
+    }
+    
     // Getters and Setters
 
     public int getExamID() {
@@ -74,11 +92,11 @@ public class Exam {
         this.examDate = examDate;
     }
 
-    public LocalDate getDeadline() {
+    public LocalDateTime getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDate deadline) {
+    public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
 
@@ -105,5 +123,6 @@ public class Exam {
     public void setUser(User user) {
         this.user = user;
     }
+    
 
 }

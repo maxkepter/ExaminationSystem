@@ -24,6 +24,9 @@
     <form action="${pageContext.request.contextPath}/HandleExamCreation1" method="get">
         Tên đề thi <input type="text" name="examName">
         Thời gian (phút) <input type="number" name="duration" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        Số câu hỏi dễ: <input type="number" name="numberEasy" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        Số câu hỏi vừa: <input type="number" name="numberNormal" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        Số câu hỏi khó:  <input type="number" name="numberHard" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
         <input type="submit" name="submit" value="Bắt đầu tạo bài kiểm tra">
     </form>
         <a class="btn " href="${pageContext.request.contextPath}/adminhome">Go Back</a>

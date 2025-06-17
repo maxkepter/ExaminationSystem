@@ -35,7 +35,7 @@ public class Question {
     @JoinColumn(name = "chapterID", nullable = false)
     private Chapter chapter;
 
-    @OneToMany(mappedBy = "questionId")
+    @OneToMany(mappedBy = "question")
     private List<QuestionOption> options;
 
     public Question() {

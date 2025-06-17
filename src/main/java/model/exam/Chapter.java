@@ -30,7 +30,8 @@ public class Chapter {
     public Chapter() {
     }
 
-    public Chapter(int chapterNo, boolean isDisable, Subject subject) {
+    public Chapter(int chapterID,  int chapterNo, boolean isDisable, Subject subject) {
+        this.chapterID = chapterID;
         this.chapterNo = chapterNo;
         this.isDisable = isDisable;
         this.subject = subject;

@@ -26,7 +26,8 @@ public class Major {
     public Major() {
     }
 
-    public Major(String majorName, boolean isDisable) {
+    public Major(int majorId, String majorName, boolean isDisable) {
+        this.majorId = majorId;
         this.majorName = majorName;
         this.isDisable = isDisable;
     }

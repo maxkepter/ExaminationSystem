@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="6.0"
-         xmlns="https://jakarta.ee/xml/ns/jakartaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
-
+<web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <servlet>
         <servlet-name>ExamServlet</servlet-name>
         <servlet-class>controller.user.exam.ExamController</servlet-class>
     </servlet>
-
     <servlet>
         <servlet-name>GenerateExam</servlet-name>
         <servlet-class>controller.admin.exam.GenerateExam</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>HandleExamCreation1</servlet-name>
-        <servlet-class>controller.exam.HandleExamCreation1</servlet-class>
+        <servlet-class>controller.admin.exam.HandleExamCreation1</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>HandleViewAllExam</servlet-name>
-        <servlet-class>controller.exam.HandleViewAllExam</servlet-class>
+        <servlet-class>controller.admin.exam.HandleViewAllExam</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>HandleUpdateAndDeleteExam</servlet-name>
-        <servlet-class>controller.exam.HandleUpdateAndDeleteExam</servlet-class>
+        <servlet-class>controller.admin.exam.HandleUpdateAndDeleteExam</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>toViewAllExam</servlet-name>
@@ -37,11 +32,38 @@
         <servlet-name>toAdminHome</servlet-name>
         <servlet-class>router.toAdminHome</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HandleAddMoreAnswer</servlet-name>
+        <servlet-class>controller.admin.exam.HandleAddMoreAnswer</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HandleQuestionCreation</servlet-name>
+        <servlet-class>controller.admin.exam.HandleQuestionCreation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HandleMajorCreation</servlet-name>
+        <servlet-class>controller.admin.exam.HandleMajorCreation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HandleSubjectAndChapterCreation</servlet-name>
+        <servlet-class>controller.admin.exam.HandleSubjectAndChapterCreation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>toSubjectAndChapterCreation</servlet-name>
+        <servlet-class>router.toSubjectAndChapterCreation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>toQuestionCreation</servlet-name>
+        <servlet-class>router.toQuestionCreation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AjaxHandleChooseChapter</servlet-name>
+        <servlet-class>controller.admin.exam.AjaxHandleChooseChapter</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ExamServlet</servlet-name>
         <url-pattern>/ExamServlet</url-pattern>
     </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>GenerateExam</servlet-name>
         <url-pattern>/student/GenerateExam</url-pattern>
@@ -70,10 +92,37 @@
         <servlet-name>toAdminHome</servlet-name>
         <url-pattern>/adminhome</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HandleAddMoreAnswer</servlet-name>
+        <url-pattern>/HandleAddMoreAnswer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HandleQuestionCreation</servlet-name>
+        <url-pattern>/HandleQuestionCreation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HandleMajorCreation</servlet-name>
+        <url-pattern>/HandleMajorCreation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HandleSubjectAndChapterCreation</servlet-name>
+        <url-pattern>/HandleSubjectAndChapterCreation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>toSubjectAndChapterCreation</servlet-name>
+        <url-pattern>/toSubjectAndChapterCreation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>toQuestionCreation</servlet-name>
+        <url-pattern>/toQuestionCreation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxHandleChooseChapter</servlet-name>
+        <url-pattern>/AjaxHandleChooseChapter</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
-
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
