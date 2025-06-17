@@ -11,4 +11,9 @@ public class LogStatusDao extends DeactivatableObjectDao<LogStatus> {
         // TODO Auto-generated constructor stub
     }
 
+    public LogStatusDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory, LogStatus.class);
+        // TODO Auto-generated constructor stub
+    }
+
 }

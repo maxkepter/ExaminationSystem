@@ -17,10 +17,7 @@
 
         <div class="header" >
             <p id="countdown" data-endtime="${endTimeMillis}">Test</p>
-            <img
-                src="https://s14.gifyu.com/images/bxI4U.gif"
-                alt="Di chuột để vào toàn màn hình"
-                />
+   
         </div>
         <div class="side-bar">
             <h2>Question </h2>

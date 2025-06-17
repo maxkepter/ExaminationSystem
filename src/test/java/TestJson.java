@@ -29,6 +29,6 @@ public class TestJson {
                 "}";
 
         DoExamService doExamService = new DoExamService();
-        doExamService.convertJson(jsonBody);
+        doExamService.convertJsonToExamChoice(jsonBody);
     }
 }

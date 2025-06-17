@@ -5,6 +5,7 @@ import repository.exam.ExamDao;
 import repository.exam.QuestionDao;
 import repository.exam.student.StudentExamDao;
 import repository.log.ExamLogDao;
+import repository.log.LogStatusDao;
 import repository.user.LoginInfoDao;
 import repository.user.StudentDao;
 import repository.user.UserDao;
@@ -19,5 +20,6 @@ public class DAOFactory {
     public static final QuestionDao QUESTION_DAO = new QuestionDao(emf);
     public static final LoginInfoDao LOGIN_INFO_DAO = new LoginInfoDao(emf);
     public static final ExamLogDao EXAM_LOG_DAO = new ExamLogDao(emf);
+    public static final LogStatusDao LOG_STATUS_DAO = new LogStatusDao(emf);
 
 }

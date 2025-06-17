@@ -168,7 +168,7 @@ public class StudentExam {
         if (submitTime == null) {
             return "";
         }
-        return String.format("%02d/%d/%d-%d:%02d:%02d",
+        return String.format("%02d/%d/%d - %d:%02d:%02d",
                 submitTime.getYear() % 100,
                 submitTime.getMonthValue(),
                 submitTime.getDayOfMonth(),
@@ -181,7 +181,7 @@ public class StudentExam {
         if (startTime == null) {
             return "";
         }
-        return String.format("%02d/%d/%d-%d:%02d:%02d",
+        return String.format("%02d/%d/%d - %d:%02d:%02d",
                 startTime.getYear() % 100,
                 startTime.getMonthValue(),
                 startTime.getDayOfMonth(),

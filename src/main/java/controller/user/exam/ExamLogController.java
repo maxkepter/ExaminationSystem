@@ -87,7 +87,7 @@ public class ExamLogController extends HttpServlet {
         String requestBody = builder.toString();
         response.setStatus(HttpServletResponse.SC_OK);
         DoExamService doExamService = new DoExamService();
-        doExamService.convertJson(requestBody);
+        doExamService.convertJsonToExamChoice(requestBody);
         return;
 
     }

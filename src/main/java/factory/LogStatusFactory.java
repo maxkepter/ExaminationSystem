@@ -3,6 +3,9 @@ package factory;
 import model.log.LogStatus;
 
 public class LogStatusFactory {
+
+    private static final LogStatusFactory INSTANCE = new LogStatusFactory();
+
     public static final LogStatus REGISTRATION_SUCCESS = new LogStatus(1, "registration success");
     public static final LogStatus LOGIN_SUCCESS = new LogStatus(2, "login success");
     public static final LogStatus ACCOUNT_ACTIVE = new LogStatus(3, "account active");
@@ -12,12 +15,25 @@ public class LogStatusFactory {
     public static final LogStatus LOGIN_FAILURE = new LogStatus(7, "login failure");
     public static final LogStatus LOGOUT = new LogStatus(8, "logout");
 
-    public static LogStatus getLogStatus(String status) {
+    // Private constructor to prevent instantiation
+    private LogStatusFactory() {
+    }
+
+    // Public method to access the singleton instance
+    public static LogStatusFactory getInstance() {
+        return INSTANCE;
+    }
+
+    public LogStatus getLogStatus(String status) {
         switch (status) {
             case "registration success":
                 return REGISTRATION_SUCCESS;
             case "login success":
                 return LOGIN_SUCCESS;
+            case "account active":
+                return ACCOUNT_ACTIVE;
+            case "brute force detected":
+                return BRUTE_FORCE_DETECTED;
             case "account banned":
                 return ACCOUNT_BANNED;
             case "wrong password":

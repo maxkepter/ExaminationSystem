@@ -30,7 +30,7 @@ public class ExamHistoryService {
         // Paging list
         int start = pageIndex * pageSize;
         int end = (pageIndex + 1) * pageSize < studentExams.size() - 1 ? (pageIndex + 1) * pageSize
-                : studentExams.size() - 1;
+                : studentExams.size();
 
         studentExams = studentExams.subList(start, end);
 

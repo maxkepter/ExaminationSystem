@@ -17,7 +17,7 @@ import utils.Validate;
 public class DoExamService {
     private ExamLogService examLogService = new ExamLogService();
 
-    public void convertJson(String jsonBody) throws IllegalArgumentException {
+    public void convertJsonToExamChoice(String jsonBody) throws IllegalArgumentException {
         if (!Validate.validateString(jsonBody)) {
             throw new IllegalArgumentException("Invalid input !");
         }
