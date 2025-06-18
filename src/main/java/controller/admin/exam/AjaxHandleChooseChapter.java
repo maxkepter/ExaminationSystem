@@ -84,8 +84,13 @@ public class AjaxHandleChooseChapter extends HttpServlet {
             String json = jsonb.toJson(allSubject);
             out.print(json);
             out.flush();
-        } if("getChapter".equals(action)){
-            
+        } if("getChapters".equals(action)){
+            int subjectId = Integer.parseInt(request.getParameter("subjectId"));
+            List<Chapter> allChapter = chapterDAO.findByProperty("subject.id",subjectId);
+            Jsonb jsonb = JsonbBuilder.create();
+            String json = jsonb.toJson(allChapter);
+            out.print(json);
+            out.flush();
         }
     } 
 

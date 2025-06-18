@@ -14,19 +14,33 @@
     </head>
     <body>
         <h1>This is question creation</h1>
+
+
         <form action="${pageContext.request.getContextPath()}/HandleQuestionCreation" method="post">
+
+            <!--            Chon Major , Chapter va Subject-->
             <c:if test="${not empty listMajor}">
-                Major:<select id="majorSelect" name="majorId">
+                Major: <select id="majorSelect" name="majorId">
                     <option value="">-- Choose a major --</option>
                     <c:forEach var="major" items="${listMajor}">
                         <option value="${major.majorId}">${major.majorName}</option>
                     </c:forEach>
                 </select>
-                Subject:<select id="subjectSelect" name="subjectId">
-                    <option value="">--Choose a subject--</option>
+                Subject: <select id="subjectSelect" name="subjectId">
+                    <option value="">-- Choose a subject --</option>
                 </select>
+                Chapter: <select id="chapterSelect" name="chapterId">
+                    <option value="">-- Choose a chapter --</<option>
+                </select>
+                <!--                Chon question va answer -->
             </c:if>
+            </br>
             Question: <input type="text" name="question" value="${question}"><br/>
+            Difficulty: <select name="difficulty">
+                <option value="1">Easy</option>
+                <option value="2">Normal</option>
+                <option value="3">Hard</option>
+            </select>
             <div id="answersContainer">
                 <div>
                     Answer 1: <input type="text" name="answer1">
@@ -42,8 +56,10 @@
             <button type="button" id="deleteAnswerBtn">Delete an answer</button>
             <input type="submit" id="submitQuestionBtn" name="action" value="Submit Question">
         </form>
+
+        <!--            Xu li logic hien thi-->
         <script>
-            //Dynamic generation subject and chapter after choose major
+            //Dynamic generation subject after choose major
             document.getElementById("majorSelect").addEventListener("change", function () {
                 const baseUrl = '<%= request.getContextPath() %>';
                 const majorId = this.value;
@@ -66,6 +82,32 @@
                         });
 
             });
+
+            //Dynamic generation chapter adter choose subject
+            document.getElementById("subjectSelect").addEventListener("change", function () {
+                const baseUrl = '<%= request.getContextPath() %>';
+                const majorId = this.value;
+                fetch(baseUrl + "/AjaxHandleChooseChapter?action=getChapters&subjectId=" + encodeURIComponent(majorId))
+                        .then(response => response.json())
+                        .then(chapters => {
+                            const chapterSelect = document.getElementById("chapterSelect");
+                            chapterSelect.innerHTML = "";
+                            const defaultOption = document.createElement("option");
+                            defaultOption.value = "";
+                            defaultOption.textContent = "-- Choose a chapter --";
+                            chapterSelect.appendChild(defaultOption);
+                            chapters.forEach(chapter => {
+                                const option = document.createElement("option");
+                                option.value = chapter.chapterID;
+                                option.textContent = chapter.chapterNo;
+                                chapterSelect.appendChild(option);
+
+                            });
+                        });
+
+            });
+
+
 
             //
             document.addEventListener("DOMContentLoaded", function () {

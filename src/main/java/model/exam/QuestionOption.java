@@ -26,13 +26,14 @@ public class QuestionOption {
     private String optionContent;
 
     @ManyToOne
-    @JoinColumn(name = "question", nullable = false)
+    @JoinColumn(name = "questionId", nullable = false)
     private Question question;
 
     public QuestionOption() {
     }
 
-    public QuestionOption(boolean isCorrect, String optionContent, Question question) {
+    public QuestionOption(int optionId, boolean isCorrect, String optionContent, Question question) {
+        this.optionId = optionId;
         this.isCorrect = isCorrect;
         this.optionContent = optionContent;
         this.question = question;

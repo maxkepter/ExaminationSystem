@@ -13,10 +13,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import model.exam.Chapter;
 import model.exam.Question;
 import model.exam.QuestionOption;
+import repository.exam.ChapterDao;
 import repository.exam.QuestionDao;
 import repository.exam.QuestionOptionDao;
 
@@ -78,34 +82,38 @@ public class HandleQuestionCreation extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        int numQuest;
+        ChapterDao chapterDAO = new ChapterDao(EntityManagerFactoryProvider.getEntityManagerFactory(),Chapter.class);
+        QuestionDao questionDAO = new QuestionDao(EntityManagerFactoryProvider.getEntityManagerFactory(),Question.class);
+        QuestionOptionDao questionOptionDAO = new QuestionOptionDao(EntityManagerFactoryProvider.getEntityManagerFactory(), QuestionOption.class);
         
-        // Get current number of questions
-        Object numQuest_raw = session.getAttribute("numQuest");
-        String question = request.getParameter("question");
-        if (numQuest_raw == null) {
-            numQuest = 2;
-        } else {
-            numQuest = Integer.parseInt(numQuest_raw.toString());
+        //Creat new question
+        String questionContent = request.getParameter("question");
+        int chapterId = Integer.parseInt(request.getParameter("chapterId"));
+        Chapter newChapter = chapterDAO.findById(chapterId);
+        int difficulty = Integer.parseInt(request.getParameter("difficulty"));
+        Question newQuestion = new Question((int)questionDAO.count()+1,questionContent, false, difficulty, newChapter);
+        questionDAO.create(newQuestion);
+        
+        //Create question option
+        String[] correctAnswer = request.getParameterValues("isTrue");
+        List<QuestionOption> allOption = new ArrayList();
+        int i = 1;
+        while(true){
+            String optionContent = request.getParameter("answer"+i);
+            if (optionContent == null ) break;
+            QuestionOption newQuestionOption = new QuestionOption((int)questionOptionDAO.count()+i,false, optionContent, newQuestion);
+            allOption.add(newQuestionOption);
+            i++;
         }
-        // Check if "Add more answer" button was clicked
-        String action = request.getParameter("action");
-        if ("Add more answer".equals(action)) {
-            numQuest++;
-        } else if ("Delete answer".equals(action)){
-            numQuest--;
-        } else if ("Submit Question".equals(action)){
-            QuestionDao questionDAO  = new QuestionDao(EntityManagerFactoryProvider.getEntityManagerFactory(),Question.class);
-        }   QuestionOptionDao questionOptionDAO  = new QuestionOptionDao(EntityManagerFactoryProvider.getEntityManagerFactory(),QuestionOption.class);
-
-        // Save updated number back to session
-        session.setAttribute("numQuest", numQuest);
-        request.setAttribute("question", question);
-
-
+        for (int j=1; j<=correctAnswer.length;j++){
+            int trueIndex = Integer.parseInt(correctAnswer[j-1]);
+            allOption.get(trueIndex-1).setCorrect(true);
+        }
+        for (QuestionOption c : allOption){
+            questionOptionDAO.create(c);
+        }
         // Forward back to the JSP
-        request.getRequestDispatcher("/functionpage/questioncreation.jsp").forward(request, response);
+        response.sendRedirect(request.getContextPath()+"/toQuestionCreation");
     }
 
     /**

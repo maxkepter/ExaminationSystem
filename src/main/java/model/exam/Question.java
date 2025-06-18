@@ -41,7 +41,8 @@ public class Question {
     public Question() {
     }
 
-    public Question(String questionContent, boolean isDisable, int difficulty, Chapter chapter) {
+    public Question(int questionId, String questionContent, boolean isDisable, int difficulty, Chapter chapter) {
+        this.questionId = questionId;
         this.questionContent = questionContent;
         this.isDisable = isDisable;
         this.difficulty = difficulty;
