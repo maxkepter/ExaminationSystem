@@ -18,9 +18,11 @@ import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import model.exam.Chapter;
+import model.exam.Major;
 import model.exam.Subject;
 import model.exam.SubjectMajor;
 import repository.exam.ChapterDao;
+import repository.exam.MajorDao;
 import repository.exam.SubjectDao;
 import repository.exam.SubjectMajorDao;
 
@@ -65,6 +67,7 @@ public class AjaxHandleChooseChapter extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        MajorDao majorDAO = new MajorDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Major.class);
         SubjectDao subjectDAO = new SubjectDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Subject.class);
         SubjectMajorDao subjectmajorDAO = new SubjectMajorDao(EntityManagerFactoryProvider.getEntityManagerFactory(), SubjectMajor.class);
         ChapterDao chapterDAO = new ChapterDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Chapter.class);
@@ -72,6 +75,13 @@ public class AjaxHandleChooseChapter extends HttpServlet {
         response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
         String action = request.getParameter("action");
+        if  ("getMajors".equals(action)){
+            List<Major> allMajor = majorDAO.findAll();
+            Jsonb jsonb = JsonbBuilder.create();
+            String json = jsonb.toJson(allMajor);
+            out.print(json);
+            out.flush();
+        }
         if ("getSubjects".equals(action)){
             List<Subject> allSubject = new ArrayList();
             int majorId = Integer.parseInt(request.getParameter("majorId"));

@@ -19,21 +19,18 @@
         <form action="${pageContext.request.getContextPath()}/HandleQuestionCreation" method="post">
 
             <!--            Chon Major , Chapter va Subject-->
-            <c:if test="${not empty listMajor}">
-                Major: <select id="majorSelect" name="majorId">
-                    <option value="">-- Choose a major --</option>
-                    <c:forEach var="major" items="${listMajor}">
-                        <option value="${major.majorId}">${major.majorName}</option>
-                    </c:forEach>
-                </select>
-                Subject: <select id="subjectSelect" name="subjectId">
-                    <option value="">-- Choose a subject --</option>
-                </select>
-                Chapter: <select id="chapterSelect" name="chapterId">
-                    <option value="">-- Choose a chapter --</<option>
-                </select>
-                <!--                Chon question va answer -->
-            </c:if>
+
+            Major: <select id="majorSelect" name="majorId">
+                <option value="">-- Choose a major --</option>
+            </select>
+            Subject: <select id="subjectSelect" name="subjectId">
+                <option value="">-- Choose a subject --</option>
+            </select>
+            Chapter: <select id="chapterSelect" name="chapterId">
+                <option value="">-- Choose a chapter --</<option>
+            </select>
+            <!--                Chon question va answer -->
+
             </br>
             Question: <input type="text" name="question" value="${question}"><br/>
             Difficulty: <select name="difficulty">
@@ -59,10 +56,28 @@
 
         <!--            Xu li logic hien thi-->
         <script>
-            //Dynamic generation subject after choose major
-            document.getElementById("majorSelect").addEventListener("change", function () {
+            function getListMajor() {
                 const baseUrl = '<%= request.getContextPath() %>';
-                const majorId = this.value;
+                fetch(baseUrl + "/AjaxHandleChooseChapter?action=getMajors")
+                        .then(response => response.json())
+                        .then(majors => {
+                            const majorSelect = document.getElementById("majorSelect");
+                            majorSelect.innerHTML = "";
+                            const defaultOption = document.createElement("option");
+                            defaultOption.value = "";
+                            defaultOption.textContent = "-- Choose a major --";
+                            majorSelect.appendChild(defaultOption);
+                            majors.forEach(major => {
+                                const option = document.createElement("option");
+                                option.value = major.majorId;
+                                option.textContent = major.majorName;
+                                majorSelect.appendChild(option);
+                            });
+
+                        });
+            }
+            function getListSubject(majorId) {
+                const baseUrl = '<%= request.getContextPath() %>';
                 fetch(baseUrl + "/AjaxHandleChooseChapter?action=getSubjects&majorId=" + encodeURIComponent(majorId))
                         .then(response => response.json())
                         .then(subjects => {
@@ -80,14 +95,11 @@
 
                             });
                         });
+            }
 
-            });
-
-            //Dynamic generation chapter adter choose subject
-            document.getElementById("subjectSelect").addEventListener("change", function () {
+            function getListChapter(subjectId) {
                 const baseUrl = '<%= request.getContextPath() %>';
-                const majorId = this.value;
-                fetch(baseUrl + "/AjaxHandleChooseChapter?action=getChapters&subjectId=" + encodeURIComponent(majorId))
+                fetch(baseUrl + "/AjaxHandleChooseChapter?action=getChapters&subjectId=" + encodeURIComponent(subjectId))
                         .then(response => response.json())
                         .then(chapters => {
                             const chapterSelect = document.getElementById("chapterSelect");
@@ -104,13 +116,40 @@
 
                             });
                         });
+            }
 
-            });
-
-
-
+            //Dynamic generation major
+//            document.addEventListener("DOMContentLoaded", function () {
+//                
+//                
+//            });
+//            
             //
             document.addEventListener("DOMContentLoaded", function () {
+                // Load dropdowns
+                getListMajor();
+                // Event handlers for cascading dropdowns
+                document.getElementById("majorSelect").addEventListener("change", function () {
+                    getListSubject(this.value);
+
+                    
+                //Reset chapter
+                    const chapterSelect = document.getElementById("chapterSelect");
+                    chapterSelect.innerHTML = "";
+                    const defaultOption = document.createElement("option");
+                    defaultOption.value = "";
+                    defaultOption.textContent = "-- Choose a chapter --";
+                    chapterSelect.appendChild(defaultOption);
+
+                });
+
+                document.getElementById("subjectSelect").addEventListener("change", function () {
+                    getListChapter(this.value);
+                });
+
+
+
+
                 let answerCount = 2; // Start from 2 since 1 and 2 already exist
                 const addBtn = document.getElementById("addAnswerBtn");
                 const deleteBtn = document.getElementById("deleteAnswerBtn");
