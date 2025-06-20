@@ -37,8 +37,7 @@ public class ChangePasswordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("change_password.jsp").forward(request, response);
-
+        
         // Get the current user from the session
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -47,6 +46,9 @@ public class ChangePasswordController extends HttpServlet {
             response.sendRedirect("Login");
             return;
         }
+        
+        request.getRequestDispatcher("change_password.jsp").forward(request, response);
+        return;
 
     }
 
@@ -78,11 +80,13 @@ public class ChangePasswordController extends HttpServlet {
             changePasswordService.changePassword(user.getUserID(), oldPassword, newPassword);
             // If successful, redirect to the user profile page
             response.sendRedirect("UserProfile");
+            return;
         } catch (IllegalArgumentException e) {
             // If there is an error with the input data, set an error message and forward
             // to the change password page
             request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("change_password.jsp").forward(request, response);
+            return;
         } catch (AuthenticationException e) {
             // If the old password is incorrect, set an error message and forward to the
             // change password page

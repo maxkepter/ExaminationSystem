@@ -59,7 +59,7 @@ public class DAOFactory {
 
     public static LoginInfoDao getLoginInfoDao() {
         if (loginInfoDao == null) {
-            logStatusDao = new LogStatusDao(emf);
+            loginInfoDao = new LoginInfoDao(emf);
         }
         return loginInfoDao;
     }
