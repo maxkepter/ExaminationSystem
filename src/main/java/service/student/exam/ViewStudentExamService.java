@@ -5,7 +5,7 @@ import model.exam.student.StudentExam;
 
 public class ViewStudentExamService {
     public StudentExam getExam(int userId, int studentExamId) throws IllegalArgumentException {
-        StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.findWithStudent(studentExamId);
+        StudentExam studentExam = DAOFactory.getStudentExamDao().findWithStudent(studentExamId);
 
         // check user
         if (studentExam.getStudent().getUserID() != userId) {

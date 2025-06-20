@@ -29,7 +29,7 @@ public class RegisterService {
         }
 
         // Check if the username already exists
-        if (DAOFactory.LOGIN_INFO_DAO.findByUserName(userName) != null) {
+        if (DAOFactory.getLoginInfoDao().findByUserName(userName) != null) {
             throw new UserNameDuplicatedException();
         }
 
@@ -40,12 +40,12 @@ public class RegisterService {
                 user,
                 userName,
                 HashInfo.hash(password),
-                LogStatusFactory.ACCOUNT_ACTIVE);
-        DAOFactory.LOGIN_INFO_DAO.create(loginInfo);
+                LogStatusFactory.getAccountActive());
+        DAOFactory.getLoginInfoDao().create(loginInfo);
 
         // Log the registration success
 
-        logService.createUserLog(user, LogStatusFactory.REGISTRATION_SUCCESS);
+        logService.createUserLog(user, LogStatusFactory.getRegistrationSuccess());
 
         createStudent(user);
 

@@ -57,13 +57,11 @@ public abstract class DeactivatableObjectDao<E> extends ObjectDao<E> {
     public boolean isDisable(int id) {
         E entity = null;
         try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
-            entityManager.getTransaction().begin();
 
-            Query query = entityManager.createNamedQuery(FIND_DISABLE_ENTITY_BY_ID);
+            Query query = entityManager.createNamedQuery(FIND_DISABLE_ENTITY_BY_ID, entityClass);
             query.setParameter("id", id).setParameter("isDisable", true);
             entity = (E) query.getSingleResult();
 
-            entityManager.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         }

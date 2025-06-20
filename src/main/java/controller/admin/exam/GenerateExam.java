@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.exam.Question;
 import model.exam.QuestionTemplate;
-import model.user.User;
 import repository.exam.student.GenerateExamDao;
 import service.exam.GenerateExamService;
 

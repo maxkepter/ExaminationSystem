@@ -59,7 +59,7 @@ public class RememberLoginFilter implements Filter {
                         String userId = cookie.getValue();
 
                         try {
-                            User user = DAOFactory.USER_DAO.findById(Integer.parseInt(userId));
+                            User user = DAOFactory.getUserDao().findById(Integer.parseInt(userId));
 
                             if (user != null) {
                                 req.getSession().setAttribute("user", user);

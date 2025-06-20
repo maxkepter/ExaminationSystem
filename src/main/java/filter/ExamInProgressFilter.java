@@ -63,8 +63,8 @@ public class ExamInProgressFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
-        
-        if(path.startsWith("/Login") || path.startsWith("/Register")){
+
+        if (path.startsWith("/Login") || path.startsWith("/Register")) {
             return;
         }
 
@@ -88,7 +88,7 @@ public class ExamInProgressFilter implements Filter {
         if (currentExamId == null) {
             try {
                 // Get doing exam if currentExam is null
-                StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.getDoingExam(user);
+                StudentExam studentExam = DAOFactory.getStudentExamDao().getDoingExam(user);
 
                 ExamLogService examLogService = new ExamLogService();
                 examLogService.createLog(studentExam.getStudentExamID(), "Test Filter " + studentExam.getExamStatus());

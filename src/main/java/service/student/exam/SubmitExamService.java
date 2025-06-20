@@ -19,7 +19,7 @@ public class SubmitExamService {
             throw new IllegalArgumentException("Student choice cannot be null or empty.");
         }
         // Retrieve the StudentExam object from the database using the studentExamId
-        StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.findById(studentExamId);
+        StudentExam studentExam = DAOFactory.getStudentExamDao().findById(studentExamId);
         if (studentExam == null) {
             throw new IllegalArgumentException("Student exam not found for ID: " + studentExamId);
         }
@@ -32,7 +32,7 @@ public class SubmitExamService {
             throw new ArithmeticException("Score calculation resulted in a negative value.");
         }
         // Save the updated StudentExam object back to the database
-        DAOFactory.STUDENT_EXAM_DAO.update(studentExam);
+        DAOFactory.getStudentExamDao().update(studentExam);
 
         ExamLogService examLogService = new ExamLogService();
         examLogService.createLog(studentExam, ExamLogService.SUBMIT_EXAM);

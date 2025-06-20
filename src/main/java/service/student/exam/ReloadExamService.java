@@ -8,7 +8,7 @@ import service.log.ExamLogService;
 
 public class ReloadExamService {
     public StudentExam reloadExam(User user) throws ExamOverException {
-        StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.getDoingExam(user);
+        StudentExam studentExam = DAOFactory.getStudentExamDao().getDoingExam(user);
         if (studentExam == null) {
             return studentExam;
         }

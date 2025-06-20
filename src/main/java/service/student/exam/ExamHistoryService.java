@@ -14,8 +14,8 @@ public class ExamHistoryService {
 
         // Set field value
         Map<String, Object> fieldValues = new HashMap<>();
-        fieldValues.put(StudentExam.STUDENT, DAOFactory.STUDENT_DAO.findById(userId));
-        StudentExamDao studentExamDao = DAOFactory.STUDENT_EXAM_DAO;
+        fieldValues.put(StudentExam.STUDENT, DAOFactory.getStudentDao().findById(userId));
+        StudentExamDao studentExamDao = DAOFactory.getStudentExamDao();
 
         int pageSize = PageSize.STUDENT_EXAM;
 

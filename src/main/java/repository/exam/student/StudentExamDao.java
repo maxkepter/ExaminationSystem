@@ -74,8 +74,8 @@ public class StudentExamDao extends ObjectDao<StudentExam>
     public StudentExam getDoingExam(User user, int examId) {
 
         Map<String, Object> fieldValues = new HashMap<>();
-        fieldValues.put(StudentExam.STUDENT, DAOFactory.STUDENT_DAO.findById(user.getUserID()));
-        fieldValues.put(StudentExam.EXAM, DAOFactory.EXAM_DAO.findById(examId));
+        fieldValues.put(StudentExam.STUDENT, DAOFactory.getExamDao().findById(user.getUserID()));
+        fieldValues.put(StudentExam.EXAM, DAOFactory.getExamDao().findById(examId));
 
         return getDoingExam(fieldValues);
     }
@@ -83,7 +83,7 @@ public class StudentExamDao extends ObjectDao<StudentExam>
     public StudentExam getDoingExam(User user) {
 
         Map<String, Object> fieldValues = new HashMap<>();
-        fieldValues.put(StudentExam.STUDENT, DAOFactory.STUDENT_DAO.findById(user.getUserID()));
+        fieldValues.put(StudentExam.STUDENT, DAOFactory.getStudentDao().findById(user.getUserID()));
 
         return getDoingExam(fieldValues);
     }

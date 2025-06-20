@@ -15,7 +15,7 @@ public class ChangePasswordService {
             throw new IllegalArgumentException("Invalid input data");
         }
 
-        LoginInfoDao loginInfoDao = DAOFactory.LOGIN_INFO_DAO;
+        LoginInfoDao loginInfoDao = DAOFactory.getLoginInfoDao();
 
         // Find user by ID
         LoginInfo loginInfo = loginInfoDao.findById(userId);

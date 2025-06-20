@@ -26,7 +26,7 @@ public class DoExamService {
         Jsonb json = JsonbBuilder.create();
         ExamChoice examChoice = json.fromJson(jsonBody, ExamChoice.class);
 
-        StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.findById(examChoice.getStudentExamId());
+        StudentExam studentExam = DAOFactory.getStudentExamDao().findById(examChoice.getStudentExamId());
 
         if (studentExam == null) {
             throw new IllegalArgumentException("Student exam not found !");
@@ -34,7 +34,7 @@ public class DoExamService {
 
         saveStudentChoice(examChoice.getStudentChoices(), studentExam.getStudentChoice(), studentExam);
 
-        DAOFactory.STUDENT_EXAM_DAO.update(studentExam);
+        DAOFactory.getStudentExamDao().update(studentExam);
 
     }
 
