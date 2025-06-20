@@ -29,9 +29,10 @@
             Subject: <select id="subjectSelect" name="subjectId">
                 <option value="">-- Choose a subject --</option>
             </select>
-            Chapter: <select id="chapterSelect" name="chapterId">
-                <option value="">-- Choose a chapter --</option>
-            </select>
+            <div id="chapterSelect">
+                <p>Select all chapter:</p>
+            </div>  
+            <button type="button" id="addChapterBtn">Add more chapter</button>
             Tên đề thi <input type="text" name="examName">
             Thời gian (phút) <input type="number" name="duration" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
             Số câu hỏi dễ: <input type="number" name="numberEasy" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -40,38 +41,40 @@
             <input type="submit" name="submit" value="Bắt đầu tạo bài kiểm tra">
         </form>
         <a class="btn " href="${pageContext.request.contextPath}/adminhome">Go Back</a>
-        
+
         <script>
             //Dynamic generation major
-            document.addEventListener("DOMContentLoaded",function(){
+            function getListMajor() {
                 const baseUrl = '<%= request.getContextPath() %>';
                 fetch(baseUrl + "/AjaxHandleChooseChapter?action=getMajors")
-                        .then(response =>response.json())
+                        .then(response => response.json())
                         .then(majors => {
                             const majorSelect = document.getElementById("majorSelect");
-                            majorSelect.innerHTML="";
+                            majorSelect.innerHTML = "";
                             const defaultOption = document.createElement("option");
                             defaultOption.value = "";
                             defaultOption.textContent = "-- Choose a major --";
-                            chapterSelect.appendChild(defaultOption);
-                            majors.forEach(major =>{
+                            majorSelect.appendChild(defaultOption);
+                            majors.forEach(major => {
                                 const option = document.createElement("option");
                                 option.value = major.majorId;
                                 option.textContent = major.majorName;
                                 majorSelect.appendChild(option);
                             });
-                    
+
                         });
-            });
-            //Dynamic generation subject after choose major
-            document.getElementById("majorSelect").addEventListener("change", function () {
+            }
+            function getListSubject(majorId) {
                 const baseUrl = '<%= request.getContextPath() %>';
-                const majorId = this.value;
                 fetch(baseUrl + "/AjaxHandleChooseChapter?action=getSubjects&majorId=" + encodeURIComponent(majorId))
                         .then(response => response.json())
                         .then(subjects => {
                             const subjectSelect = document.getElementById("subjectSelect");
                             subjectSelect.innerHTML = "";
+                            const defaultOption = document.createElement("option");
+                            defaultOption.value = "";
+                            defaultOption.textContent = "-- Choose a subject --";
+                            subjectSelect.appendChild(defaultOption);
                             subjects.forEach(subject => {
                                 const option = document.createElement("option");
                                 option.value = subject.subID;
@@ -80,26 +83,51 @@
 
                             });
                         });
+            }
 
-            });
-
-            //Dynamic generation chapter adter choose subject
-            document.getElementById("subjectSelect").addEventListener("change", function () {
+            function getListChapter(subjectId) {
                 const baseUrl = '<%= request.getContextPath() %>';
-                const subjectId = this.value;
                 fetch(baseUrl + "/AjaxHandleChooseChapter?action=getChapters&subjectId=" + encodeURIComponent(subjectId))
                         .then(response => response.json())
                         .then(chapters => {
                             const chapterSelect = document.getElementById("chapterSelect");
-                            chapterSelect.innerHTML = "";
+                            chapterSelect.innerHTML = "<p>Select all chapter:</p>";
                             chapters.forEach(chapter => {
-                                const option = document.createElement("option");
-                                option.value = chapter.chapterID;
-                                option.textContent = chapter.chapterNo;
-                                chapterSelect.appendChild(option);
+                                const div = document.createElement("div");
+                                const chapterNo = document.createElement("span");
+                                chapterNo.textContent = chapter.chapterNo;
+                                const input = document.createElement("input");
+                                input.value = chapter.chapterID;
+                                input.name = "chapterID";
+                                input.type= "checkbox";
+                                div.appendChild(chapterNo);
+                                div.appendChild(input);
+                                chapterSelect.appendChild(div);
 
                             });
                         });
+            }
+
+            //Dynamic generation major
+//            document.addEventListener("DOMContentLoaded", function () {
+//                
+//                
+//            });
+//            
+            //
+            document.addEventListener("DOMContentLoaded", function () {
+                // Load dropdowns
+                getListMajor();
+                // Event handlers for cascading dropdowns
+                document.getElementById("majorSelect").addEventListener("change", function () {
+                    getListSubject(this.value);
+                    //Reset chapter
+                    const chapterSelect = document.getElementById("chapterSelect");
+                    chapterSelect.innerHTML = "<p>Select all chapter:</p>";
+                });
+                document.getElementById("subjectSelect").addEventListener("change", function () {
+                    getListChapter(this.value);
+                });
 
             });
         </script>

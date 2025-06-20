@@ -132,8 +132,8 @@
                 document.getElementById("majorSelect").addEventListener("change", function () {
                     getListSubject(this.value);
 
-                    
-                //Reset chapter
+
+                    //Reset chapter
                     const chapterSelect = document.getElementById("chapterSelect");
                     chapterSelect.innerHTML = "";
                     const defaultOption = document.createElement("option");
