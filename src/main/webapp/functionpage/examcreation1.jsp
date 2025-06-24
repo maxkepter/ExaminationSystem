@@ -32,7 +32,6 @@
             <div id="chapterSelect">
                 <p>Select all chapter:</p>
             </div>  
-            <button type="button" id="addChapterBtn">Add more chapter</button>
             Tên đề thi <input type="text" name="examName">
             Thời gian (phút) <input type="number" name="duration" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
             Số câu hỏi dễ: <input type="number" name="numberEasy" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -95,7 +94,7 @@
                             chapters.forEach(chapter => {
                                 const div = document.createElement("div");
                                 const chapterNo = document.createElement("span");
-                                chapterNo.textContent = chapter.chapterNo;
+                                chapterNo.textContent ="Chapter "+ chapter.chapterNo;
                                 const input = document.createElement("input");
                                 input.value = chapter.chapterID;
                                 input.name = "chapterID";

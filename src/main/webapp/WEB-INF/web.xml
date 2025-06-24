@@ -21,10 +21,6 @@
         <servlet-class>controller.admin.exam.HandleUpdateAndDeleteExam</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>toViewAllExam</servlet-name>
-        <servlet-class>router.toViewAllExam</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>toAdminLogin</servlet-name>
         <servlet-class>router.toAdminLogin</servlet-class>
     </servlet>
@@ -60,6 +56,18 @@
         <servlet-name>AjaxHandleChooseChapter</servlet-name>
         <servlet-class>controller.admin.exam.AjaxHandleChooseChapter</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>toViewAllQuestion</servlet-name>
+        <servlet-class>router.toViewAllQuestion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HandleViewExamDetail</servlet-name>
+        <servlet-class>controller.admin.exam.HandleViewExamDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>toViewAllExam</servlet-name>
+        <servlet-class>router.toViewAllExam</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ExamServlet</servlet-name>
         <url-pattern>/ExamServlet</url-pattern>
@@ -79,10 +87,6 @@
     <servlet-mapping>
         <servlet-name>HandleUpdateAndDeleteExam</servlet-name>
         <url-pattern>/HandleUpdateAndDeleteExam</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>toViewAllExam</servlet-name>
-        <url-pattern>/viewallexam</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>toAdminLogin</servlet-name>
@@ -119,6 +123,18 @@
     <servlet-mapping>
         <servlet-name>AjaxHandleChooseChapter</servlet-name>
         <url-pattern>/AjaxHandleChooseChapter</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>toViewAllQuestion</servlet-name>
+        <url-pattern>/toViewAllQuestion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HandleViewExamDetail</servlet-name>
+        <url-pattern>/HandleViewExamDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>toViewAllExam</servlet-name>
+        <url-pattern>/toViewAllExam</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

@@ -5,9 +5,12 @@
 package controller.user.exam;
 
 import factory.EntityManagerFactoryProvider;
+import java.util.ArrayList;
 import java.util.List;
 import model.exam.Exam;
+import model.exam.Question;
 import repository.exam.ExamDao;
+import repository.exam.QuestionDao;
 
 /**
  *
@@ -15,8 +18,19 @@ import repository.exam.ExamDao;
  */
 public class Test {
     public static void main(String[] args) {
-        ExamDao examDAO = new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Exam.class);
-        List<Exam> exams = examDAO.findByProperty("examCode", "EXAM-002");
-        System.out.println(exams.get(0).getExamName());
+        List<Question> allEasyQuest = new ArrayList();
+            List<Question> allNormalQuest = new ArrayList();
+            List<Question> allHardQuest = new ArrayList();
+            String[] chapterId = {"2"};
+            QuestionDao questionDAO = new QuestionDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Question.class);
+        for (String chapter : chapterId) {
+                allEasyQuest.addAll(questionDAO.findByProperties("difficulty", "1", "chapter.chapterID", chapter));
+                allNormalQuest.addAll(questionDAO.findByProperties("difficulty", "2", "chapter.chapterID", chapter));
+                allHardQuest.addAll(questionDAO.findByProperties("difficulty", "3", "chapter.chapterID", chapter));
+            }
+        
+        System.out.println(allEasyQuest.get(0).getQuestionContent());
+        System.out.println(allNormalQuest);
+        System.out.println(allHardQuest);
     }
 }

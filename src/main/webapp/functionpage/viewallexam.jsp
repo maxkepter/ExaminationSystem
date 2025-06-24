@@ -24,7 +24,7 @@
         <ul>
             <c:forEach var="exam" items="${exams}" varStatus="status">
                 <li >
-                    <form action="${pageContext.request.contextPath}/HandleUpdateAndDeleteExam" method="post" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 1%;">
+                    <form action="${pageContext.request.contextPath}/HandleViewAllExam" method="get" style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 1%;">
                         <span>${status.index + 1}</span> <!-- 1-based count -->
                         <input type ="hidden" name="id" value="${exam.examID}">
                         <input type="text" name="examName" value="${exam.examName}">
@@ -33,6 +33,7 @@
                         <input type ="text" value="${exam.examCode}" disabled="true">
                         <input type="submit" name="update" value="Update">
                         <input type="submit" name="delete" value="Delete">
+                        <input type="submit" name="viewDetail" value="viewDetail">
                     </form>
                 </li>
             </c:forEach>

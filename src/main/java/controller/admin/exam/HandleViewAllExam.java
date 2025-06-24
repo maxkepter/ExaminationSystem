@@ -12,11 +12,18 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import model.exam.Exam;
+import model.exam.Question;
+import model.exam.QuestionExam;
+import model.exam.QuestionOption;
+import model.user.User;
 import repository.exam.ExamDao;
+import repository.exam.QuestionExamDao;
+import repository.exam.QuestionOptionDao;
 
 /**
  *
@@ -59,10 +66,38 @@ public class HandleViewAllExam extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        
+        boolean update = request.getParameter("update") != null;
+        boolean delete = request.getParameter("delete") != null;
+        boolean viewDetail = request.getParameter("viewDetail") != null;
         ExamDao examDAO = new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(),Exam.class);
-        List<Exam> exams = examDAO.findAll();
-        request.setAttribute("exams", exams);
-        request.getRequestDispatcher("/functionpage/viewallexam.jsp").forward(request, response);
+        QuestionExamDao QuestionExamDao = new QuestionExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(), QuestionExam.class);
+        QuestionOptionDao questionOptionDao = new QuestionOptionDao(EntityManagerFactoryProvider.getEntityManagerFactory(), QuestionOption.class);
+        if (update) {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                Integer id = Integer.valueOf(request.getParameter("id"));
+                String examName = request.getParameter("examName");
+                Integer duration = Integer.valueOf(request.getParameter("duration"));
+                User user = (User) session.getAttribute("user");
+                Exam newExam = new Exam(id, duration, examName, user);
+                examDAO.update(newExam, id);
+            }
+             response.sendRedirect(request.getContextPath() + "/HandleViewAllExam");
+        }
+        if (delete) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            examDAO.deleteById(id);
+            response.sendRedirect(request.getContextPath() + "/HandleViewAllExam");
+        }
+        if (viewDetail){
+            int id = Integer.parseInt(request.getParameter("id"));
+            List<Question> questionExamList = QuestionExamDao.findQuestionByProperty("exam.examID", id);
+            request.setAttribute("allQuestion", questionExamList);
+            request.getRequestDispatcher("/functionpage/examdetail.jsp").forward(request, response);
+        }
+        
+        
     } 
 
     /** 
