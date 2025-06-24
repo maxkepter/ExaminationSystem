@@ -1,29 +1,33 @@
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%@ page import="model.user.User" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <%@ page language="java" contentType="text/html; charset=UTF-8"
-                 pageEncoding="UTF-8"%>
-        <%@ page import="model.user.User" %>
-        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>`
         <meta charset="UTF-8" />
         <title>Welcome Page</title>
-        <style>
-            /* Override background for dynamic path */
-            body {
-                background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                    url('${pageContext.request.contextPath}/img/background.jpg') no-repeat center center;
-                background-size: cover;
-                background-attachment: fixed;
-            }
-        </style>
-        <link href="css/index.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index.css">
+            <style>
+                /* Override background for dynamic path */
+                body {
+                    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                        url('${pageContext.request.contextPath}/img/background.jpg') no-repeat center center;
+                    background-size: cover;
+                    background-attachment: fixed;
+                }
+            </style>
     </head>
     <body>
         <!-- Navigation Bar -->
         <nav class="navbar">
             <div class="nav-container">
-                <div class="nav-brand" style="font-family: 'Segoe UI';font-size: 28.8px;">🎓 Examination System</div>
+                <div class="flex items-center">
+                    <h1 class="text-[28.8px] font-bold text-white" style="margin-top: 8px; font-family: 'Segoe UI';">
+                        🎓 Examination System
+                    </h1>
+                </div>
+
                 <div class="nav-menu">
                     <c:choose>
                         <c:when test="${not empty user}">
