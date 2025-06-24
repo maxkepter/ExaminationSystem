@@ -1,23 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@ page import="model.user.User" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+        <%@ page language="java" contentType="text/html; charset=UTF-8"
+                 pageEncoding="UTF-8"%>
+        <%@ page import="model.user.User" %>
+        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>`
         <meta charset="UTF-8" />
         <title>Welcome Page</title>
-        <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/index.css">
-            <style>
-                /* Override background for dynamic path */
-                body {
-                    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                        url('${pageContext.request.contextPath}/img/background.jpg') no-repeat center center;
-                    background-size: cover;
-                    background-attachment: fixed;
-                }
-            </style>
-                           
+        <style>
+            /* Override background for dynamic path */
+            body {
+                background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                    url('${pageContext.request.contextPath}/img/background.jpg') no-repeat center center;
+                background-size: cover;
+                background-attachment: fixed;
+            }
+        </style>
+        <link href="css/index.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <!-- Navigation Bar -->
