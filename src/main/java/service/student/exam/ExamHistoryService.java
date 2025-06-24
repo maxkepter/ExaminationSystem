@@ -6,6 +6,8 @@ import java.util.Map;
 
 import constants.PageSize;
 import factory.DAOFactory;
+import java.util.Collection;
+import java.util.Collections;
 import model.exam.student.StudentExam;
 import repository.exam.student.StudentExamDao;
 
@@ -20,7 +22,7 @@ public class ExamHistoryService {
         int pageSize = PageSize.STUDENT_EXAM;
 
         List<StudentExam> studentExams = studentExamDao.findByField(fieldValues);
-
+        Collections.reverse(studentExams);
         // Get max page
         maxPage[0] = (studentExams.size() / pageSize);
 

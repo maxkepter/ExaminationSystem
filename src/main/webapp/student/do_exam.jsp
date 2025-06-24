@@ -18,7 +18,7 @@
         <div class="container">
             <!-- Header -->
             <div class="header">
-                <div class="exam-title">🎓 Examination System</div>
+                <div class="exam-title" style="font-family: 'Segoe UI';">🎓 Examination System</div>
                 <div class="timer-section">
                     <div id="countdown" data-endtime="${endTimeMillis}">Test</div>
                     <button class="fullscreen-btn" onclick="toggleFullscreen()">📱 Full Size</button>
@@ -79,167 +79,167 @@
         </div>
         <script src="./js/ExamTracking.js"></script>
         <script>
-            const countdownElement = document.getElementById("countdown");
-            const endTimeMillis = parseInt(countdownElement.dataset.endtime);
+                        const countdownElement = document.getElementById("countdown");
+                        const endTimeMillis = parseInt(countdownElement.dataset.endtime);
 
-            function updateCountdown() {
-                const now = Date.now();
-                const diff = endTimeMillis - now;
+                        function updateCountdown() {
+                            const now = Date.now();
+                            const diff = endTimeMillis - now;
 
-                if (diff <= 0) {
-                    countdownElement.textContent = "Hết giờ";
-                    autoSubmit();
-                    clearInterval(timer);
-                    return;
-                }
+                            if (diff <= 0) {
+                                countdownElement.textContent = "Hết giờ";
+                                autoSubmit();
+                                clearInterval(timer);
+                                return;
+                            }
 
-                const minutes = Math.floor(diff / 1000 / 60);
-                const seconds = Math.floor((diff / 1000) % 60);
+                            const minutes = Math.floor(diff / 1000 / 60);
+                            const seconds = Math.floor((diff / 1000) % 60);
 
-                // Chống âm tuyệt đối
-                const displayMinutes = Math.max(0, minutes);
-                const displaySeconds = Math.max(0, seconds);
+                            // Chống âm tuyệt đối
+                            const displayMinutes = Math.max(0, minutes);
+                            const displaySeconds = Math.max(0, seconds);
 
-                countdownElement.textContent = displayMinutes + ` : ` + displaySeconds;
+                            countdownElement.textContent = displayMinutes + ` : ` + displaySeconds;
 
-            }
-            updateCountdown();
-            const timer = setInterval(updateCountdown, 1000);
-
-            function autoSubmit() {
-                // Gọi submit form
-                const form = document.querySelector("form");
-                if (form) {
-                    form.submit();
-                }
-            }
-            // Khởi tạo khi trang load
-            document.addEventListener('DOMContentLoaded', function () {
-                initializeExam();
-                updateProgress();
-
-                // Lắng nghe sự thay đổi của checkbox
-                document.querySelectorAll('.answer-checkbox').forEach(checkbox => {
-                    checkbox.addEventListener('change', function () {
-                        handleAnswerChange(this);
-                        updateProgress();
-                    });
-                });
-            });
-
-            // Khởi tạo exam
-            function initializeExam() {
-                const totalQuestions = document.querySelectorAll('.question').length;
-                document.getElementById('remaining-count').textContent = totalQuestions;
-
-                // Đánh dấu câu hỏi hiện tại
-                markCurrentQuestion();
-            }
-
-            // Xử lý khi thay đổi đáp án
-            function handleAnswerChange(checkbox) {
-                const questionId = checkbox.getAttribute('data-question-id');
-                const option = checkbox.closest('.option');
-
-                // Chỉ cho phép chọn một đáp án cho mỗi câu hỏi
-                if (checkbox.checked) {
-                    // Bỏ chọn các checkbox khác trong cùng câu hỏi
-                    document.querySelectorAll(`input[data-question-id="${questionId}"]`).forEach(cb => {
-                        if (cb !== checkbox) {
-                            cb.checked = false;
-                            cb.closest('.option').classList.remove('selected');
                         }
-                    });
-                    option.classList.add('selected');
-                } else {
-                    option.classList.remove('selected');
-                }
-            }
+                        updateCountdown();
+                        const timer = setInterval(updateCountdown, 1000);
 
-            // Cập nhật progress
-            function updateProgress() {
-                const totalQuestions = document.querySelectorAll('.question').length;
-                const answeredQuestions = getAnsweredQuestionsCount();
-
-                document.getElementById('answered-count').textContent = answeredQuestions;
-                document.getElementById('remaining-count').textContent = totalQuestions - answeredQuestions;
-
-                const progressPercent = (answeredQuestions / totalQuestions) * 100;
-                document.getElementById('progress-fill').style.width = progressPercent + '%';
-
-                // Cập nhật navigation
-                updateQuestionNavigation();
-            }
-
-            // Đếm số câu đã trả lời
-            function getAnsweredQuestionsCount() {
-                const answeredQuestions = new Set();
-                document.querySelectorAll('.answer-checkbox:checked').forEach(checkbox => {
-                    answeredQuestions.add(checkbox.getAttribute('data-question-id'));
-                });
-                return answeredQuestions.size;
-            }
-
-            // Cập nhật navigation
-            function updateQuestionNavigation() {
-                document.querySelectorAll('.question-nav a').forEach(link => {
-                    const questionId = link.getAttribute('data-question');
-                    const hasAnswer = document.querySelector(`input[data-question-id="${questionId}"]:checked`);
-
-                    link.classList.toggle('answered', !!hasAnswer);
-                });
-            }
-
-            // Đánh dấu câu hỏi hiện tại
-            function markCurrentQuestion() {
-                const questions = document.querySelectorAll('.question');
-                const navLinks = document.querySelectorAll('.question-nav a');
-
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const questionId = entry.target.id.replace('question-', '');
-
-                            // Bỏ đánh dấu tất cả
-                            navLinks.forEach(link => link.classList.remove('current'));
-
-                            // Đánh dấu câu hiện tại
-                            const currentLink = document.querySelector(`a[data-question="${questionId}"]`);
-                            if (currentLink) {
-                                currentLink.classList.add('current');
+                        function autoSubmit() {
+                            // Gọi submit form
+                            const form = document.querySelector("form");
+                            if (form) {
+                                form.submit();
                             }
                         }
-                    });
-                }, {threshold: 0.5});
+                        // Khởi tạo khi trang load
+                        document.addEventListener('DOMContentLoaded', function () {
+                            initializeExam();
+                            updateProgress();
 
-                questions.forEach(question => observer.observe(question));
-            }
-
-            // Toggle fullscreen
-            function toggleFullscreen() {
-                if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen().catch(err => {
-                        console.log('Error attempting to enable fullscreen:', err);
-                    });
-                } else {
-                    document.exitFullscreen();
-                }
-            }
-
-            // Smooth scroll cho navigation
-            document.querySelectorAll('.question-nav a').forEach(link => {
-                link.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
+                            // Lắng nghe sự thay đổi của checkbox
+                            document.querySelectorAll('.answer-checkbox').forEach(checkbox => {
+                                checkbox.addEventListener('change', function () {
+                                    handleAnswerChange(this);
+                                    updateProgress();
+                                });
+                            });
                         });
-                    }
-                });
-            });
+
+                        // Khởi tạo exam
+                        function initializeExam() {
+                            const totalQuestions = document.querySelectorAll('.question').length;
+                            document.getElementById('remaining-count').textContent = totalQuestions;
+
+                            // Đánh dấu câu hỏi hiện tại
+                            markCurrentQuestion();
+                        }
+
+                        // Xử lý khi thay đổi đáp án
+                        function handleAnswerChange(checkbox) {
+                            const questionId = checkbox.getAttribute('data-question-id');
+                            const option = checkbox.closest('.option');
+
+                            // Chỉ cho phép chọn một đáp án cho mỗi câu hỏi
+                            if (checkbox.checked) {
+                                // Bỏ chọn các checkbox khác trong cùng câu hỏi
+                                document.querySelectorAll(`input[data-question-id="${questionId}"]`).forEach(cb => {
+                                    if (cb !== checkbox) {
+                                        cb.checked = false;
+                                        cb.closest('.option').classList.remove('selected');
+                                    }
+                                });
+                                option.classList.add('selected');
+                            } else {
+                                option.classList.remove('selected');
+                            }
+                        }
+
+                        // Cập nhật progress
+                        function updateProgress() {
+                            const totalQuestions = document.querySelectorAll('.question').length;
+                            const answeredQuestions = getAnsweredQuestionsCount();
+
+                            document.getElementById('answered-count').textContent = answeredQuestions;
+                            document.getElementById('remaining-count').textContent = totalQuestions - answeredQuestions;
+
+                            const progressPercent = (answeredQuestions / totalQuestions) * 100;
+                            document.getElementById('progress-fill').style.width = progressPercent + '%';
+
+                            // Cập nhật navigation
+                            updateQuestionNavigation();
+                        }
+
+                        // Đếm số câu đã trả lời
+                        function getAnsweredQuestionsCount() {
+                            const answeredQuestions = new Set();
+                            document.querySelectorAll('.answer-checkbox:checked').forEach(checkbox => {
+                                answeredQuestions.add(checkbox.getAttribute('data-question-id'));
+                            });
+                            return answeredQuestions.size;
+                        }
+
+                        // Cập nhật navigation
+                        function updateQuestionNavigation() {
+                            document.querySelectorAll('.question-nav a').forEach(link => {
+                                const questionId = link.getAttribute('data-question');
+                                const hasAnswer = document.querySelector(`input[data-question-id="${questionId}"]:checked`);
+
+                                link.classList.toggle('answered', !!hasAnswer);
+                            });
+                        }
+
+                        // Đánh dấu câu hỏi hiện tại
+                        function markCurrentQuestion() {
+                            const questions = document.querySelectorAll('.question');
+                            const navLinks = document.querySelectorAll('.question-nav a');
+
+                            const observer = new IntersectionObserver((entries) => {
+                                entries.forEach(entry => {
+                                    if (entry.isIntersecting) {
+                                        const questionId = entry.target.id.replace('question-', '');
+
+                                        // Bỏ đánh dấu tất cả
+                                        navLinks.forEach(link => link.classList.remove('current'));
+
+                                        // Đánh dấu câu hiện tại
+                                        const currentLink = document.querySelector(`a[data-question="${questionId}"]`);
+                                        if (currentLink) {
+                                            currentLink.classList.add('current');
+                                        }
+                                    }
+                                });
+                            }, {threshold: 0.5});
+
+                            questions.forEach(question => observer.observe(question));
+                        }
+
+                        // Toggle fullscreen
+                        function toggleFullscreen() {
+                            if (!document.fullscreenElement) {
+                                document.documentElement.requestFullscreen().catch(err => {
+                                    console.log('Error attempting to enable fullscreen:', err);
+                                });
+                            } else {
+                                document.exitFullscreen();
+                            }
+                        }
+
+                        // Smooth scroll cho navigation
+                        document.querySelectorAll('.question-nav a').forEach(link => {
+                            link.addEventListener('click', function (e) {
+                                e.preventDefault();
+                                const targetId = this.getAttribute('href');
+                                const targetElement = document.querySelector(targetId);
+                                if (targetElement) {
+                                    targetElement.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start'
+                                    });
+                                }
+                            });
+                        });
         </script>
     </body>
 </html>

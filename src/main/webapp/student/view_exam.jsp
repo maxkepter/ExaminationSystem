@@ -13,6 +13,7 @@
         <title>View Exam</title>
     </head>
     <body>
+        
         <h1>View Exam</h1>
         <h2>Exam search</h2>
         <c:if test="${not empty error}">
