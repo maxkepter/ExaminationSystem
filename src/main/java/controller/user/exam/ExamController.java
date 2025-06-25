@@ -94,4 +94,11 @@ public class ExamController extends HttpServlet {
 
         request.getRequestDispatcher("/student/findCode.jsp").forward(request, response);
     }
-}
+}<<<<<<<HEAD=======
+
+/**
+ * Returns a short description of the servlet.
+ *
+ * @return a String containing servlet description
+ */
+>>>>>>>origin/tudwg

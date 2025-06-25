@@ -27,12 +27,8 @@
                         <a class="btn" href="Logout">Logout</a>
                         <a class="btn " href="UserProfile">UserProfile</a>
                         <a class="btn " href="functionpage/examcreation1.jsp">Create Exam</a>
-                        <a class="btn " href="${pageContext.request.contextPath}/toViewAllExam">View Exam</a>
-                        <a class="btn " href="functionpage/questioncreation.jsp">Create Question</a>
                         <a class="btn " href="functionpage/examlist.jsp">Major Management</a>
                         <a class="btn " href="functionpage/examlist.jsp">Subject Management</a>
-                        <a class="btn " href="${pageContext.request.contextPath}/toSubjectAndChapterCreation">Subject Creation</a>
-                        <a class="btn " href="${pageContext.request.contextPath}/toViewAllQuestion">View all Question</a>
                     </c:when>
                 </c:choose>
             </div>

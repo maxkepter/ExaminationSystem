@@ -6,7 +6,6 @@ package repository.exam;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import java.util.Map;
 import model.exam.Exam;
 import repository.FullOptionDAO;
 

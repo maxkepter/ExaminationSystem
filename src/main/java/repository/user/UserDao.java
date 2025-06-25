@@ -69,4 +69,10 @@ public class UserDao extends DeleteableObjectDao<User> {
         throw new UnsupportedOperationException("Unimplemented method 'exists'");
     }
 
+    @Override
+    public boolean exists(Object id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'exists'");
+    }
+
 }

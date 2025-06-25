@@ -1,32 +1,35 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-package controller.user.exam;
+package controller.admin.exam;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.PersistenceUnit;
+import jakarta.persistence.Persistence;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.exam.Exam;
-import utils.Validate;
+import model.exam.Question;
+import repository.exam.student.GenerateExamDao;
+import service.exam.GenerateExamService;
 
 /**
  *
  * @author FPT SHOP
  */
-@WebServlet(name = "ExamServlet", urlPatterns = "ExamServlet")
-public class ExamServlet extends HttpServlet {
+public class GenerateExam extends HttpServlet {
 
-    @PersistenceUnit(unitName = "quizPU")
     private EntityManagerFactory emf;
+    GenerateExamService generateExamService;
+
+    @Override
+    public void init() throws ServletException {
+        emf = Persistence.createEntityManagerFactory("ExamManagement");
+        GenerateExamDao generateExamDao = new GenerateExamDao(emf);
+        generateExamService = new GenerateExamService(generateExamDao);
+
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,17 +48,18 @@ public class ExamServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ExamServlet</title>");
+            out.println("<title>Servlet GenerrateExam</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ExamServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet GenerrateExam at " + request.getContextPath()
+                    + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
-    // + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on
+    // the + sign on the left to edit the code
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -67,26 +71,7 @@ public class ExamServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EntityManager em = emf.createEntityManager();
-
-        String action = request.getParameter("action");
-        if ("search".equals(action)) {
-            String idStr = request.getParameter("examCode");
-            if (Validate.validateString(idStr)) {
-                Integer id = Integer.parseInt(idStr);
-                Exam exam = em.find(Exam.class, id);
-
-                if (exam != null) {
-                    request.setAttribute("examResult", exam);
-                    request.setAttribute("message", "Tìm thấy mã đề thi: " + id);
-                } else {
-                    request.setAttribute("message", "Không tìm thấy đề thi với ID: " + id);
-                }
-            }
-        }
-
-        request.getRequestDispatcher("/student/findCode.jsp").forward(request, response);
-        em.close();
+        processRequest(request, response);
     }
 
     /**
@@ -100,17 +85,19 @@ public class ExamServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String chapterNoStr = request.getParameter("chapterNo");
+        String difficultyStr = request.getParameter("difficulty");
+
+        List<Question> questions = generateExamService.getQuestionsByChapterAndDifficulty(chapterNoStr, difficultyStr);
+
+        request.setAttribute("questions", questions);
+        request.getRequestDispatcher("/student/questionList.jsp").forward(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }
+
+/**
+ * Returns a short description of the servlet.
+ *
+ * @return a String containing servlet description
+ */

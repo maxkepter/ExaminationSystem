@@ -17,7 +17,6 @@ import repository.exam.student.GenerateExamDao;
  * @author FPT SHOP
  */
 public class GenerateExamService {
-
     private GenerateExamDao generateExamDao;
 
     public GenerateExamService(GenerateExamDao generateExamDao) {
