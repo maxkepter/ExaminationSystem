@@ -7,6 +7,9 @@ public class ViewStudentExamService {
     public StudentExam getExam(int userId, int studentExamId) throws IllegalArgumentException {
         StudentExam studentExam = DAOFactory.getStudentExamDao().findWithStudent(studentExamId);
 
+        if (studentExam == null) {
+            throw new IllegalArgumentException("Student exam not found");
+        }
         // check user
         if (studentExam.getStudent().getUserID() != userId) {
             throw new IllegalArgumentException("Invalid user id !");

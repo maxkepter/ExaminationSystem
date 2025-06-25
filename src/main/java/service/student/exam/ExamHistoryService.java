@@ -8,6 +8,7 @@ import constants.PageSize;
 import factory.DAOFactory;
 import model.exam.student.StudentExam;
 import repository.exam.student.StudentExamDao;
+import utils.PagingList;
 
 public class ExamHistoryService {
     public List<StudentExam> getHistory(int userId, int pageIndex, int[] maxPage) throws IndexOutOfBoundsException {
@@ -24,16 +25,6 @@ public class ExamHistoryService {
         // Get max page
         maxPage[0] = (studentExams.size() / pageSize);
 
-        if (maxPage[0] < pageIndex) {
-            throw new IndexOutOfBoundsException("Page does not exist !");
-        }
-        // Paging list
-        int start = pageIndex * pageSize;
-        int end = (pageIndex + 1) * pageSize < studentExams.size() - 1 ? (pageIndex + 1) * pageSize
-                : studentExams.size();
-
-        studentExams = studentExams.subList(start, end);
-
-        return studentExams;
+        return PagingList.paging(studentExams, pageIndex, maxPage[0], pageSize);
     }
 }

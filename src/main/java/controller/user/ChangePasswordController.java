@@ -8,6 +8,7 @@ package controller.user;
 import java.io.IOException;
 
 import exception.login.AuthenticationException;
+import jakarta.mail.Header;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -37,6 +38,8 @@ public class ChangePasswordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+       request.getCookies();
         
         // Get the current user from the session
         HttpSession session = request.getSession();
