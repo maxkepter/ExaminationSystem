@@ -76,7 +76,7 @@ public class AdminLoginController extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("user", user);
         // If login is successful, redirect to the home page
-        response.sendRedirect(request.getContextPath() + "/AdminHome");
+        response.sendRedirect(request.getContextPath() + "/adminhome");
 
     }
 

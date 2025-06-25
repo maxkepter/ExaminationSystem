@@ -18,29 +18,22 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E>, S
 
     @Override
     public void create(E object) {
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
-            entityManager.getTransaction().begin();
-            entityManager.persist(object);
-            entityManager.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(object);
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     @Override
     public void createMany(List<E> objects) {
-
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
-            entityManager.getTransaction().begin();
-            for (E object : objects) {
-                entityManager.persist(object);
-            }
-            entityManager.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        for (E object : objects) {
+            entityManager.persist(object);
         }
-
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     @Override
@@ -52,7 +45,6 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E>, S
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return object;
     }
 
@@ -71,31 +63,22 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E>, S
 
     @Override
     public long count() {
-        long count = 0;
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
-            entityManager.getTransaction().begin();
-            count = entityManager
-                    .createQuery("SELECT COUNT(e) FROM " + entityClass.getSimpleName() + " e", Long.class)
-                    .getSingleResult();
-            entityManager.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        long count = entityManager.createQuery("SELECT COUNT(e) FROM " + entityClass.getSimpleName() + " e", Long.class)
+                .getSingleResult();
+        entityManager.getTransaction().commit();
+        entityManager.close();
         return count;
     }
 
     @Override
-    public boolean exists(int id) {
-        boolean exists = false;
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
-            entityManager.getTransaction().begin();
-            exists = entityManager.find(entityClass, id) != null;
-            entityManager.getTransaction().commit();
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-
+    public boolean exists(Object id) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        boolean exists = entityManager.find(entityClass, id) != null;
+        entityManager.getTransaction().commit();
+        entityManager.close();
         return exists;
     }
 

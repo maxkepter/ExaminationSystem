@@ -1,11 +1,11 @@
 <%-- 
-    Document   : examcreation1
-    Created on : Jun 3, 2025, 2:33:05 AM
+    Document   : questioncreation
+    Created on : Jun 11, 2025, 2:17:50 PM
     Author     : MasterLong
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,36 +13,49 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>This is where you create the exam</h1>
-        <c:choose>
-            <c:when test="${not empty user}">
-                <p class="welcome-text">
-                    Welcome, <strong>${user.firstName} ${user.lastName}</strong>!
-                </p>
-            </c:when>
-        </c:choose>
+        <h1>This is question creation</h1>
 
-        <form action="${pageContext.request.contextPath}/HandleExamCreation1" method="get">
+
+        <form action="${pageContext.request.getContextPath()}/HandleQuestionCreation" method="post">
+
+            <!--            Chon Major , Chapter va Subject-->
+
             Major: <select id="majorSelect" name="majorId">
                 <option value="">-- Choose a major --</option>
             </select>
             Subject: <select id="subjectSelect" name="subjectId">
                 <option value="">-- Choose a subject --</option>
             </select>
-            <div id="chapterSelect">
-                <p>Select all chapter:</p>
-            </div>  
-            Tên đề thi <input type="text" name="examName">
-            Thời gian (phút) <input type="number" name="duration" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-            Số câu hỏi dễ: <input type="number" name="numberEasy" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-            Số câu hỏi vừa: <input type="number" name="numberNormal" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-            Số câu hỏi khó:  <input type="number" name="numberHard" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-            <input type="submit" name="submit" value="Bắt đầu tạo bài kiểm tra">
-        </form>
-        <a class="btn " href="${pageContext.request.contextPath}/adminhome">Go Back</a>
+            Chapter: <select id="chapterSelect" name="chapterId">
+                <option value="">-- Choose a chapter --</<option>
+            </select>
+            <!--                Chon question va answer -->
 
+            </br>
+            Question: <input type="text" name="question" value="${question}"><br/>
+            Difficulty: <select name="difficulty">
+                <option value="1">Easy</option>
+                <option value="2">Normal</option>
+                <option value="3">Hard</option>
+            </select>
+            <div id="answersContainer">
+                <div>
+                    Answer 1: <input type="text" name="answer1">
+                    True: <input type="checkbox" name="isTrue" value="1">
+                </div>
+                <div>
+                    Answer 2: <input type="text" name="answer2">
+                    True: <input type="checkbox" name="isTrue" value="2">
+                </div>
+            </div>
+
+            <button type="button" id="addAnswerBtn">Add more answer</button>
+            <button type="button" id="deleteAnswerBtn">Delete an answer</button>
+            <input type="submit" id="submitQuestionBtn" name="action" value="Submit Question">
+        </form>
+
+        <!--            Xu li logic hien thi-->
         <script>
-            //Dynamic generation major
             function getListMajor() {
                 const baseUrl = '<%= request.getContextPath() %>';
                 fetch(baseUrl + "/AjaxHandleChooseChapter?action=getMajors")
@@ -90,18 +103,16 @@
                         .then(response => response.json())
                         .then(chapters => {
                             const chapterSelect = document.getElementById("chapterSelect");
-                            chapterSelect.innerHTML = "<p>Select all chapter:</p>";
+                            chapterSelect.innerHTML = "";
+                            const defaultOption = document.createElement("option");
+                            defaultOption.value = "";
+                            defaultOption.textContent = "-- Choose a chapter --";
+                            chapterSelect.appendChild(defaultOption);
                             chapters.forEach(chapter => {
-                                const div = document.createElement("div");
-                                const chapterNo = document.createElement("span");
-                                chapterNo.textContent ="Chapter "+ chapter.chapterNo;
-                                const input = document.createElement("input");
-                                input.value = chapter.chapterID;
-                                input.name = "chapterID";
-                                input.type= "checkbox";
-                                div.appendChild(chapterNo);
-                                div.appendChild(input);
-                                chapterSelect.appendChild(div);
+                                const option = document.createElement("option");
+                                option.value = chapter.chapterID;
+                                option.textContent = chapter.chapterNo;
+                                chapterSelect.appendChild(option);
 
                             });
                         });
@@ -120,16 +131,60 @@
                 // Event handlers for cascading dropdowns
                 document.getElementById("majorSelect").addEventListener("change", function () {
                     getListSubject(this.value);
+
+
                     //Reset chapter
                     const chapterSelect = document.getElementById("chapterSelect");
-                    chapterSelect.innerHTML = "<p>Select all chapter:</p>";
+                    chapterSelect.innerHTML = "";
+                    const defaultOption = document.createElement("option");
+                    defaultOption.value = "";
+                    defaultOption.textContent = "-- Choose a chapter --";
+                    chapterSelect.appendChild(defaultOption);
+
                 });
+
                 document.getElementById("subjectSelect").addEventListener("change", function () {
                     getListChapter(this.value);
                 });
 
+
+
+
+                let answerCount = 2; // Start from 2 since 1 and 2 already exist
+                const addBtn = document.getElementById("addAnswerBtn");
+                const deleteBtn = document.getElementById("deleteAnswerBtn");
+                const answersContainer = document.getElementById("answersContainer");
+
+                addBtn.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    answerCount++;
+
+                    const answerDiv = document.createElement("div");
+                    answerDiv.innerHTML =
+                            "Answer " + answerCount + ": " +
+                            "<input type='text' name='answer" + answerCount + "' /> " +
+                            "True: <input type='checkbox' name='isTrue' value='" + answerCount + "' />" +
+                            "<br/>";
+
+                    answersContainer.appendChild(answerDiv);
+                });
+                // Event delegation: handle delete clicks from all current/future .deleteAnswerBtn
+                deleteBtn.addEventListener("click", function (e) {
+                    e.preventDefault();
+
+                    const answerDivs = answersContainer.querySelectorAll("div");
+
+                    if (answerDivs.length > 2) {
+                        answersContainer.removeChild(answerDivs[answerDivs.length - 1]);
+                        answerCount--;
+                    } else {
+                        alert("At least 2 answers are required.");
+                    }
+                });
+
+
             });
+
         </script>
     </body>
-
 </html>

@@ -33,6 +33,7 @@
                         <p>Test</p>
                         <a class="btn" href="login.jsp">Login</a>
                         <a class="btn btn-secondary" href="Register">Register</a>
+                        <a class="btn" href="adminlogin">Admin Login</a>
                     </c:otherwise>
                 </c:choose>
                 <script src="css/javascript.js"></script>

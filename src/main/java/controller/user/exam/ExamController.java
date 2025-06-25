@@ -4,9 +4,8 @@
  */
 package controller.user.exam;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
+import factory.EntityManagerFactoryProvider;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceUnit;
@@ -14,6 +13,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 import model.exam.Exam;
 import repository.exam.ExamDao;
 import service.exam.ExamService;
@@ -28,14 +31,6 @@ public class ExamController extends HttpServlet {
     // private ExamDao examDAO;
     private EntityManagerFactory emf;
     private ExamService examService;
-
-    @Override
-    public void init() {
-        emf = Persistence.createEntityManagerFactory("ExamManagement");
-        ExamDao examDao = new ExamDao(emf, Exam.class);
-        examService = new ExamService(examDao);
-
-    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -73,37 +68,6 @@ public class ExamController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException      if an I/O error occurs
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        // EntityManager em = emf.createEntityManager();
-        //
-        // String action = request.getParameter("action");
-        // if ("search".equals(action)) {
-        // String examCode = request.getParameter("examCode");
-        //
-        // if (examCode != null && !examCode.isEmpty()) {
-        // // Truy vấn trực tiếp Exam bằng examCode
-        // TypedQuery<Exam> query = em.createQuery(
-        // "SELECT e FROM Exam e WHERE e.examCode = :code", Exam.class);
-        // query.setParameter("code", examCode);
-        //
-        // Exam exam = query.getResultStream().findFirst().orElse(null);
-        //
-        // if (exam != null) {
-        // request.setAttribute("examResult", exam);
-        // request.setAttribute("message", "Tìm thấy mã đề thi: " + examCode);
-        // } else {
-        // request.setAttribute("message", "Không tìm thấy đề thi với mã: " + examCode);
-        // }
-        // }
-        // }
-        //
-        // em.close();
-        // request.getRequestDispatcher("/student/findCode.jsp").forward(request,
-        // response);
-    }
-
     /**
      * Handles the HTTP <code>POST</code> method.
      * 🗿🤌🗿🗿🗿✍️(◔◡◔)╰(*°▽°*)╯(❁´◡`❁)(●'◡'●)(づ￣ 3￣)づ
@@ -116,14 +80,14 @@ public class ExamController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
+        ExamDao examDAO = new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Exam.class);
         String action = request.getParameter("action");
         if ("search".equals(action)) {
             String examCode = request.getParameter("examCode");
-
-            Exam exam = examService.searchExamByCode(examCode);
-
-            if (exam != null) {
-                request.setAttribute("exam", exam);
+            List<Exam> exams = examDAO.findByProperty("examCode", examCode);
+            if (!exams.isEmpty()) {
+                request.setAttribute("exams", exams);
                 request.setAttribute("message", "Tìm thấy mã đề thi: " + examCode);
             } else {
                 request.setAttribute("message", "Không tìm thấy đề thi với mã: " + examCode);
@@ -133,9 +97,3 @@ public class ExamController extends HttpServlet {
         request.getRequestDispatcher("/student/findCode.jsp").forward(request, response);
     }
 }
-
-/**
- * Returns a short description of the servlet.
- *
- * @return a String containing servlet description
- */

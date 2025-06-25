@@ -6,7 +6,7 @@ import java.util.Map;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
-public abstract class DeleteableObjectDao<E> extends ObjectDao<E> implements DeletableDao, UpdatableDao<E> {
+public abstract class DeleteableObjectDao<E> extends ObjectDao<E> implements DeletableDao {
 
     private final String DELETE_BY_ID = "DELETE FROM " + entityClass.getSimpleName() + " e WHERE e.id = :id";
     private final String DELETE_MANY_BY_ID = "DELETE FROM " + entityClass.getSimpleName() + " e WHERE e.id IN :ids";
@@ -18,18 +18,15 @@ public abstract class DeleteableObjectDao<E> extends ObjectDao<E> implements Del
 
     @Override
     public void delete(int id) {
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
-            entityManager.getTransaction().begin();
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
 
-            entityManager.createQuery(DELETE_BY_ID)
-                    .setParameter("id", id)
-                    .executeUpdate();
+        entityManager.createQuery(DELETE_BY_ID)
+                .setParameter("id", id)
+                .executeUpdate();
 
-            entityManager.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     @Override
@@ -51,10 +48,7 @@ public abstract class DeleteableObjectDao<E> extends ObjectDao<E> implements Del
 
     }
 
-    @Override
     public void deleteAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAll'");
     }
 
     @Override

@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import repository.exam.QuestionOptionDao;
 
@@ -36,10 +37,14 @@ public class Question {
     @JoinColumn(name = "chapterID", nullable = false)
     private Chapter chapter;
 
+    @OneToMany(mappedBy = "question")
+    private List<QuestionOption> options;
+
     public Question() {
     }
 
-    public Question(String questionContent, boolean isDisable, int difficulty, Chapter chapter) {
+    public Question(int questionId, String questionContent, boolean isDisable, int difficulty, Chapter chapter) {
+        this.questionId = questionId;
         this.questionContent = questionContent;
         this.isDisable = isDisable;
         this.difficulty = difficulty;
@@ -84,12 +89,6 @@ public class Question {
 
     public void setChapter(Chapter chapter) {
         this.chapter = chapter;
-    }
-
-    public List<QuestionOption> getOptions() {
-        QuestionOptionDao optionDao = new QuestionOptionDao(EntityManagerFactoryProvider.getEntityManagerFactory(),
-                QuestionOption.class);
-        return optionDao.getOptionsByQuestionId(this.questionId);
     }
 
 }
