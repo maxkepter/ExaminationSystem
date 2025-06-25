@@ -111,4 +111,16 @@ public class StudentExamDao extends ObjectDao<StudentExam>
         return studentExam;
     }
 
+    @Override
+    public StudentExam findById(Object id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    }
+
+    @Override
+    public boolean exists(int id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'exists'");
+    }
+
 }

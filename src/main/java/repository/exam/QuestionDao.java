@@ -12,6 +12,10 @@ public class QuestionDao extends FullOptionDAO<Question> {
         super(entityManagerFactory, entityClass);
     }
 
+    public QuestionDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory, Question.class);
+    }
+
     @Override
     public List<Question> findAll() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();

@@ -91,4 +91,12 @@ public class Question {
         this.chapter = chapter;
     }
 
+    public List<QuestionOption> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<QuestionOption> options) {
+        this.options = options;
+    }
+
 }

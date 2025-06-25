@@ -25,4 +25,16 @@ public class AdminDao extends DeleteableObjectDao<Admin> {
         throw new UnsupportedOperationException("Unimplemented method 'updatePartial'");
     }
 
+    @Override
+    public Admin findById(Object id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    }
+
+    @Override
+    public boolean exists(int id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'exists'");
+    }
+
 }

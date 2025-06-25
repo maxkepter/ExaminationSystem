@@ -55,4 +55,16 @@ public class LoginInfoDao extends ObjectDao<LoginInfo> implements UpdatableDao<L
         throw new UnsupportedOperationException("Unimplemented method 'updatePartial'");
     }
 
+    @Override
+    public LoginInfo findById(Object id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    }
+
+    @Override
+    public boolean exists(int id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'exists'");
+    }
+
 }

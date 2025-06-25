@@ -4,7 +4,9 @@
  */
 package repository.exam;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
 import model.exam.Exam;
 import repository.FullOptionDAO;
 
@@ -17,4 +19,17 @@ public class ExamDao extends FullOptionDAO<Exam> {
         super(entityManagerFactory, entityClass);
     }
 
+    public ExamDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory, Exam.class);
+    }
+
+    public Exam findExamByCode(String examCode) {
+
+        try (EntityManager em = entityManagerFactory.createEntityManager()) {
+            TypedQuery<Exam> query = em.createQuery(
+                    "SELECT e FROM Exam e WHERE e.examCode = :code", Exam.class);
+            query.setParameter("code", examCode);
+            return query.getResultStream().findFirst().orElse(null);
+        }
+    }
 }

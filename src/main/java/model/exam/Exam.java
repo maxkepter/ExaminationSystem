@@ -24,10 +24,6 @@ public class Exam {
     public static final String EXAM_CODE = "examCode";
     public static final String EXAM_NAME = "examName";
 
-    
-
-    
-    
     @Id
     private int examID;
 
@@ -49,7 +45,7 @@ public class Exam {
     @ManyToOne
     @JoinColumn(name = "userID", nullable = false)
     private User user;
-    
+
     public Exam() {
     }
 
@@ -62,7 +58,7 @@ public class Exam {
         this.deadline = this.examDate.plusDays(7);
         this.examCode = ExamCodeGenerator.getExamCode();
     }
-    
+
     // Getters and Setters
 
     public int getExamID() {
@@ -120,10 +116,9 @@ public class Exam {
     public void setUser(User user) {
         this.user = user;
     }
-    
 
     public boolean isEnd() {
-        return this.deadline.isBefore(LocalDate.now());
+        return this.deadline.isBefore(LocalDateTime.now());
     }
 
 }

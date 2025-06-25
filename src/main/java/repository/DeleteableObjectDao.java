@@ -6,7 +6,7 @@ import java.util.Map;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
-public abstract class DeleteableObjectDao<E> extends ObjectDao<E> implements DeletableDao {
+public abstract class DeleteableObjectDao<E> extends ObjectDao<E> implements DeletableDao, UpdatableDao<E> {
 
     private final String DELETE_BY_ID = "DELETE FROM " + entityClass.getSimpleName() + " e WHERE e.id = :id";
     private final String DELETE_MANY_BY_ID = "DELETE FROM " + entityClass.getSimpleName() + " e WHERE e.id IN :ids";
@@ -49,18 +49,6 @@ public abstract class DeleteableObjectDao<E> extends ObjectDao<E> implements Del
     }
 
     public void deleteAll() {
-    }
-
-    @Override
-    public void update(E object) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void updatePartial(int id, Map<String, Object> fields) {
-        // TODO Auto-generated method stub
-
     }
 
 }

@@ -85,4 +85,16 @@ public class BanLogDao extends ObjectDao<BanLog>
         throw new UnsupportedOperationException("Unimplemented method 'findByTimeRange'");
     }
 
+    @Override
+    public BanLog findById(Object id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    }
+
+    @Override
+    public boolean exists(int id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'exists'");
+    }
+
 }

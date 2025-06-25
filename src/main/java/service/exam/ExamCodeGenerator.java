@@ -6,7 +6,6 @@ package service.exam;
 
 import factory.EntityManagerFactoryProvider;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import model.exam.Exam;
 import repository.exam.ExamDao;
