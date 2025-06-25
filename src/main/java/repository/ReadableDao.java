@@ -13,6 +13,8 @@ import java.util.List;
 public interface ReadableDao<E> {
     E findById(Object id);
 
+    E findById(int id);
+
     List<E> findAll();
 
     long count();
