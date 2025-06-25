@@ -4,6 +4,7 @@
  */
 package repository.exam;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import java.util.Map;
 import model.exam.Exam;
@@ -13,10 +14,21 @@ import repository.FullOptionDAO;
  *
  * @author MasterLong
  */
-public class ExamDAO extends FullOptionDAO<Exam>{
+public class ExamDao extends FullOptionDAO<Exam>{
     
-    public ExamDAO(EntityManagerFactory entityManagerFactory, Class<Exam> entityClass) {
+    public ExamDao(EntityManagerFactory entityManagerFactory, Class<Exam> entityClass) {
         super(entityManagerFactory, entityClass);
+    }
+    
+    public ExamDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory, Exam.class);
+    }
+    
+    public Exam findExamByCode(String examCode){
+        try (EntityManager em = entityManagerFactory.createEntityManager()) {
+            String jpql = "SELECT e FROM " + entityClass.getSimpleName() + " e WHERE e.examCode" + " = :value";
+            return em.createQuery(jpql, entityClass).setParameter("value", examCode).getSingleResult();
+        }
     }
     
     

@@ -19,7 +19,6 @@ import java.io.PrintWriter;
 import java.util.List;
 import model.exam.Exam;
 import repository.exam.ExamDao;
-import service.exam.ExamService;
 
 /**
  *
@@ -30,7 +29,6 @@ public class ExamController extends HttpServlet {
     @PersistenceUnit(unitName = "quizPU")
     // private ExamDao examDAO;
     private EntityManagerFactory emf;
-    private ExamService examService;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
