@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.exam.Exam;
 import repository.exam.ExamDao;
-import service.exam.ExamService;
 import utils.Validate;
 
 /**
@@ -71,11 +70,10 @@ public class ViewExamController extends HttpServlet {
             return;
         }
 
-        ExamService examService = new ExamService(
-                new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Exam.class));
+        ExamDao examDAO = new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Exam.class);
         String code = request.getParameter("examID");
         try {
-            Exam exam = examService.searchExam(code);
+            Exam exam = examDAO.findExamByCode(code);
             request.setAttribute("examResult", exam);
         } catch (IllegalArgumentException e) {
             request.setAttribute("error", e.getMessage());
