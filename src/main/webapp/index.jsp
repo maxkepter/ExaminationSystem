@@ -22,10 +22,8 @@
         <!-- Navigation Bar -->
         <nav class="navbar">
             <div class="nav-container">
-                <div class="flex items-center">
-                    <h1 class="text-[28.8px] font-bold text-white" style="margin-top: 8px; font-family: 'Segoe UI';">
-                        🎓 Examination System
-                    </h1>
+                <div class="nav-brand">
+                    🎓 Examination System
                 </div>
 
                 <div class="nav-menu">
@@ -65,9 +63,7 @@
 
         <!-- Footer -->
         <div class="footer">
-            <p>© 2005-2025 Bản quyền thuộc về Ông Bùi Tuấn Dương + ChatGPT.</p>
-            <p>Cấm sao chép dưới mọi hình thức nếu không có sự chấp thuận bằng văn bản.</p>
-            <p>Contact: 123456678</p>
+            © 2025 Exam Management System. All rights reserved.
         </div>
     </body>
 </html>

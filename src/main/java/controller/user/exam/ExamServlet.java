@@ -71,7 +71,7 @@ public class ExamServlet extends HttpServlet {
 
         String action = request.getParameter("action");
         if ("search".equals(action)) {
-            String idStr = request.getParameter("examID");
+            String idStr = request.getParameter("examCode");
             if (Validate.validateString(idStr)) {
                 Integer id = Integer.parseInt(idStr);
                 Exam exam = em.find(Exam.class, id);
