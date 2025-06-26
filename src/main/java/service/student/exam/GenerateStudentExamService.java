@@ -53,8 +53,9 @@ public class GenerateStudentExamService {
 
         private List<QuestionWithOptions> generateQuestionWithOptions(Exam exam) {
                 List<Question> questions = DAOFactory.getQuestionDao().findAll();
-                List<QuestionWithOptions> options = QuestionWithOptions.convertFromEntities(questions);
-                return options.subList(0, 5);
+
+                List<QuestionWithOptions> options = QuestionWithOptions.convertFromEntities(questions.subList(0, 5));
+                return options;
         }
 
 }

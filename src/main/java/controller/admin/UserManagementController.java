@@ -1,40 +1,33 @@
-package controller.admin.exam;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
+
+package controller.admin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.exam.Question;
-import repository.exam.student.GenerateExamDao;
-import service.exam.GenerateExamService;
+import model.user.User;
+import service.admin.ViewUserService;
 
 /**
  *
- * @author FPT SHOP
+ * @author Admin
  */
-public class GenerateExam extends HttpServlet {
-
-    private EntityManagerFactory emf;
-    GenerateExamService generateExamService;
-
-    @Override
-    public void init() throws ServletException {
-        emf = Persistence.createEntityManagerFactory("ExamManagement");
-        GenerateExamDao generateExamDao = new GenerateExamDao(emf);
-        generateExamService = new GenerateExamService(generateExamDao);
-
-    }
+@WebServlet(name = "UserManagementController", urlPatterns = { "/UserManagement" })
+public class UserManagementController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     *
+     * 
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -48,21 +41,20 @@ public class GenerateExam extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet GenerrateExam</title>");
+            out.println("<title>Servlet UserManagementController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet GenerrateExam at " + request.getContextPath()
-                    + "</h1>");
+            out.println("<h1>Servlet UserManagementController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on
-    // the + sign on the left to edit the code
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
+    // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     *
+     * 
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -71,12 +63,31 @@ public class GenerateExam extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        ViewUserService viewUserService = new ViewUserService();
+
+        try {
+            // Get the page index from the request parameter, default to 1 if not present
+            Integer pageIndex = request.getParameter("pageIndex") != null
+                    ? Integer.parseInt(request.getParameter("pageIndex"))
+                    : 0;
+            int[] maxPage = {0};
+            List<User> userList = viewUserService.getUser(pageIndex, maxPage);
+
+            request.setAttribute("userList", userList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errorMessage = "An error occurred while retrieving user data: " + e.getMessage();
+            request.setAttribute("errorMessage", errorMessage);
+        }
+
+        request.getRequestDispatcher("adminpage/view_user.jsp").forward(request, response);
+
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     *
+     * 
      * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -85,19 +96,17 @@ public class GenerateExam extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String chapterNoStr = request.getParameter("chapterNo");
-        String difficultyStr = request.getParameter("difficulty");
-
-        List<Question> questions = generateExamService.getQuestionsByChapterAndDifficulty(chapterNoStr, difficultyStr);
-
-        request.setAttribute("questions", questions);
-        request.getRequestDispatcher("/student/questionList.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
-}
+    /**
+     * Returns a short description of the servlet.
+     * 
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
 
-/**
- * Returns a short description of the servlet.
- *
- * @return a String containing servlet description
- */
+}

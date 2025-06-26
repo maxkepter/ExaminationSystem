@@ -162,20 +162,20 @@
                     <nav>
                         <ul class="space-y-2">
                             <li>
-                                <a href="index.jsp" class="sidebar-item flex items-center px-4 py-3 text-gray-700 font-medium">
+                                <a href="../index.jsp" class="sidebar-item flex items-center px-4 py-3 text-gray-700 font-medium">
                                     <i class="fas fa-home w-5 mr-4 text-lg"></i>
                                     Home 
                                 </a>
                             </li>
                             <li>
-                                <a href="UserProfile" class="sidebar-item flex items-center px-4 py-3 text-gray-700 font-medium">
+                                <a href="../UserProfile" class="sidebar-item flex items-center px-4 py-3 text-gray-700 font-medium">
                                     <i class="fas fa-user-edit w-5 mr-4 text-lg"></i>
                                     Update Information
                                 </a>
                             </li>
                             <li>
                                 <!-- Active vì đang xem chi tiết từ exam history -->
-                                <a href="ExamHistory" class="sidebar-item active flex items-center px-4 py-3 text-gray-700 font-medium">
+                                <a href="../ExamHistory" class="sidebar-item active flex items-center px-4 py-3 text-gray-700 font-medium">
                                     <i class="fas fa-history w-5 mr-4 text-lg"></i>
                                     Exam History
                                 </a>
@@ -215,7 +215,7 @@
                                 <p class="text-gray-600 mt-1">Review your answers and exam performance</p>
                             </div>
                             <!-- Back Button -->
-                            <a href="ExamHistory" class="back-button bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-md transition flex items-center">
+                            <a href="../ExamHistory" class="back-button bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-md transition flex items-center">
                                 <i class="fas fa-arrow-left mr-2"></i>
                                 Back to History
                             </a>
@@ -228,9 +228,9 @@
                             <div>
                                 <h2 class="text-xl font-semibold text-gray-800 mb-2">${examName}</h2>
                                 <div class="flex items-center space-x-6 text-sm text-gray-600">
-                                    <span><i class="fas fa-calendar mr-2"></i>Completed on: ${submitDate}</span>
+                                    <span><i class="fas fa-calendar mr-2"></i>Completed on: ${submitTime}</span>
                                     <span><i class="fas fa-clock mr-2"></i>Duration: ${duration}</span>
-                                    <span><i class="fas fa-question-circle mr-2"></i>Questions: ${totalQuestions}</span>
+                                    <span><i class="fas fa-question-circle mr-2"></i>Questions: ${questionSize}</span>
                                 </div>
                             </div>
                             <div class="text-right">
@@ -343,7 +343,7 @@
 
                     <!-- Bottom Actions -->
                     <div class="mt-8 flex justify-center">
-                        <a href="ExamHistory" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-8 rounded-md transition flex items-center">
+                        <a href="../ExamHistory" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-8 rounded-md transition flex items-center">
                             <i class="fas fa-arrow-left mr-2"></i>
                             Return to Exam History
                         </a>

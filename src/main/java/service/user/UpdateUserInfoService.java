@@ -1,12 +1,20 @@
 package service.user;
 
-import factory.EntityManagerFactoryProvider;
+import factory.DAOFactory;
 import model.user.User;
-import repository.user.UserDao;
 import utils.Validate;
 
 public class UpdateUserInfoService {
     public void update(User user, String newFirstName, String newLastName, String newEmail)
+            throws IllegalArgumentException {
+        updateUser(user, newFirstName, newLastName, newEmail);
+
+        // Update user in the database
+
+        DAOFactory.getUserDao().update(user);
+    }
+
+    protected void updateUser(User user, String newFirstName, String newLastName, String newEmail)
             throws IllegalArgumentException {
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
@@ -20,9 +28,6 @@ public class UpdateUserInfoService {
         user.setFirstName(newFirstName);
         user.setLastName(newLastName);
         user.setEmail(newEmail);
-
-        // Update user in the database
-        UserDao userDao = new UserDao(EntityManagerFactoryProvider.getEntityManagerFactory(), User.class);
-        userDao.update(user);
     }
+
 }

@@ -59,7 +59,7 @@ public class ExamInProgressFilter implements Filter {
         String path = req.getServletPath();
 
         if (path.startsWith("/Login") || path.startsWith("/Register") || path.startsWith("/AdminLogin")
-                || path.endsWith(".css") || path.endsWith(".js")) {
+                || path.startsWith("/Home") || path.startsWith("/") || path.endsWith(".css") || path.endsWith(".js")) {
             chain.doFilter(request, response);
             return;
         }
@@ -78,7 +78,6 @@ public class ExamInProgressFilter implements Filter {
             res.sendRedirect(req.getContextPath() + "/Login");
             return;
         }
-
         if (RoleFilter.isAdmin(user)) {
             chain.doFilter(request, response);
             return;

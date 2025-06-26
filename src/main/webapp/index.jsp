@@ -12,7 +12,7 @@
                 /* Override background for dynamic path */
                 body {
                     background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                        url('${pageContext.request.contextPath}/img/background.jpg') no-repeat center center;
+                        url("https://s14.gifyu.com/images/bxI4U.gif") no-repeat center center;
                     background-size: cover;
                     background-attachment: fixed;
                 }

@@ -5,9 +5,7 @@
 package controller.user.exam;
 
 import factory.EntityManagerFactoryProvider;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceUnit;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -94,11 +92,4 @@ public class ExamController extends HttpServlet {
 
         request.getRequestDispatcher("/student/findCode.jsp").forward(request, response);
     }
-}<<<<<<<HEAD=======
-
-/**
- * Returns a short description of the servlet.
- *
- * @return a String containing servlet description
- */
->>>>>>>origin/tudwg
+}

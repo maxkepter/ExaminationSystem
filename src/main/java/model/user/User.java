@@ -76,6 +76,10 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
     public Integer getRole() {
         return role;
     }
@@ -90,6 +94,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public static boolean validateRole(int role) {
+        if (role < USER_ROLE_STUDENT || role > USER_ROLE_ADMIN) {
+            return false;
+        }
+        return true;
     }
 
     @Override

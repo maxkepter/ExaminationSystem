@@ -7,7 +7,6 @@ package controller.user;
 import java.io.IOException;
 
 import exception.login.AuthenticationException;
-import jakarta.mail.Header;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

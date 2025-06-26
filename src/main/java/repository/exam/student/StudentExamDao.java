@@ -97,14 +97,15 @@ public class StudentExamDao extends ObjectDao<StudentExam>
 
     public StudentExam findWithStudent(int id) {
         StudentExam studentExam = null;
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
-            EntityGraph<StudentExam> entityGraph = entityManager.createEntityGraph(entityClass);
-            entityGraph.addAttributeNodes(StudentExam.STUDENT);
-
-            Map<String, Object> hints = new HashMap<>();
-            hints.put("javax.persistence.fetchgraph", entityGraph);
-
-            studentExam = entityManager.find(entityClass, id, hints);
+        try (EntityManager em = entityManagerFactory.createEntityManager()) {
+            TypedQuery<StudentExam> query = em.createQuery(
+                    "SELECT se FROM StudentExam se " +
+                            "JOIN FETCH se.student " +
+                            "JOIN FETCH se.exam " +
+                            "WHERE se.id = :id",
+                    StudentExam.class);
+            query.setParameter("id", id);
+            studentExam = query.getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();
         }

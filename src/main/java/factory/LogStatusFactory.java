@@ -21,7 +21,8 @@ public class LogStatusFactory {
     }
 
     private static void checkExist(LogStatus logStatus) {
-        if (!logStatusDao.exists(logStatus.getStatusId())) {
+        int id = logStatus.getStatusId();
+        if (!logStatusDao.exists(id)) {
             logStatusDao.create(logStatus);
         }
     }
