@@ -6,8 +6,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import model.user.User;
 import repository.DeleteableObjectDao;
+import repository.FullOptionDAO;
 
-public class UserDao extends DeleteableObjectDao<User> {
+public class UserDao extends FullOptionDAO<User> {
 
     public UserDao(EntityManagerFactory entityManagerFactory, Class<User> entityClass) {
         super(entityManagerFactory, entityClass);
@@ -17,7 +18,6 @@ public class UserDao extends DeleteableObjectDao<User> {
         super(entityManagerFactory, User.class);
     }
 
-    @Override
     public void update(User object) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         User userUpdate = (User) object;
@@ -55,18 +55,6 @@ public class UserDao extends DeleteableObjectDao<User> {
             e.printStackTrace();
         }
 
-    }
-
-    @Override
-    public User findById(Object id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
-    }
-
-    @Override
-    public boolean exists(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exists'");
     }
 
 }
