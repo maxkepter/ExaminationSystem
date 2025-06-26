@@ -18,21 +18,21 @@
         <c:if test="${not empty error}">
             <strong>${error}</strong>
         </c:if>
-        <form method="post" action="${pageContext.request.contextPath}/ExamServlet">
+        <form method="get" action="${pageContext.request.contextPath}/viewexam">
             <input type="hidden" name="action" value="search"/>
             Exam Code: <input type="text" name="examCode" required>
             <input type="submit" value="Tìm kiếm">
         </form> 
 
         <!-- Kiểm tra xem examResult có tồn tại không -->
-        <c:if test="${not empty exam}">
+        <c:if test="${not empty examResult}">
             <h3>Thông tin đề thi:</h3>
             <ul>
-                <li><strong>Exam code:</strong> ${exam.examCode}</li>
-                <li><strong>Exam name:</strong> ${exam.examName}</li>
-                <li><strong>Exam duration:</strong> ${exam.duration} Min</li>
-                <li><strong>Deadline:</strong> ${exams.deadline}</li>
-                <a href="DoExam?examId=${exam.examID}">
+                <li><strong>Exam code:</strong> ${examResult.examCode}</li>
+                <li><strong>Exam name:</strong> ${examResult.examName}</li>
+                <li><strong>Exam duration:</strong> ${examResult.duration} Min</li>
+                <li><strong>Deadline:</strong> ${examResult.deadline}</li>
+                <a href="DoExam?examId=${examResult.examID}">
                     <button>Do Exam</button>
                 </a>
             </ul>

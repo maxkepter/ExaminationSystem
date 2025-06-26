@@ -3,33 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.admin.exam;
+package router;
 
-import factory.EntityManagerFactoryProvider;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import model.exam.Exam;
-import model.exam.Question;
-import model.exam.QuestionExam;
-import model.exam.QuestionOption;
-import model.user.User;
-import repository.exam.ExamDao;
-import repository.exam.QuestionExamDao;
-import repository.exam.QuestionOptionDao;
 
 /**
  *
  * @author MasterLong
  */
-public class HandleViewAllExam extends HttpServlet {
+public class toMajorCreation extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -46,10 +33,10 @@ public class HandleViewAllExam extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HandleViewAllExam</title>");  
+            out.println("<title>Servlet toMajorCreation</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HandleViewAllExam at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet toMajorCreation at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,39 +53,7 @@ public class HandleViewAllExam extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
-        boolean update = request.getParameter("update") != null;
-        boolean delete = request.getParameter("delete") != null;
-        boolean viewDetail = request.getParameter("viewDetail") != null;
-        ExamDao examDAO = new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(),Exam.class);
-        QuestionExamDao QuestionExamDao = new QuestionExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(), QuestionExam.class);
-        QuestionOptionDao questionOptionDao = new QuestionOptionDao(EntityManagerFactoryProvider.getEntityManagerFactory(), QuestionOption.class);
-        if (update) {
-            HttpSession session = request.getSession(false);
-            if (session != null) {
-                Integer id = Integer.valueOf(request.getParameter("id"));
-                String examName = request.getParameter("examName");
-                Integer duration = Integer.valueOf(request.getParameter("duration"));
-                User user = (User) session.getAttribute("user");
-                String examCode = request.getParameter("examCode");
-                Exam newExam = new Exam(id, duration, examName, user, examCode);
-                examDAO.update(newExam, id);
-            }
-             response.sendRedirect(request.getContextPath() + "/adminhome/all_exam");
-        }
-        if (delete) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            examDAO.deleteById(id);
-            response.sendRedirect(request.getContextPath() + "/adminhome/all_exam");
-        }
-        if (viewDetail){
-            int id = Integer.parseInt(request.getParameter("id"));
-            List<Question> questionExamList = QuestionExamDao.findQuestionByProperty("exam.examID", id);
-            request.setAttribute("allQuestion", questionExamList);
-            request.getRequestDispatcher("/functionpage/examdetail.jsp").forward(request, response);
-        }
-        
-        
+        processRequest(request, response);
     } 
 
     /** 
