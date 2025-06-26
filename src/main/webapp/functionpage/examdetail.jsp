@@ -15,8 +15,19 @@
     <body>
         <h1>This is exam detail</h1>
         <c:if test="${not empty allQuestion}">
-            <c:forEach var="question" items="${allQuestion}">
-                <p>${question.questionContent}</p>
+            <c:forEach var="question" items="${allQuestion}" varStatus="status">
+                <div>
+                    <p><strong>Question ${status.index + 1} :</strong></p>
+                    <p>${question.questionContent}</p>
+                    <c:forEach var="option" items="${question.options}">
+                        <c:if test="${option.isCorrect}">
+                            <p>&#10003 ${option.optionContent}</p>                            
+                            </c:if>
+                        <c:if test="${!option.isCorrect}">
+                            <p>&#10007 ${option.optionContent}</p>                            
+                            </c:if>
+                    </c:forEach>
+                </div>
             </c:forEach>
         </c:if>
     </body>
