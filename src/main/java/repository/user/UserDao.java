@@ -57,22 +57,4 @@ public class UserDao extends FullOptionDAO<User> {
 
     }
 
-    @Override
-    public User findById(Object id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
-    }
-
-    @Override
-    public boolean exists(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exists'");
-    }
-
-    @Override
-    public boolean exists(Object id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exists'");
-    }
-
 }

@@ -13,7 +13,7 @@ public class DeleteUserService {
             throw new IllegalArgumentException("Not found user with ID: " + userId);
         }
 
-        userDao.delete(userId);
+        userDao.deleteById(userId);
 
     }
 
