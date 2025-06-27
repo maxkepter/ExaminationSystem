@@ -68,6 +68,14 @@
         <servlet-name>toViewAllExam</servlet-name>
         <servlet-class>router.toViewAllExam</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>toExamCreation</servlet-name>
+        <servlet-class>router.toExamCreation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>toMajorCreation</servlet-name>
+        <servlet-class>router.toMajorCreation</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ExamServlet</servlet-name>
         <url-pattern>/ExamServlet</url-pattern>
@@ -114,11 +122,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>toSubjectAndChapterCreation</servlet-name>
-        <url-pattern>/toSubjectAndChapterCreation</url-pattern>
+        <url-pattern>/adminhome/subject_creation</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>toQuestionCreation</servlet-name>
-        <url-pattern>/toQuestionCreation</url-pattern>
+        <url-pattern>/adminhome/question_creation</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AjaxHandleChooseChapter</servlet-name>
@@ -126,7 +134,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>toViewAllQuestion</servlet-name>
-        <url-pattern>/toViewAllQuestion</url-pattern>
+        <url-pattern>/adminhome/all_question</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>HandleViewExamDetail</servlet-name>
@@ -134,7 +142,15 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>toViewAllExam</servlet-name>
-        <url-pattern>/toViewAllExam</url-pattern>
+        <url-pattern>/adminhome/all_exam</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>toExamCreation</servlet-name>
+        <url-pattern>/adminhome/exam_creation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>toMajorCreation</servlet-name>
+        <url-pattern>/adminhome/major_creation</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

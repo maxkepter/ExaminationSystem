@@ -6,22 +6,27 @@ import service.user.UpdateUserInfoService;
 
 public class AdminUpdateUserInfoService extends UpdateUserInfoService {
 
-    public void update(User user, String newFirstName, String newLastName, String newEmail, int role)
+    public void update(int userId, String newFirstName, String newLastName, String newEmail, int role)
             throws IllegalArgumentException {
         if (!User.validateRole(role)) {
             throw new IllegalArgumentException("Invalid role !");
         }
 
-        updateUser(user, newFirstName, newLastName, newEmail, role);
+        User user = updateUser(userId, newFirstName, newLastName, newEmail, role);
 
         DAOFactory.getUserDao().update(user);
 
     }
 
-    protected void updateUser(User user, String newFirstName, String newLastName, String newEmail, int role)
+    protected User updateUser(int userId, String newFirstName, String newLastName, String newEmail, int role)
             throws IllegalArgumentException {
+        if (!User.validateRole(role)) {
+            throw new IllegalArgumentException("Invalid role !");
+        }
+
+        User user = super.updateUser(userId, newFirstName, newLastName, newEmail);
         user.setRole(role);
-        super.updateUser(user, newFirstName, newLastName, newEmail);
+        return user;
     }
 
 }

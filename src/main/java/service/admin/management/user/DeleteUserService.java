@@ -1,20 +1,21 @@
 package service.admin.management.user;
 
 import factory.DAOFactory;
-import repository.user.UserDao;
+import factory.LogStatusFactory;
+import model.user.LoginInfo;
+import repository.user.LoginInfoDao;
 
 public class DeleteUserService {
 
     public void delete(int userId) throws IllegalArgumentException {
 
-        UserDao userDao = DAOFactory.getUserDao();
-
-        if (!userDao.exists(userId)) {
+        LoginInfoDao loginInfoDao = DAOFactory.getLoginInfoDao();
+        LoginInfo loginInfo = loginInfoDao.findWithUser(userId);
+        if (loginInfo == null) {
             throw new IllegalArgumentException("Not found user with ID: " + userId);
         }
-
-        userDao.deleteById(userId);
-
+        // set status to deactive
+        loginInfoDao.delete(userId);
     }
 
 }

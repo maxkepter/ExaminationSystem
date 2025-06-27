@@ -7,6 +7,7 @@ package model.user;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -31,7 +32,7 @@ public class LoginInfo {
     @Column(nullable = false)
     private String password;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "statusId", nullable = false)
     private LogStatus status;
 
@@ -48,6 +49,14 @@ public class LoginInfo {
 
     public Integer getUserID() {
         return userID;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setStatus(LogStatus status) {
+        this.status = status;
     }
 
     public User getUser() {
@@ -72,6 +81,12 @@ public class LoginInfo {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginInfo [userID=" + userID + ", user=" + user + ", userName=" + userName + ", password=" + password
+                + ", status=" + status + "]";
     }
 
 }

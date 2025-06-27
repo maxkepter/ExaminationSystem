@@ -59,7 +59,17 @@ public abstract class DeleteableObjectDao<E> extends ObjectDao<E> implements Del
 
     @Override
     public void update(E object) {
-        // TODO Auto-generated method stub
+
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            entityManager.getTransaction().begin();
+
+            entityManager.merge(object);
+
+            entityManager.getTransaction().commit();
+            entityManager.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -23,7 +23,7 @@
                 <th>Delete</th>
             </tr>
             <c:forEach var="user" items="${userList}">
-                <tr>
+                <tr>    
                     <td>${user.userID}</td>
                     <td>${user.fullName}</td>
 
@@ -35,7 +35,7 @@
                     </td>
 
                     <td>
-                        <form action="User" method="delete">
+                        <form action="DeleteUser" method="post">
                             <input type="hidden" name="userId" value="${user.userID}">
                             <input type="submit" value="Delete">
                         </form>

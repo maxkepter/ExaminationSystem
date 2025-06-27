@@ -7,10 +7,9 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import model.user.LoginInfo;
-import repository.ObjectDao;
-import repository.UpdatableDao;
+import repository.DeleteableObjectDao;
 
-public class LoginInfoDao extends ObjectDao<LoginInfo> implements UpdatableDao<LoginInfo> {
+public class LoginInfoDao extends DeleteableObjectDao<LoginInfo> {
     public LoginInfoDao(EntityManagerFactory entityManagerFactory) {
         super(entityManagerFactory, LoginInfo.class);
     }
@@ -39,38 +38,32 @@ public class LoginInfoDao extends ObjectDao<LoginInfo> implements UpdatableDao<L
     @Override
     public void update(LoginInfo object) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        LoginInfo loginInfoUpdate = (LoginInfo) object;
-
         entityManager.getTransaction().begin();
 
-        entityManager.merge(loginInfoUpdate);
+        entityManager.merge(object);
 
         entityManager.getTransaction().commit();
         entityManager.close();
+    }
+
+    public LoginInfo findWithUser(int userId) {
+        LoginInfo loginInfo = null;
+
+        try (EntityManager entityManager = this.entityManagerFactory.createEntityManager()) {
+            Query query = entityManager.createQuery("SELECT info FROM LoginInfo info WHERE info.user.userID = :userId");
+            query.setParameter("userId", userId);
+            loginInfo = (LoginInfo) query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return loginInfo;
+
     }
 
     @Override
     public void updatePartial(int id, Map<String, Object> fields) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'updatePartial'");
-    }
-
-    @Override
-    public LoginInfo findById(Object id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
-    }
-
-    @Override
-    public boolean exists(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exists'");
-    }
-
-    @Override
-    public boolean exists(Object id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exists'");
     }
 
 }

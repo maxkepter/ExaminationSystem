@@ -5,17 +5,26 @@ import model.user.User;
 import utils.Validate;
 
 public class UpdateUserInfoService {
-    public void update(User user, String newFirstName, String newLastName, String newEmail)
+    public void update(int userid, String newFirstName, String newLastName, String newEmail)
             throws IllegalArgumentException {
-        updateUser(user, newFirstName, newLastName, newEmail);
+
+        User user = updateUser(userid, newFirstName, newLastName, newEmail);
 
         // Update user in the database
 
         DAOFactory.getUserDao().update(user);
     }
 
-    protected void updateUser(User user, String newFirstName, String newLastName, String newEmail)
+    protected User updateUser(int userid, String newFirstName, String newLastName, String newEmail)
             throws IllegalArgumentException {
+        // Validate user ID
+
+        if (userid <= 0) {
+            throw new IllegalArgumentException("Invalid user ID");
+        }
+
+        User user = DAOFactory.getUserDao().findById(userid);
+
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
         }
@@ -28,6 +37,7 @@ public class UpdateUserInfoService {
         user.setFirstName(newFirstName);
         user.setLastName(newLastName);
         user.setEmail(newEmail);
+        return user;
     }
 
 }

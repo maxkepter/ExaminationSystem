@@ -17,4 +17,15 @@ public class ViewStudentExamService {
 
         return studentExam;
     }
+
+    public StudentExam getExam(int studentExamId) throws IllegalArgumentException {
+        StudentExam studentExam = DAOFactory.getStudentExamDao().findWithStudent(studentExamId);
+
+        if (studentExam == null) {
+            throw new IllegalArgumentException("Student exam not found");
+        }
+
+        return studentExam;
+    }
+
 }

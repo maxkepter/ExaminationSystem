@@ -27,7 +27,6 @@ import service.log.ExamLogService;
  *
  * @author Admin
  */
-@WebFilter(filterName = "ExamInProgressFilter", urlPatterns = { "/*" })
 public class ExamInProgressFilter implements Filter {
 
     private static final boolean debug = true;

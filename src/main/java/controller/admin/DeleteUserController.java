@@ -6,34 +6,28 @@ package controller.admin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import factory.DAOFactory;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.user.User;
-import service.admin.management.user.AdminChangePasswordService;
-import service.admin.management.user.AdminUpdateUserInfoService;
 import service.admin.management.user.DeleteUserService;
-import service.user.UpdateUserInfoService;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "UserController", urlPatterns = { "/User" })
-public class UserController extends HttpServlet {
+@WebServlet(name = "DeleteUserController", urlPatterns = {"/DeleteUser"})
+public class DeleteUserController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -43,10 +37,10 @@ public class UserController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserController</title>");
+            out.println("<title>Servlet DeleteUserController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteUserController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,47 +51,40 @@ public class UserController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String userIdStr = request.getParameter("userId");
-        try {
-            int userId = Integer.parseInt(userIdStr);
-            User user = DAOFactory.getUserDao().findById(userId);
-            if (user != null) {
-                request.setAttribute("user", user);
-                request.getRequestDispatcher("adminpage/user.jsp").forward(request, response);
-            } else {
-                request.setAttribute("errorMessage", "User not found with ID: " + userId);
-                request.getRequestDispatcher("adminpage/view_user.jsp").forward(request, response);
-            }
-
-        } catch (Exception e) {
-            String errorMessage = e.getMessage();
-            request.setAttribute("errorMessage", errorMessage);
-            request.getRequestDispatcher("adminpage/view_user.jsp").forward(request, response);
-        }
+        response.sendRedirect(request.getContextPath() + "/UserManagement");
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String userIdStr = req.getParameter("userId");
+        DeleteUserService deleteUserService = new DeleteUserService();
+       req.getServletContext().log("Delete:"+userIdStr);
+        try {
+            int userId = Integer.parseInt(userIdStr);
+            deleteUserService.delete(userId);
+        } catch (Exception e) {
+            String errorMessage = e.getMessage();
+             req.getServletContext().log(errorMessage);
+        }
+        resp.sendRedirect(req.getContextPath() + "/UserManagement");
     }
-
 
     /**
      * Returns a short description of the servlet.

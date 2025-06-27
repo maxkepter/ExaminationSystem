@@ -92,7 +92,7 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E>, S
             exists = entityManager.find(entityClass, id) != null;
             entityManager.getTransaction().commit();
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
 
         return exists;
