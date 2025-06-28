@@ -14,6 +14,7 @@ import model.exam.student.QuestionWithOptions;
 import model.exam.student.StudentExam;
 import model.user.Student;
 import model.user.User;
+import service.exam.GetQuestionInExam;
 
 public class GenerateStudentExamService {
         public StudentExam generateExam(User user, int examId) throws IllegalArgumentException, ExamOverException {
@@ -52,8 +53,7 @@ public class GenerateStudentExamService {
         }
 
         private List<QuestionWithOptions> generateQuestionWithOptions(Exam exam) {
-                List<Question> questions = DAOFactory.getQuestionDao().findAll();
-
+                List<Question> questions = GetQuestionInExam.getQuestionInExam(exam.getExamCode());
                 List<QuestionWithOptions> options = QuestionWithOptions.convertFromEntities(questions.subList(0, 5));
                 return options;
         }
