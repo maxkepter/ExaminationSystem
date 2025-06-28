@@ -29,11 +29,11 @@
                         <input type ="hidden" name="id" value="${exam.examID}">
                         <input type="text" name="examName" value="${exam.examName}">
                         <input type="number" name="duration" value="${exam.duration}">
-                        <input type ="text" value="${exam.user.lastName}" readonly="true" disabled="true">
                         <input type ="text" name="examCode" value="${exam.examCode}" readonly="true">
                         <input type="submit" name="update" value="Update">
                         <input type="submit" name="delete" value="Delete">
                         <input type="submit" name="viewDetail" value="View Detail">
+                        <input type="submit" name="viewStatus" value="View Status">
                     </form>
                 </li>
             </c:forEach>
