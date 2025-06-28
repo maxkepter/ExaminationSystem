@@ -7,7 +7,7 @@ package controller.admin;
 
 import java.io.IOException;
 
-import filter.RoleFilter;
+//import filter.RoleFilter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -45,11 +45,11 @@ public class AdminHome extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute("user");
-        if (!RoleFilter.isAdmin(user)) {
-            response.sendRedirect(request.getContextPath() + "/Home");
-            return;
-        }
+//        User user = (User) request.getSession().getAttribute("user");
+//        if (!RoleFilter.isAdmin(user)) {
+//            response.sendRedirect(request.getContextPath() + "/Home");
+//            return;
+//        }
         request.getRequestDispatcher("adminpage/admin_home.jsp").forward(request, response);
     }
 

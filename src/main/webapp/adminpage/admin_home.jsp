@@ -26,11 +26,11 @@
                         <a class="btn" href="Logout">Logout</a>
                         <a class="btn " href="UserProfile">UserProfile</a>
                         <a class="btn " href="functionpage/examcreation1.jsp">Create Exam</a>
-                        <a class="btn " href="${pageContext.request.contextPath}/toViewAllExam">View Exam</a>
-                        <a class="btn " href="${pageContext.request.contextPath}/toViewAllQuestion">View all Question</a>
+                        <a class="btn " href="${pageContext.request.contextPath}/adminhome/all_exam">View Exam</a>
+                        <a class="btn " href="${pageContext.request.contextPath}/adminhome/all_question">View all Question</a>
                         <a class="btn " href="functionpage/majorcreation.jsp">Major Creation</a>
-                        <a class="btn " href="${pageContext.request.contextPath}/toSubjectAndChapterCreation">Subject Creation</a>
-                        <a class="btn " href="functionpage/questioncreation.jsp">Question Creation</a>
+                        <a class="btn " href="${pageContext.request.contextPath}/adminhome/subject_creation">Subject Creation</a>
+                        <a class="btn " href="${pageContext.request.contextPath}/adminhome/question_creation">Question Creation</a>
                         <a class="btn " href="UserManagement">User Management</a>
 
                     </c:when>

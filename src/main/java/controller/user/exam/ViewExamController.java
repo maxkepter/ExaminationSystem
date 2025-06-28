@@ -13,6 +13,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.exam.Exam;
 import repository.exam.ExamDao;
 import service.exam.ExamService;
@@ -65,26 +66,19 @@ public class ViewExamController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String action = request.getParameter("action");
-        if (!Validate.validateString(action)) {
-            request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
-            return;
-        }
-
-        ExamService examService = new ExamService(
-                new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Exam.class));
-        String code = request.getParameter("examID");
+         HttpSession session = request.getSession();
+        ExamDao examDAO = new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Exam.class);
+        String code = request.getParameter("examCode");
         try {
-            Exam exam = examService.searchExam(code);
-            request.setAttribute("examResult", exam);
-        } catch (IllegalArgumentException e) {
-            request.setAttribute("error", e.getMessage());
-            request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
+            Exam exam = examDAO.findExamByCode(code);
+            session.setAttribute("examResult", exam);
+        } catch (Exception e) {
+            session.setAttribute("error", "Exam not found");
+            response.sendRedirect(request.getContextPath()+ "/student/view_exam.jsp");
             return;
         }
-        request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
+        response.sendRedirect(request.getContextPath()+ "/student/view_exam.jsp");
     }
-
     /**
      * Handles the HTTP <code>POST</code> method.
      *

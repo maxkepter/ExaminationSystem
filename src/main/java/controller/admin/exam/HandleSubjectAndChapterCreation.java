@@ -83,7 +83,7 @@ public class HandleSubjectAndChapterCreation extends HttpServlet {
             chapterDAO.create(newChapter);
         }
         
-        response.sendRedirect(request.getContextPath() + "/toSubjectAndChapterCreation");
+        response.sendRedirect(request.getContextPath() + "/adminhome/subject_creation");
     } 
 
     /** 

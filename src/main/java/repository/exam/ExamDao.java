@@ -24,10 +24,10 @@ public class ExamDao extends FullOptionDAO<Exam> {
     }
 
     public Exam findExamByCode(String examCode) {
-        try (EntityManager em = entityManagerFactory.createEntityManager()) {
+        EntityManager em = entityManagerFactory.createEntityManager();
             String jpql = "SELECT e FROM " + entityClass.getSimpleName() + " e WHERE e.examCode" + " = :value";
             return em.createQuery(jpql, entityClass).setParameter("value", examCode).getSingleResult();
-        }
+        
     }
 
 }

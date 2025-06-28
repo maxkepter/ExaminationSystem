@@ -57,6 +57,15 @@ public class Exam {
         this.deadline = this.examDate.plusDays(7);
         this.examCode = ExamCodeGenerator.getExamCode();
     }
+    public Exam(int examID, int duration, String examName, User user, String examCode) {
+        this.examID = examID;
+        this.duration = duration;
+        this.examName = examName;
+        this.user = user;
+        this.examDate = LocalDateTime.now();
+        this.deadline = this.examDate.plusDays(7);
+        this.examCode = examCode;
+    }
 
     // Getters and Setters
 
