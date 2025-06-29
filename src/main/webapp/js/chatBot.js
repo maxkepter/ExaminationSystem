@@ -11,11 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
     chatBox.classList.toggle("open");
   });
 
-
-
-
-
-
   // Bấm nút gửi
   sendBtn.addEventListener("click", sendMessage);
 
@@ -26,33 +21,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Hàm gửi tin nhắn
   async function sendMessage() {
-  const input = document.getElementById("user-input");
-  const messages = document.getElementById("chat-messages"); // CHỈ lấy phần chứa message
-  const text = input.value.trim();
-  if (!text) return;
+    const input = document.getElementById("user-input");
+    const messages = document.getElementById("chat-messages"); // CHỈ lấy phần chứa message
+    const text = input.value.trim();
+    if (!text) return;
 
-  messages.innerHTML += `<div class="message user"><strong>Bạn:</strong> ${text}</div>`;
+    messages.innerHTML += `<div class="message user"><strong>Bạn:</strong> ${text}</div>`;
 
-  try {
-    const res = await fetch("http://127.0.0.1:1234/v1/chat/completions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "gpt-4.0-turbo",
-        messages: [{ role: "user", content: text }]
-      })
-    });
+    try {
+      console.log({
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "phogpt-4b-chat",
+          messages: [{ role: "user", content: text }],
+        }),
+      });
+      const res = await fetch("http://127.0.0.1:1234/v1/chat/completions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "phogpt-4b-chat",
+          messages: [{ role: "user", content: text }],
+        }),
+      });
 
-    const data = await res.json();
-    const reply = data.choices?.[0]?.message?.content || "Không có phản hồi.";
-    messages.innerHTML += `<div class="message bot"><strong>Bot:</strong> ${reply}</div>`;
-    messages.scrollTop = messages.scrollHeight;
-  } catch (err) {
-    messages.innerHTML += `<div class="message bot"><strong>Bot:</strong> Lỗi kết nối API.</div>`;
+      const data = await res.json();
+      const reply = data.choices?.[0]?.message?.content || "Không có phản hồi.";
+      messages.innerHTML += `<div class="message bot"><strong>Bot:</strong> ${reply}</div>`;
+      messages.scrollTop = messages.scrollHeight;
+    } catch (err) {
+      messages.innerHTML += `<div class="message bot"><strong>Bot:</strong> Lỗi kết nối API.</div>`;
+    }
+
+    input.value = "";
   }
-
-  input.value = "";
-}
 });
 
 document.addEventListener("DOMContentLoaded", () => {

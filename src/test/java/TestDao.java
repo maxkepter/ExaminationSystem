@@ -16,6 +16,9 @@ import service.student.exam.SubmitExamService;
 
 public class TestDao {
     public static void main(String[] args) {
+
+        Map<Integer, Integer> map = new HashMap<>();
+
         ViewUserService viewUserService = new ViewUserService();
         int[] max = { 0 };
         List<User> users = viewUserService.getUser(0, max);
