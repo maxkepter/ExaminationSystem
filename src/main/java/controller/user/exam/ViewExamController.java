@@ -73,10 +73,10 @@ public class ViewExamController extends HttpServlet {
             session.setAttribute("examResult", exam);
         } catch (Exception e) {
             session.setAttribute("error", "Exam not found");
-            response.sendRedirect(request.getContextPath()+ "/student/view_exam.jsp");
+            response.sendRedirect(request.getContextPath() + "/student/view_exam.jsp");
             return;
         }
-        response.sendRedirect(request.getContextPath()+ "/student/view_exam.jsp");
+        response.sendRedirect(request.getContextPath() + "/student/view_exam.jsp");
     }
 
     /**

@@ -113,7 +113,7 @@ public class HandleQuestionCreation extends HttpServlet {
             questionOptionDAO.create(c);
         }
         // Forward back to the JSP
-        response.sendRedirect(request.getContextPath()+"/toQuestionCreation");
+        response.sendRedirect(request.getContextPath()+"/adminhome/question_creation");
     }
 
     /**

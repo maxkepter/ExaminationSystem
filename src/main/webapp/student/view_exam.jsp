@@ -32,7 +32,7 @@
                 <li><strong>Exam name:</strong> ${examResult.examName}</li>
                 <li><strong>Exam duration:</strong> ${examResult.duration} Min</li>
                 <li><strong>Deadline:</strong> ${examResult.deadline}</li>
-                <a href="DoExam?examId=${examResult.examID}">
+                <a href="${pageContext.request.contextPath}/DoExam?examId=${examResult.examID}">
                     <button>Do Exam</button>
                 </a>
             </ul>
