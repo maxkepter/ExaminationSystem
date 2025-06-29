@@ -22,7 +22,7 @@ import service.authentication.LoginService;
  *
  * @author Admin
  */
-@WebServlet(name = "AdminLoginController", urlPatterns = { "/AdminLogin" })
+@WebServlet(name = "AdminLoginController", urlPatterns = { "/HandleAdminLogin" })
 public class AdminLoginController extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
@@ -62,14 +62,14 @@ public class AdminLoginController extends HttpServlet {
             user = loginService.adminLogin(username, password);
         } catch (IllegalArgumentException e) {
             request.setAttribute("error", "Username or password cannot be blank !");
-            request.getRequestDispatcher("adminpage/admin_login.jsp").forward(request, response);
+            request.getRequestDispatcher(request.getContextPath()+"/adminlogin").forward(request, response);
             return;
         } catch (AuthenticationException e) {
             response.sendRedirect(request.getContextPath() + "/Home");
             return;
         } catch (AccountBannedException e) {
             request.setAttribute("error", "This account is banned !");
-            request.getRequestDispatcher("adminpage/admin_login.jsp").forward(request, response);
+            request.getRequestDispatcher(request.getContextPath()+"/adminlogin").forward(request, response);
             return;
         }
         // Create session and storge user info

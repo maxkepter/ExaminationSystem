@@ -16,7 +16,7 @@
     <body>
         <div class="container">
         <div class="login-card">
-            <form action="AdminLogin" method="post">
+            <form action="HandleAdminLogin" method="post">
                 <h1 class="form-title">Admin Login</h1>
 
                 <label for="username">Username</label>
