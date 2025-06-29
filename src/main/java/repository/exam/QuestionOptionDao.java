@@ -5,7 +5,6 @@ import java.util.List;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import model.exam.QuestionOption;
-import repository.DeactivatableObjectDao;
 import repository.FullOptionDAO;
 
 public class QuestionOptionDao extends FullOptionDAO<QuestionOption> {

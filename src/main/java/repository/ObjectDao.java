@@ -18,22 +18,29 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E>, S
 
     @Override
     public void create(E object) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.persist(object);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            entityManager.getTransaction().begin();
+            entityManager.persist(object);
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     public void createMany(List<E> objects) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        for (E object : objects) {
-            entityManager.persist(object);
+
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            entityManager.getTransaction().begin();
+            for (E object : objects) {
+                entityManager.persist(object);
+            }
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        entityManager.getTransaction().commit();
-        entityManager.close();
+
     }
 
     @Override
@@ -63,22 +70,31 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E>, S
 
     @Override
     public long count() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        long count = entityManager.createQuery("SELECT COUNT(e) FROM " + entityClass.getSimpleName() + " e", Long.class)
-                .getSingleResult();
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        long count = 0;
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            entityManager.getTransaction().begin();
+            count = entityManager
+                    .createQuery("SELECT COUNT(e) FROM " + entityClass.getSimpleName() + " e", Long.class)
+                    .getSingleResult();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return count;
     }
 
     @Override
-    public boolean exists(Object id) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        boolean exists = entityManager.find(entityClass, id) != null;
-        entityManager.getTransaction().commit();
-        entityManager.close();
+    public boolean exists(int id) {
+        boolean exists = false;
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            entityManager.getTransaction().begin();
+            exists = entityManager.find(entityClass, id) != null;
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return exists;
     }
 
@@ -158,6 +174,30 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E>, S
         }
 
         return result;
+    }
+
+    @Override
+    public boolean exists(Object id) {
+        boolean exists = false;
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            exists = entityManager.find(entityClass, id) != null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return exists;
+    }
+
+    @Override
+    public E findById(Object id) {
+        E object = null;
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            object = entityManager.find(entityClass, id);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return object;
     }
 
 }

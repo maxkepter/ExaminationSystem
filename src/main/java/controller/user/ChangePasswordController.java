@@ -2,13 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.user;
 
 import java.io.IOException;
 
 import exception.login.AuthenticationException;
-import jakarta.mail.Header;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -38,9 +36,9 @@ public class ChangePasswordController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-       request.getCookies();
-        
+
+        request.getCookies();
+
         // Get the current user from the session
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
@@ -49,7 +47,7 @@ public class ChangePasswordController extends HttpServlet {
             response.sendRedirect("Login");
             return;
         }
-        
+
         request.getRequestDispatcher("change_password.jsp").forward(request, response);
         return;
 
@@ -82,7 +80,8 @@ public class ChangePasswordController extends HttpServlet {
             // Change the password
             changePasswordService.changePassword(user.getUserID(), oldPassword, newPassword);
             // If successful, redirect to the user profile page
-            response.sendRedirect("UserProfile");
+            request.setAttribute("success", "Password changed successfully!");
+            request.getRequestDispatcher("change_password.jsp").forward(request, response);
             return;
         } catch (IllegalArgumentException e) {
             // If there is an error with the input data, set an error message and forward
@@ -95,10 +94,13 @@ public class ChangePasswordController extends HttpServlet {
             // change password page
             request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("change_password.jsp").forward(request, response);
+            return;
+        } catch (Exception e) {
+            // Handle any other unexpected exceptions
+            request.setAttribute("error", "An unexpected error occurred. Please try again.");
+            request.getRequestDispatcher("change_password.jsp").forward(request, response);
+            return;
         }
-        response.sendRedirect(request.getContextPath() + "/ChangePassword");
-        return;
-
     }
 
     /**

@@ -4,7 +4,6 @@
  */
 package model.exam;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -128,6 +127,12 @@ public class Exam {
 
     public boolean isEnd() {
         return this.deadline.isBefore(LocalDateTime.now());
+    }
+
+    @Override
+    public String toString() {
+        return "Exam [examID=" + examID + ", duration=" + duration + ", examDate=" + examDate + ", deadline=" + deadline
+                + ", examCode=" + examCode + ", examName=" + examName + ", user=" + user + "]";
     }
 
 }

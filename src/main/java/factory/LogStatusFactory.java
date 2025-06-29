@@ -13,6 +13,7 @@ public class LogStatusFactory {
     private static LogStatus wrongPassword;
     private static LogStatus loginFailure;
     private static LogStatus logout;
+    private static LogStatus accountDeactived;
 
     private static LogStatusDao logStatusDao = DAOFactory.getLogStatusDao();
 
@@ -21,7 +22,8 @@ public class LogStatusFactory {
     }
 
     private static void checkExist(LogStatus logStatus) {
-        if (!logStatusDao.exists(logStatus.getStatusId())) {
+        int id = logStatus.getStatusId();
+        if (!logStatusDao.exists(id)) {
             logStatusDao.create(logStatus);
         }
     }
@@ -88,6 +90,14 @@ public class LogStatusFactory {
             checkExist(logout);
         }
         return logout;
+    }
+
+    public static LogStatus getAccountDeactived() {
+        if (accountDeactived == null) {
+            accountDeactived = new LogStatus(9, "account deactived");
+            checkExist(accountDeactived);
+        }
+        return accountDeactived;
     }
 
 }

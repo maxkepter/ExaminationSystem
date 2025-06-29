@@ -1,16 +1,17 @@
-import java.time.LocalDateTime;
-
+import factory.DAOFactory;
 import model.user.User;
 import service.authentication.LoginService;
 import service.authentication.RegisterService;
+import service.user.UpdateUserInfoService;
 
 public class TestLogin {
     public static void main(String[] args) {
-        // testLogin("Test", "TestPassword");
-        // System.out.println("Login test completed successfully.");
-
-        //System.out.println(LocalDateTime.now().minusMinutes(20).isBefore(LocalDateTime.now()));
-        System.out.println(testLogin("master", "long123456"));
+        User user = DAOFactory.getUserDao().findById(5);
+        UpdateUserInfoService updateUserInfoService = new UpdateUserInfoService();
+        System.out.println(user);
+        updateUserInfoService.update(user.getUserID(), user.getFirstName(),
+                user.getLastName(), "Lmao");
+        System.out.println(user);
     }
 
     public static User testLogin(String userName, String password) {

@@ -44,4 +44,9 @@ public class LogStatus {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "LogStatus [statusId=" + statusId + ", status=" + status + "]";
+    }
+
 }

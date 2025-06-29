@@ -12,6 +12,7 @@ public class ExamLogService {
 
     public static final String START_EXAM = "Start exam";
     public static final String SUBMIT_EXAM = "Submit exam";
+    public static final String FORCE_SUBMIT_EXAM = "Force submit exam";
     public static final String DISCONNECT_EXAM = "Disconnect exam";
     public static final String SUSPENDED_EXAM = "Exam is suspended";
     public static final String RELOAD_EXAM = "Reload exam !";

@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import model.exam.Exam;
 import model.exam.Question;
 import model.exam.QuestionExam;
@@ -34,10 +33,10 @@ public class HandleExamCreation1 extends HttpServlet {
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -61,10 +60,10 @@ public class HandleExamCreation1 extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -72,8 +71,10 @@ public class HandleExamCreation1 extends HttpServlet {
         HttpSession session = request.getSession(false);
         if (session != null) {
             ExamDao examDAO = new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Exam.class);
-            QuestionExamDao questionExamDAO = new QuestionExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(), QuestionExam.class);
-            QuestionDao questionDAO = new QuestionDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Question.class);
+            QuestionExamDao questionExamDAO = new QuestionExamDao(
+                    EntityManagerFactoryProvider.getEntityManagerFactory(), QuestionExam.class);
+            QuestionDao questionDAO = new QuestionDao(EntityManagerFactoryProvider.getEntityManagerFactory(),
+                    Question.class);
             UserDao userDAO = new UserDao(EntityManagerFactoryProvider.getEntityManagerFactory(), User.class);
             // Create new Exam
             Object value = session.getAttribute("user");
@@ -84,7 +85,7 @@ public class HandleExamCreation1 extends HttpServlet {
             Integer duration = Integer.valueOf(request.getParameter("duration"));
             Exam newExam = new Exam(examId, duration, examName, managedUser);
             examDAO.create(newExam);
-            //Set question to exam
+            // Set question to exam
             String[] chapterId = request.getParameterValues("chapterID");
             int numberEasy = Integer.parseInt(request.getParameter("numberEasy"));
             int numberNormal = Integer.parseInt(request.getParameter("numberNormal"));
@@ -131,7 +132,7 @@ public class HandleExamCreation1 extends HttpServlet {
                 questionExamDAO.create(questionExam);
             }
 
-            //examDAO.createExam(examName, duration, user);
+            // examDAO.createExam(examName, duration, user);
             response.sendRedirect(request.getContextPath() + "/functionpage/examcreation1.jsp");
         }
     }
@@ -139,10 +140,10 @@ public class HandleExamCreation1 extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

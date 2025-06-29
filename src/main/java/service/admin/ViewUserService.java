@@ -10,7 +10,7 @@ import utils.PagingList;
 public class ViewUserService {
 
     public List<User> getUser(int pageIndex, int[] maxPage) throws IndexOutOfBoundsException {
-        List<User> users = DAOFactory.getUserDao().findAll();
+        List<User> users = DAOFactory.getUserDao().findAllActive();
         int pageSize = PageSize.USER;
         // get maxPage
         maxPage[0] = (users.size() / pageSize);

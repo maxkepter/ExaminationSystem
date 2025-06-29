@@ -115,8 +115,6 @@ public class StudentExam {
             }
         }
         score = (float) correctAnswers / totalQuestions;
-        System.out.println("correct:" + correctAnswers);
-        System.out.println("total:" + totalQuestions);
         this.score = Float.parseFloat(String.format("%.2f", score * 10));
     }
 
@@ -240,6 +238,10 @@ public class StudentExam {
 
     public void submitExam(Map<Integer, Set<Integer>> studentChoice) throws ArithmeticException {
         this.studentChoice = studentChoice;
+        submitExam();
+    }
+
+    public void submitExam() throws ArithmeticException {
         if (this.examStatus == EXAM_DOING) {
             this.setExamStatus(StudentExam.EXAM_DONE);
         }

@@ -45,16 +45,4 @@ public class StudentDao extends DeleteableObjectDao<Student> {
         }
     }
 
-    @Override
-    public Student findById(Object id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
-    }
-
-    @Override
-    public boolean exists(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exists'");
-    }
-
 }

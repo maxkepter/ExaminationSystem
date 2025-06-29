@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.exam.Exam;
 import repository.exam.ExamDao;
+import service.exam.ExamService;
 import utils.Validate;
 
 /**
