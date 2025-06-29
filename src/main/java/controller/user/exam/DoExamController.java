@@ -72,6 +72,7 @@ public class DoExamController extends HttpServlet {
             // if not there is no examin progess generate new exam
             if (studentExam == null) {
                 studentExam = generateStudentExamService.generateExam(user, Integer.parseInt(examId));
+                System.out.println("StudentExamISGENETATED");
             }
 
         } catch (Exception e) {

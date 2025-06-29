@@ -69,7 +69,7 @@
                     </div>
 
                     <div class="submit-section">
-                        <button type="submit" class="submit-btn" id="exam-form"> Submit</button>
+                        <button type="submit" class="submit-btn" id="sunmit-button"> Submit</button>
                     </div>
                 </form>
 

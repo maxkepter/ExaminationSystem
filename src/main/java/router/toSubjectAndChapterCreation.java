@@ -35,7 +35,7 @@ public class toSubjectAndChapterCreation extends HttpServlet {
         MajorDao majorDAO = new MajorDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Major.class);
         List<Major> allMajor = majorDAO.findAll();
         request.setAttribute("listMajor", allMajor);
-        request.getRequestDispatcher("functionpage/subjectandchaptercreation.jsp").forward(request, response);
+        request.getRequestDispatcher("/functionpage/subjectandchaptercreation.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
