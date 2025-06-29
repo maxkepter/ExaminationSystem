@@ -57,7 +57,7 @@ public class ExamInProgressFilter implements Filter {
         HttpSession session = req.getSession(false);
         String path = req.getServletPath();
 
-        if (path.startsWith("/Login") || path.startsWith("/Register") || path.startsWith("/AdminLogin")
+        if (path.startsWith("/Login") || path.startsWith("/Register") || path.startsWith("/adminlogin")
                 || path.startsWith("/Home") || path.startsWith("/") || path.endsWith(".css") || path.endsWith(".js")) {
             chain.doFilter(request, response);
             return;
