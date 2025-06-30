@@ -8,23 +8,20 @@ import java.util.Set;
 import javax.swing.text.View;
 
 import factory.DAOFactory;
+import model.exam.Exam;
 import model.exam.student.StudentExam;
 import model.user.User;
 import service.admin.ViewUserService;
 import service.admin.management.user.DeleteUserService;
+import service.exam.GetQuestionInExam;
 import service.student.exam.SubmitExamService;
 
 public class TestDao {
     public static void main(String[] args) {
+        Exam exam = DAOFactory.getExamDao().findById(6);
+        List list = GetQuestionInExam.getQuestionInExam(exam);
 
-        Map<Integer, Integer> map = new HashMap<>();
-
-        ViewUserService viewUserService = new ViewUserService();
-        int[] max = { 0 };
-        List<User> users = viewUserService.getUser(0, max);
-        users.forEach(System.out::println);
-
-        ;
+        System.out.println(list.size());
     }
 
     public static void testExam(Map<Integer, Set<Integer>> studentChoice, String studentExamIdstr) {
