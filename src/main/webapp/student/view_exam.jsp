@@ -15,8 +15,8 @@
     <body>
         <h1>View Exam</h1>
         <h2>Exam search</h2>
-        <c:if test="${not empty error}">
-            <strong>${error}</strong>
+        <c:if test="${not empty FindExamError}">
+            <strong>${FindExamError}</strong>
         </c:if>
         <form method="get" action="${pageContext.request.contextPath}/viewexam">
             <input type="hidden" name="action" value="search"/>

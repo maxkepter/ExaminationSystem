@@ -2,101 +2,82 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.user.exam;
+
+package router.student;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import factory.EntityManagerFactoryProvider;
-import jakarta.persistence.NoResultException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.exam.Exam;
-import repository.exam.ExamDao;
-import service.exam.ExamService;
-import utils.Validate;
 
 /**
  *
- * @author Admin
+ * @author MasterLong
  */
-@WebServlet(name = "ViewExamController", urlPatterns = { "/viewexam" })
-public class ViewExamController extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request  servlet request
+@WebServlet(name="toViewExam", urlPatterns={"/student/view_exam"})
+public class toViewExam extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewExamController</title>");
+            out.println("<title>Servlet toViewExam</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewExamController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet toViewExam at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    } 
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
-    // + sign on the left to edit the code.">
-    /**
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         HttpSession session = request.getSession();
-        ExamDao examDAO = new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Exam.class);
-        String code = request.getParameter("examCode");
-        try {
-            Exam exam = examDAO.findExamByCode(code);
-            session.setAttribute("examResult", exam);
-        } catch (NoResultException nre) {
-            session.setAttribute("FindExamError", "Exam not found");
-            response.sendRedirect(request.getContextPath()+ "/student/view_exam");
-            return;
-        }
-        response.sendRedirect(request.getContextPath()+ "/student/view_exam");
-    }
+        String findExamError = (String) session.getAttribute("FindExamError");
+        session.removeAttribute("FindExamError");
+        request.setAttribute("FindExamError",findExamError);
+        request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
+    } 
 
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override

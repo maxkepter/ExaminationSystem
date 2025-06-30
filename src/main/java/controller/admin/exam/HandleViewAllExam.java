@@ -70,6 +70,7 @@ public class HandleViewAllExam extends HttpServlet {
         boolean update = request.getParameter("update") != null;
         boolean delete = request.getParameter("delete") != null;
         boolean viewDetail = request.getParameter("viewDetail") != null;
+        boolean viewStatus = request.getParameter("viewStatus") != null;
         ExamDao examDAO = new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(),Exam.class);
         QuestionExamDao QuestionExamDao = new QuestionExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(), QuestionExam.class);
         QuestionOptionDao questionOptionDao = new QuestionOptionDao(EntityManagerFactoryProvider.getEntityManagerFactory(), QuestionOption.class);
@@ -90,12 +91,19 @@ public class HandleViewAllExam extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
             examDAO.deleteById(id);
             response.sendRedirect(request.getContextPath() + "/adminhome/all_exam");
+            return;
         }
         if (viewDetail){
             int id = Integer.parseInt(request.getParameter("id"));
             List<Question> questionExamList = QuestionExamDao.findQuestionByProperty("exam.examID", id);
             request.setAttribute("allQuestion", questionExamList);
             request.getRequestDispatcher("/functionpage/examdetail.jsp").forward(request, response);
+            return;
+        }
+        if (viewStatus){
+            String examID = request.getParameter("id");
+            response.sendRedirect(request.getContextPath() + "/adminhome/exam_status?examID=" + examID);
+            return;
         }
         
         

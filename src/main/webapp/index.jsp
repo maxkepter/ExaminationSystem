@@ -33,7 +33,7 @@
                                 Welcome, <strong>${user.firstName} ${user.lastName}</strong>!
                             </p>
                             <a class="btn btn-success" href="UserProfile">My Profile</a>
-                            <a class="btn btn-primary" href="viewexam">View Exam</a>
+                            <a class="btn btn-primary" href="student/view_exam">View Exam</a>
                             <a class="btn btn-danger" href="Logout">Logout</a>
                         </c:when>
                         <c:otherwise>
