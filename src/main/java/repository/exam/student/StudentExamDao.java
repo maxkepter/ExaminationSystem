@@ -99,10 +99,10 @@ public class StudentExamDao extends ObjectDao<StudentExam>
         StudentExam studentExam = null;
         try (EntityManager em = entityManagerFactory.createEntityManager()) {
             TypedQuery<StudentExam> query = em.createQuery(
-                    "SELECT se FROM StudentExam se " +
-                            "JOIN FETCH se.student " +
-                            "JOIN FETCH se.exam " +
-                            "WHERE se.id = :id",
+                    "SELECT se FROM StudentExam se "
+                    + "JOIN FETCH se.student "
+                    + "JOIN FETCH se.exam "
+                    + "WHERE se.id = :id",
                     StudentExam.class);
             query.setParameter("id", id);
             studentExam = query.getSingleResult();
@@ -110,6 +110,13 @@ public class StudentExamDao extends ObjectDao<StudentExam>
             e.printStackTrace();
         }
         return studentExam;
+    }
+
+    public List<StudentExam> findByProperty(String propertyName, Object value) {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        String jpql = "SELECT e FROM " + entityClass.getSimpleName() + " e WHERE e." + propertyName + " = :value";
+        return em.createQuery(jpql, entityClass).setParameter("value", value).getResultList();
+
     }
 
     @Override

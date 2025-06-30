@@ -27,24 +27,24 @@
                                 🎓 Examination System
                             </div>
 
-                            <div class="nav-menu">
-                                <c:choose>
-                                    <c:when test="${not empty user}">
-                                        <p class="welcome-text">
-                                            Welcome, <strong>${user.firstName} ${user.lastName}</strong>!
-                                        </p>
-                                        <a class="btn btn-success" href="UserProfile">My Profile</a>
-                                        <a class="btn btn-primary" href="viewexam">View Exam</a>
-                                        <a class="btn btn-danger" href="Logout">Logout</a>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <a class="btn btn-primary" href="login.jsp">Login</a>
-                                        <a class="btn btn-secondary" href="Register">Register</a>
-                                    </c:otherwise>
-                                </c:choose>
-                            </div>
-                        </div>
-                    </nav>
+                <div class="nav-menu">
+                    <c:choose>
+                        <c:when test="${not empty user}">
+                            <p class="welcome-text">
+                                Welcome, <strong>${user.firstName} ${user.lastName}</strong>!
+                            </p>
+                            <a class="btn btn-success" href="UserProfile">My Profile</a>
+                            <a class="btn btn-primary" href="student/view_exam">View Exam</a>
+                            <a class="btn btn-danger" href="Logout">Logout</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="btn btn-primary" href="login.jsp">Login</a>
+                            <a class="btn btn-secondary" href="Register">Register</a>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+            </div>
+        </nav>
 
                     <!-- Main Content -->
                     <div class="main-content">

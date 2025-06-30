@@ -248,5 +248,10 @@ public class StudentExam {
         this.setSubmitTime(LocalDateTime.now());
         this.calculatescore();
     }
+    public LocalDateTime getEndTime(){
+        LocalDateTime endTime = this.startTime.plusMinutes(exam.getDuration());
+        if (this.startTime.isEqual(this.submitTime)) return endTime;
+        return submitTime;
+    }
 
 }
