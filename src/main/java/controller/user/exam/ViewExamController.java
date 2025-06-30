@@ -22,17 +22,17 @@ import repository.exam.ExamDao;
  *
  * @author Admin
  */
-@WebServlet(name = "ViewExamController", urlPatterns = { "/viewexam" })
+@WebServlet(name = "ViewExamController", urlPatterns = {"/viewexam"})
 public class ViewExamController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -56,35 +56,41 @@ public class ViewExamController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
+
         ExamDao examDAO = new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Exam.class);
         String code = request.getParameter("examCode");
-        try {
-            Exam exam = examDAO.findExamByCode(code);
-            session.setAttribute("examResult", exam);
-        } catch (NoResultException nre) {
-            session.setAttribute("FindExamError", "Exam not found");
-            response.sendRedirect(request.getContextPath() + "/student/view_exam");
+
+        if (code == null || code.isEmpty()) {
+            request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
             return;
         }
-        response.sendRedirect(request.getContextPath() + "/student/view_exam");
+
+        try {
+            Exam exam = examDAO.findExamByCode(code.trim());
+            request.setAttribute("examResult", exam);
+        } catch (Exception e) {
+            request.setAttribute("error", "Exam not found");
+        }
+
+        request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
+
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request  servlet request
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -156,22 +156,6 @@
                         <p class="text-gray-600 mt-1">Update your account password for better security</p>
                     </div>
 
-                    <!-- Success Message -->
-                    <c:if test="${not empty success}">
-                        <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-md mb-6 flex items-center">
-                            <i class="fas fa-check-circle mr-2"></i>
-                            ${success}
-                        </div>
-                    </c:if>
-
-                    <!-- Error Message -->
-                    <c:if test="${not empty error}">
-                        <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-md mb-6 flex items-center">
-                            <i class="fas fa-exclamation-triangle mr-2"></i>
-                            ${error}
-                        </div>
-                    </c:if>
-
                     <!-- Change Password Form -->
                     <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
                         <form action="ChangePassword" method="post" class="space-y-6">
