@@ -1,7 +1,6 @@
 package service.admin.management.user;
 
 import factory.DAOFactory;
-import factory.LogStatusFactory;
 import model.user.LoginInfo;
 import repository.user.LoginInfoDao;
 

@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.exam.student.StudentExam;
-import model.user.User;
 import service.student.exam.ExamHistoryService;
 import utils.Validate;
 
@@ -21,17 +20,17 @@ import utils.Validate;
  *
  * @author Admin
  */
-@WebServlet(name = "UserExamHistoryController", urlPatterns = {"/UserExamHistory"})
+@WebServlet(name = "UserExamHistoryController", urlPatterns = { "/UserExamHistory" })
 public class UserExamHistoryController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -50,21 +49,22 @@ public class UserExamHistoryController extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
+    // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String userIdStr = request.getParameter("userId");
         String numPageStr = request.getParameter("numPage");
-        int[] maxPage = {0};
+        int[] maxPage = { 0 };
         int numPage = 0;
         if (Validate.validateInteger(numPageStr)) {
             numPage = Integer.parseInt(numPageStr);
@@ -91,10 +91,10 @@ public class UserExamHistoryController extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

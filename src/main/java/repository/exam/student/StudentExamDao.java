@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import factory.DAOFactory;
-import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.RollbackException;
@@ -100,9 +99,9 @@ public class StudentExamDao extends ObjectDao<StudentExam>
         try (EntityManager em = entityManagerFactory.createEntityManager()) {
             TypedQuery<StudentExam> query = em.createQuery(
                     "SELECT se FROM StudentExam se "
-                    + "JOIN FETCH se.student "
-                    + "JOIN FETCH se.exam "
-                    + "WHERE se.id = :id",
+                            + "JOIN FETCH se.student "
+                            + "JOIN FETCH se.exam "
+                            + "WHERE se.id = :id",
                     StudentExam.class);
             query.setParameter("id", id);
             studentExam = query.getSingleResult();
