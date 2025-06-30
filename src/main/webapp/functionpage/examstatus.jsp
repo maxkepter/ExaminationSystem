@@ -27,7 +27,7 @@
                     const hours = Math.floor(diff / 3600000);
                     const minutes = Math.floor((diff % 3600000) / 60000);
                     const seconds = Math.floor((diff % 60000) / 1000);
-                    
+
                     document.getElementById("status" + elementIndexId).innerText = "Exam Ongoing";
                     document.getElementById("countdown" + elementIndexId).innerText =
                             (hours < 10 ? "0" : "") + hours + ":" +
@@ -59,13 +59,20 @@
                     <p><strong>Exam ${status.index+1}</strong></p>
                     <p>${studentExam.student.studentCode}</p>
                     <p>${studentExam.student.user.firstName}${studentExam.student.user.lastName}</p>
-                    <p>${studentExam.startTime}</p>
+                    <p>${studentExam.startTimeFormatted}</p>
                     <p id="countdown${status.index}">Calculating...</p>
                     <p id="status${status.index}">Status: </p>
                     <script>
                         startCountdown(${endMillis}, "${status.index}");
                     </script>
-                </div>
+                    <c:if test="${studentExam.examStatus == 2}"> 
+                        <form action="../ForceSubmit" method="get">
+                            <input type="hidden" name="studentExamId" value="${studentExam.studentExamID}">
+                            <input type="submit" value="Force Submit">
+                        </form> 
+                    </c:if>
+
+                    </div>
             </c:forEach>
         </c:if>      
 
