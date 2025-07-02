@@ -46,8 +46,8 @@
             <input type="submit" value="Update">
         </form>  
         <h1>Exam History</h1>
-          <form action="/User/ExamHistory" method="get" >
-            <input type="hidden"  name="userId" value="${user.userID}" >
+          <form action="UserExamHistory" method="get" >
+            <input type="hidden"  name="id" value="${user.userID}" >
             <input type="submit" value="View">         
         </form>  
     </body>
