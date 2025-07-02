@@ -52,7 +52,6 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E>, S
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return object;
     }
 
@@ -93,7 +92,7 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E>, S
             exists = entityManager.find(entityClass, id) != null;
             entityManager.getTransaction().commit();
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
 
         return exists;
@@ -175,6 +174,30 @@ public abstract class ObjectDao<E> implements CreatableDao<E>, ReadableDao<E>, S
         }
 
         return result;
+    }
+
+    @Override
+    public boolean exists(Object id) {
+        boolean exists = false;
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            exists = entityManager.find(entityClass, id) != null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return exists;
+    }
+
+    @Override
+    public E findById(Object id) {
+        E object = null;
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            object = entityManager.find(entityClass, id);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return object;
     }
 
 }

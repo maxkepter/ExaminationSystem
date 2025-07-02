@@ -5,11 +5,9 @@ import java.util.List;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import model.exam.QuestionOption;
-import repository.DeactivatableObjectDao;
+import repository.FullOptionDAO;
 
-public class QuestionOptionDao extends DeactivatableObjectDao<QuestionOption> {
-    private final String FIND_BY_QUESTION = "select e from " + entityClass.getSimpleName()
-            + "where e.questionId = :questionId";
+public class QuestionOptionDao extends FullOptionDAO<QuestionOption> {
 
     public QuestionOptionDao(EntityManagerFactory entityManagerFactory, Class<QuestionOption> entityClass) {
         super(entityManagerFactory, entityClass);

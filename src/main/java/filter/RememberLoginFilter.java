@@ -1,7 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Filter.java to edit this template
- */
+* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+* Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Filter.java to edit this template
+*/
 package filter;
 
 import java.io.IOException;
@@ -15,7 +15,6 @@ import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,7 +24,6 @@ import model.user.User;
  *
  * @author Admin
  */
-@WebFilter(filterName = "RememberLoginFilter", urlPatterns = { "/*" })
 public class RememberLoginFilter implements Filter {
 
     private static final boolean debug = true;
@@ -59,13 +57,12 @@ public class RememberLoginFilter implements Filter {
                         String userId = cookie.getValue();
 
                         try {
-                            User user = DAOFactory.USER_DAO.findById(Integer.parseInt(userId));
+                            User user = DAOFactory.getUserDao().findById(Integer.parseInt(userId));
 
                             if (user != null) {
                                 req.getSession().setAttribute("user", user);
                             }
                         } catch (Exception e) {
-                            e.printStackTrace();
                         }
                         break;
                     }

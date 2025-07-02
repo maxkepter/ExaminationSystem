@@ -15,7 +15,7 @@ import jakarta.persistence.EntityManagerFactory;
  * @author MasterLong
  * @param <E>
  */
-public abstract class FullOptionDAO<E> implements CreatableDao<E>, ReadableDao<E>, UpdatableDao<E>, DeletableDao {
+public abstract class FullOptionDAO<E> {
 
     protected EntityManagerFactory entityManagerFactory;
     protected final Class<E> entityClass;
@@ -25,7 +25,6 @@ public abstract class FullOptionDAO<E> implements CreatableDao<E>, ReadableDao<E
         this.entityManagerFactory = entityManagerFactory;
     }
 
-    @Override
     public void create(E object) {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             entityManager.getTransaction().begin();
@@ -35,7 +34,6 @@ public abstract class FullOptionDAO<E> implements CreatableDao<E>, ReadableDao<E
 
     }
 
-    @Override
     public void createMany(List<E> objects) {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             entityManager.getTransaction().begin();
@@ -59,7 +57,6 @@ public abstract class FullOptionDAO<E> implements CreatableDao<E>, ReadableDao<E
         }
     }
 
-    @Override
     public List<E> findAll() {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             String jpql = "Select u FROM " + entityClass.getSimpleName() + " u ";
@@ -67,7 +64,6 @@ public abstract class FullOptionDAO<E> implements CreatableDao<E>, ReadableDao<E
         }
     }
 
-    @Override
     public long count() {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
             String jpql = "Select COUNT(u) FROM " + entityClass.getSimpleName() + " u ";
@@ -82,13 +78,17 @@ public abstract class FullOptionDAO<E> implements CreatableDao<E>, ReadableDao<E
         }
     }
 
-    @Override
-    public void update(E object) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void update(E object, Object id) {
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            entityManager.getTransaction().begin();
+            E toUpdate = entityManager.find(entityClass, id);
+            if (toUpdate != null) {
+                entityManager.merge(object);
+            }
+            entityManager.getTransaction().commit();
+        }
     }
 
-    @Override
     public void updatePartial(int id, Map<String, Object> fields) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from
                                                                        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

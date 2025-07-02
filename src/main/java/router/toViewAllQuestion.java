@@ -1,35 +1,26 @@
-package controller.admin.exam;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
+package router;
 
+import factory.EntityManagerFactoryProvider;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 import model.exam.Question;
-import repository.exam.student.GenerateExamDao;
-import service.exam.GenerateExamService;
+
+import repository.exam.QuestionDao;
 
 /**
  *
- * @author FPT SHOP
+ * @author MasterLong
  */
-public class GenerateExam extends HttpServlet {
-
-    private EntityManagerFactory emf;
-    GenerateExamService generateExamService;
-
-    @Override
-    public void init() throws ServletException {
-        emf = Persistence.createEntityManagerFactory("ExamManagement");
-        GenerateExamDao generateExamDao = new GenerateExamDao(emf);
-        generateExamService = new GenerateExamService(generateExamDao);
-
-    }
+public class toViewAllQuestion extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,18 +39,17 @@ public class GenerateExam extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet GenerrateExam</title>");
+            out.println("<title>Servlet toViewAllQuestion</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet GenerrateExam at " + request.getContextPath()
-                    + "</h1>");
+            out.println("<h1>Servlet toViewAllQuestion at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on
-    // the + sign on the left to edit the code
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
+    // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -71,7 +61,12 @@ public class GenerateExam extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        QuestionDao questionDAO = new QuestionDao(EntityManagerFactoryProvider.getEntityManagerFactory(),
+                Question.class);
+        List<Question> allQuestion = questionDAO.findAll();
+        request.setAttribute("allQuestion", allQuestion);
+
+        request.getRequestDispatcher("/functionpage/viewallquestion.jsp").forward(request, response);
     }
 
     /**
@@ -85,19 +80,17 @@ public class GenerateExam extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String chapterNoStr = request.getParameter("chapterNo");
-        String difficultyStr = request.getParameter("difficulty");
-
-        List<Question> questions = generateExamService.getQuestionsByChapterAndDifficulty(chapterNoStr, difficultyStr);
-
-        request.setAttribute("questions", questions);
-        request.getRequestDispatcher("/student/questionList.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
-}
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
 
-/**
- * Returns a short description of the servlet.
- *
- * @return a String containing servlet description
- */
+}

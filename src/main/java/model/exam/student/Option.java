@@ -44,7 +44,7 @@ public class Option {
     }
 
     public static Option convertFromEntity(QuestionOption option) {
-        return new Option(option.getOptionId(), option.getOptionContent(), option.isCorrect());
+        return new Option(option.getOptionId(), option.getOptionContent(), option.getIsCorrect());
     }
 
     public static List<Option> convertFromEntities(List<QuestionOption> options) {

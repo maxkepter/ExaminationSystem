@@ -1,26 +1,27 @@
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.text.View;
+
 import factory.DAOFactory;
+import model.exam.Exam;
 import model.exam.student.StudentExam;
 import model.user.User;
-import service.student.exam.ReloadExamService;
+import service.admin.ViewUserService;
+import service.admin.management.user.DeleteUserService;
+import service.exam.GetQuestionInExam;
 import service.student.exam.SubmitExamService;
 
 public class TestDao {
     public static void main(String[] args) {
-        // User user = DAOFactory.USER_DAO.findById(5);
-        // StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.getDoingExam(user);
+        Exam exam = DAOFactory.getExamDao().findById(6);
+        List list = GetQuestionInExam.getQuestionInExam(exam);
 
-        // System.out.println(studentExam.getStudentExamID());
-
-        User user = DAOFactory.USER_DAO.findById(5);
-        ReloadExamService reloadExamService = new ReloadExamService();
-        StudentExam studentExam = reloadExamService.reloadExam(user);
-        System.out.println(studentExam.getStudentExamID());
+        System.out.println(list.size());
     }
 
     public static void testExam(Map<Integer, Set<Integer>> studentChoice, String studentExamIdstr) {

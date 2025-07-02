@@ -18,6 +18,16 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "SubjectMajor")
 public class SubjectMajor {
+
+    public SubjectMajor() {
+    }
+
+    public SubjectMajor(SubjectMajorId id, Major major, Subject subject) {
+        this.id = id;
+        this.major = major;
+        this.subject = subject;
+    }
+
     @EmbeddedId
     private SubjectMajorId id;
 
@@ -31,31 +41,63 @@ public class SubjectMajor {
     @JoinColumn(name = "subID")
     private Subject subject;
 
+    public SubjectMajorId getId() {
+        return id;
+    }
+
+    public void setId(SubjectMajorId id) {
+        this.id = id;
+    }
+
+    public Major getMajor() {
+        return major;
+    }
+
+    public void setMajor(Major major) {
+        this.major = major;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
     // Getters and Setters
-}
-
-@Embeddable
-class SubjectMajorId implements Serializable {
-    private int majorId;
-    private int subID;
-
-    public SubjectMajorId() {
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-			return true;
-		}
-        if (!(o instanceof SubjectMajorId)) {
-			return false;
-		}
-        SubjectMajorId that = (SubjectMajorId) o;
-        return majorId == that.majorId && subID == that.subID;
-    }
+    // Getters and Setters
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(majorId, subID);
+    @Embeddable
+    public static class SubjectMajorId implements Serializable {
+
+        private int majorId;
+        private int subID;
+
+        public SubjectMajorId() {
+
+        }
+
+        public SubjectMajorId(int majorId, int subID) {
+            this.majorId = majorId;
+            this.subID = subID;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof SubjectMajorId)) {
+                return false;
+            }
+            SubjectMajorId that = (SubjectMajorId) o;
+            return majorId == that.majorId && subID == that.subID;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(majorId, subID);
+        }
     }
 }

@@ -4,7 +4,6 @@
  */
 package model.exam;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -14,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import model.user.User;
+import service.exam.ExamCodeGenerator;
 
 @Entity
 @Table(name = "Exam")
@@ -33,7 +33,7 @@ public class Exam {
     private LocalDateTime examDate;
 
     @Column(nullable = false)
-    private LocalDate deadline;
+    private LocalDateTime deadline;
 
     @Column(nullable = false, unique = true, length = 50)
     private String examCode;
@@ -44,6 +44,28 @@ public class Exam {
     @ManyToOne
     @JoinColumn(name = "userID", nullable = false)
     private User user;
+
+    public Exam() {
+    }
+
+    public Exam(int examID, int duration, String examName, User user) {
+        this.examID = examID;
+        this.duration = duration;
+        this.examName = examName;
+        this.user = user;
+        this.examDate = LocalDateTime.now();
+        this.deadline = this.examDate.plusDays(7);
+        this.examCode = ExamCodeGenerator.getExamCode();
+    }
+    public Exam(int examID, int duration, String examName, User user, String examCode) {
+        this.examID = examID;
+        this.duration = duration;
+        this.examName = examName;
+        this.user = user;
+        this.examDate = LocalDateTime.now();
+        this.deadline = this.examDate.plusDays(7);
+        this.examCode = examCode;
+    }
 
     // Getters and Setters
 
@@ -71,11 +93,11 @@ public class Exam {
         this.examDate = examDate;
     }
 
-    public LocalDate getDeadline() {
+    public LocalDateTime getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDate deadline) {
+    public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
 
@@ -104,7 +126,13 @@ public class Exam {
     }
 
     public boolean isEnd() {
-        return this.deadline.isBefore(LocalDate.now());
+        return this.deadline.isBefore(LocalDateTime.now());
+    }
+
+    @Override
+    public String toString() {
+        return "Exam [examID=" + examID + ", duration=" + duration + ", examDate=" + examDate + ", deadline=" + deadline
+                + ", examCode=" + examCode + ", examName=" + examName + ", user=" + user + "]";
     }
 
 }

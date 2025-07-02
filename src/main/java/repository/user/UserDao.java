@@ -1,9 +1,12 @@
 package repository.user;
 
+import java.util.List;
 import java.util.Map;
 
+import factory.LogStatusFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
 import model.user.User;
 import repository.DeleteableObjectDao;
 
@@ -17,7 +20,6 @@ public class UserDao extends DeleteableObjectDao<User> {
         super(entityManagerFactory, User.class);
     }
 
-    @Override
     public void update(User object) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         User userUpdate = (User) object;
@@ -30,7 +32,6 @@ public class UserDao extends DeleteableObjectDao<User> {
         entityManager.close();
     }
 
-    @Override
     public void updatePartial(int id, Map<String, Object> fields) {
         try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
             User user = entityManager.find(User.class, id);
@@ -57,4 +58,36 @@ public class UserDao extends DeleteableObjectDao<User> {
 
     }
 
+    @Override
+    public void delete(int id) {
+        // TODO Auto-generated method stub
+        super.delete(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        // TODO Auto-generated method stub
+        super.deleteAll();
+    }
+
+    @Override
+    public void deleteMany(List<Integer> ids) {
+        // TODO Auto-generated method stub
+        super.deleteMany(ids);
+    }
+
+    public List<User> findAllActive() {
+        List<User> users = null;
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager();) {
+            TypedQuery<User> query = entityManager.createQuery(
+                    "SELECT u FROM User u JOIN LoginInfo info ON u.userID = info.user.userID WHERE info.status = :status",
+                    entityClass);
+            query.setParameter("status", LogStatusFactory.getAccountActive());
+            users = query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+
+    }
 }

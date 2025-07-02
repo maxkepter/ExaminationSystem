@@ -32,7 +32,8 @@ public class QuestionOption {
     public QuestionOption() {
     }
 
-    public QuestionOption(boolean isCorrect, String optionContent, Question question) {
+    public QuestionOption(int optionId, boolean isCorrect, String optionContent, Question question) {
+        this.optionId = optionId;
         this.isCorrect = isCorrect;
         this.optionContent = optionContent;
         this.question = question;
@@ -46,11 +47,11 @@ public class QuestionOption {
         this.optionId = optionId;
     }
 
-    public boolean isCorrect() {
+    public boolean getIsCorrect() {
         return isCorrect;
     }
 
-    public void setCorrect(boolean isCorrect) {
+    public void setIsCorrect(boolean isCorrect) {
         this.isCorrect = isCorrect;
     }
 

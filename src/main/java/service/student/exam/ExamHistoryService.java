@@ -1,41 +1,31 @@
 package service.student.exam;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import constants.PageSize;
 import factory.DAOFactory;
-import java.util.Collection;
-import java.util.Collections;
 import model.exam.student.StudentExam;
 import repository.exam.student.StudentExamDao;
+import utils.PagingList;
 
 public class ExamHistoryService {
-    public List<StudentExam> getHistory(int userId, int pageIndex, int[] maxPage) throws IndexOutOfBoundsException {
+        public List<StudentExam> getHistory(int userId, int pageIndex, int[] maxPage) throws IndexOutOfBoundsException {
 
-        // Set field value
-        Map<String, Object> fieldValues = new HashMap<>();
-        fieldValues.put(StudentExam.STUDENT, DAOFactory.STUDENT_DAO.findById(userId));
-        StudentExamDao studentExamDao = DAOFactory.STUDENT_EXAM_DAO;
+                // Set field value
+                Map<String, Object> fieldValues = new HashMap<>();
+                fieldValues.put(StudentExam.STUDENT, DAOFactory.getStudentDao().findById(userId));
+                StudentExamDao studentExamDao = DAOFactory.getStudentExamDao();
 
-        int pageSize = PageSize.STUDENT_EXAM;
+                int pageSize = PageSize.STUDENT_EXAM;
 
-        List<StudentExam> studentExams = studentExamDao.findByField(fieldValues);
-        Collections.reverse(studentExams);
-        // Get max page
-        maxPage[0] = (studentExams.size() / pageSize);
+                List<StudentExam> studentExams = studentExamDao.findByField(fieldValues);
+                Collections.reverse(studentExams);
+                // Get max page
+                maxPage[0] = (studentExams.size() / pageSize);
 
-        if (maxPage[0] < pageIndex) {
-            throw new IndexOutOfBoundsException("Page does not exist !");
+                return PagingList.paging(studentExams, pageIndex, maxPage[0], pageSize);
         }
-        // Paging list
-        int start = pageIndex * pageSize;
-        int end = (pageIndex + 1) * pageSize < studentExams.size() - 1 ? (pageIndex + 1) * pageSize
-                : studentExams.size() - 1;
-
-        studentExams = studentExams.subList(start, end);
-
-        return studentExams;
-    }
 }

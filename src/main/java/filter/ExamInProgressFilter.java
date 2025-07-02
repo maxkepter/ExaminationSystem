@@ -15,7 +15,6 @@ import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -27,7 +26,6 @@ import service.log.ExamLogService;
  *
  * @author Admin
  */
-@WebFilter(filterName = "ExamInProgressFilter", urlPatterns = { "/*" })
 public class ExamInProgressFilter implements Filter {
 
     private static final boolean debug = true;
@@ -58,13 +56,13 @@ public class ExamInProgressFilter implements Filter {
         HttpSession session = req.getSession(false);
         String path = req.getServletPath();
 
-        if (path.startsWith("/Login") || path.startsWith("/Register") || path.startsWith("/AdminLogin")
-                || path.endsWith(".css") || path.endsWith(".js")) {
+        if (path.startsWith("/Login") || path.startsWith("/Register") || path.startsWith("/adminlogin")
+                || path.startsWith("/Home") || path.startsWith("/") || path.endsWith(".css") || path.endsWith(".js")) {
             chain.doFilter(request, response);
             return;
         }
-        
-        if(path.startsWith("/Login") || path.startsWith("/Register")){
+
+        if (path.startsWith("/Login") || path.startsWith("/Register")) {
             return;
         }
 
@@ -78,7 +76,6 @@ public class ExamInProgressFilter implements Filter {
             res.sendRedirect(req.getContextPath() + "/Login");
             return;
         }
-
         if (RoleFilter.isAdmin(user)) {
             chain.doFilter(request, response);
             return;
@@ -88,7 +85,7 @@ public class ExamInProgressFilter implements Filter {
         if (currentExamId == null) {
             try {
                 // Get doing exam if currentExam is null
-                StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.getDoingExam(user);
+                StudentExam studentExam = DAOFactory.getStudentExamDao().getDoingExam(user);
 
                 ExamLogService examLogService = new ExamLogService();
                 examLogService.createLog(studentExam.getStudentExamID(), "Test Filter " + studentExam.getExamStatus());

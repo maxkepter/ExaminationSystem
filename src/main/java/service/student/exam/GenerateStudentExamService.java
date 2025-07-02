@@ -14,8 +14,10 @@ import model.exam.student.QuestionWithOptions;
 import model.exam.student.StudentExam;
 import model.user.Student;
 import model.user.User;
+import service.exam.GetQuestionInExam;
 
 public class GenerateStudentExamService {
+
     public StudentExam generateExam(User user, int examId) throws IllegalArgumentException, ExamOverException {
         // Validate the input parameters
         if (user == null || user.getUserID() <= 0) {
@@ -23,12 +25,12 @@ public class GenerateStudentExamService {
         }
 
         // Check if the user is a student
-        Student student = DAOFactory.STUDENT_DAO.findById(user.getUserID());
+        Student student = DAOFactory.getStudentDao().findById(user.getUserID());
         if (student == null) {
             throw new IllegalArgumentException("Student not found for user ID: " + user.getUserID());
         }
 
-        Exam exam = DAOFactory.EXAM_DAO.findById(examId);
+        Exam exam = DAOFactory.getExamDao().findById(examId);
 
         if (exam == null) {
             throw new IllegalArgumentException("Exam not found for ID: " + examId);
@@ -43,17 +45,22 @@ public class GenerateStudentExamService {
         QuestionWithOptions.randomQuestion(questionWithOptions);
 
         Map<Integer, Set<Integer>> studentChoices = new HashMap<>();
-        StudentExam studentExam = new StudentExam(StudentExam.EXAM_DOING, 0, LocalDateTime.now(), LocalDateTime.now(),
+        StudentExam studentExam = new StudentExam(StudentExam.EXAM_DOING, 0, LocalDateTime.now(),
+                LocalDateTime.now(),
                 questionWithOptions, studentChoices, exam, student);
+        if(questionWithOptions == null || questionWithOptions.isEmpty()){
+            throw new IllegalArgumentException("deo co gi");
+        }
+        DAOFactory.getStudentExamDao().create(studentExam);
 
-        DAOFactory.STUDENT_EXAM_DAO.create(studentExam);
         return studentExam;
     }
 
     private List<QuestionWithOptions> generateQuestionWithOptions(Exam exam) {
-        List<Question> questions = DAOFactory.QUESTION_DAO.findAll();
+        List<Question> questions = GetQuestionInExam.getQuestionInExam(exam);
+
         List<QuestionWithOptions> options = QuestionWithOptions.convertFromEntities(questions);
-        return options.subList(0, 5);
+        return options;
     }
 
 }

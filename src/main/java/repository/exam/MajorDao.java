@@ -2,13 +2,12 @@ package repository.exam;
 
 import jakarta.persistence.EntityManagerFactory;
 import model.exam.Major;
-import repository.DeactivatableObjectDao;
+import repository.FullOptionDAO;
 
-public class MajorDao extends DeactivatableObjectDao<Major> {
+public class MajorDao extends FullOptionDAO<Major> {
 
     public MajorDao(EntityManagerFactory entityManagerFactory, Class<Major> entityClass) {
         super(entityManagerFactory, entityClass);
-        // TODO Auto-generated constructor stub
     }
 
 }

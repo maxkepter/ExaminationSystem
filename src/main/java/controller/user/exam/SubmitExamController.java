@@ -115,7 +115,7 @@ public class SubmitExamController extends HttpServlet {
 
         } catch (Exception e) {
             request.setAttribute("error", e.getMessage());
-            request.getRequestDispatcher(studentExamid);
+            request.getRequestDispatcher("student/submit_exam.jsp").forward(request, response);
             return;
         }
 

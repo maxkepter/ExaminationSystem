@@ -83,7 +83,7 @@ public class UserProfileController extends HttpServlet {
         UpdateUserInfoService updateUserInfoService = new UpdateUserInfoService();
 
         try {
-            updateUserInfoService.update(user, newFirstName, newLastName, newEmail);
+            updateUserInfoService.update(user.getUserID(), newFirstName, newLastName, newEmail);
         } catch (IllegalArgumentException e) {
             // If there is an error, set the error message in the request and forward to the
             // user info page

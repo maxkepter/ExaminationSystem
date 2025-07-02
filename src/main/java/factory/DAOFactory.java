@@ -5,6 +5,7 @@ import repository.exam.ExamDao;
 import repository.exam.QuestionDao;
 import repository.exam.student.StudentExamDao;
 import repository.log.ExamLogDao;
+import repository.log.LogStatusDao;
 import repository.user.LoginInfoDao;
 import repository.user.StudentDao;
 import repository.user.UserDao;
@@ -12,12 +13,69 @@ import repository.user.UserDao;
 public class DAOFactory {
     private static final EntityManagerFactory emf = EntityManagerFactoryProvider.getEntityManagerFactory();
 
-    public static final UserDao USER_DAO = new UserDao(emf);
-    public static final StudentDao STUDENT_DAO = new StudentDao(emf);
-    public static final StudentExamDao STUDENT_EXAM_DAO = new StudentExamDao(emf);
-    public static final ExamDao EXAM_DAO = new ExamDao(emf);
-    public static final QuestionDao QUESTION_DAO = new QuestionDao(emf);
-    public static final LoginInfoDao LOGIN_INFO_DAO = new LoginInfoDao(emf);
-    public static final ExamLogDao EXAM_LOG_DAO = new ExamLogDao(emf);
+    private static UserDao userDao;
+    private static StudentDao studentDao;
+    private static StudentExamDao studentExamDao;
+    private static ExamDao examDao;
+    private static QuestionDao questionDao;
+    private static LoginInfoDao loginInfoDao;
+    private static ExamLogDao examLogDao;
+    private static LogStatusDao logStatusDao;
+
+    public static UserDao getUserDao() {
+        if (userDao == null) {
+            userDao = new UserDao(emf);
+        }
+        return userDao;
+    }
+
+    public static StudentDao getStudentDao() {
+        if (studentDao == null) {
+            studentDao = new StudentDao(emf);
+        }
+        return studentDao;
+    }
+
+    public static StudentExamDao getStudentExamDao() {
+        if (studentExamDao == null) {
+            studentExamDao = new StudentExamDao(emf);
+        }
+        return studentExamDao;
+    }
+
+    public static ExamDao getExamDao() {
+        if (examDao == null) {
+            examDao = new ExamDao(emf);
+        }
+        return examDao;
+    }
+
+    public static QuestionDao getQuestionDao() {
+        if (questionDao == null) {
+            questionDao = new QuestionDao(emf);
+        }
+        return questionDao;
+    }
+
+    public static LoginInfoDao getLoginInfoDao() {
+        if (loginInfoDao == null) {
+            loginInfoDao = new LoginInfoDao(emf);
+        }
+        return loginInfoDao;
+    }
+
+    public static ExamLogDao getExamLogDao() {
+        if (examLogDao == null) {
+            examLogDao = new ExamLogDao(emf);
+        }
+        return examLogDao;
+    }
+
+    public static LogStatusDao getLogStatusDao() {
+        if (logStatusDao == null) {
+            logStatusDao = new LogStatusDao(emf);
+        }
+        return logStatusDao;
+    }
 
 }

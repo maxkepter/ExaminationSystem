@@ -12,21 +12,22 @@ public class ExamLogService {
 
     public static final String START_EXAM = "Start exam";
     public static final String SUBMIT_EXAM = "Submit exam";
+    public static final String FORCE_SUBMIT_EXAM = "Force submit exam";
     public static final String DISCONNECT_EXAM = "Disconnect exam";
     public static final String SUSPENDED_EXAM = "Exam is suspended";
     public static final String RELOAD_EXAM = "Reload exam !";
 
     public void createLog(StudentExam studentExam, String infomation) {
-        ExamLogDao examLogDao = DAOFactory.EXAM_LOG_DAO;
+        ExamLogDao examLogDao = DAOFactory.getExamLogDao();
         ExamLog examLog = new ExamLog(LocalDateTime.now(), infomation, studentExam);
         examLogDao.create(examLog);
     }
 
     public void createLog(int studentExamId, String information) {
-        StudentExam studentExam = DAOFactory.STUDENT_EXAM_DAO.findById(studentExamId);
+        StudentExam studentExam = DAOFactory.getStudentExamDao().findById(studentExamId);
         if (information.equals(StudentExam.EXAM_STATUS_INFO[StudentExam.EXAM_SUSPENDED])) {
             studentExam.setExamStatus(StudentExam.EXAM_SUSPENDED);
-            DAOFactory.STUDENT_EXAM_DAO.update(studentExam);
+            DAOFactory.getStudentExamDao().update(studentExam);
         }
         createLog(studentExam, information);
     }

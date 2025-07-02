@@ -11,8 +11,15 @@ import java.util.List;
  * @author Admin
  */
 public interface ReadableDao<E> {
+    E findById(Object id);
+
     E findById(int id);
+
     List<E> findAll();
+
     long count();
+
     boolean exists(int id);
+
+    boolean exists(Object id);
 }

@@ -20,7 +20,7 @@ import service.user.ChangePasswordService;
  *
  * @author Admin
  */
-@WebServlet(name = "ChangePasswordController", urlPatterns = {"/ChangePassword"})
+@WebServlet(name = "ChangePasswordController", urlPatterns = { "/ChangePassword" })
 public class ChangePasswordController extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
@@ -28,14 +28,16 @@ public class ChangePasswordController extends HttpServlet {
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        request.getCookies();
 
         // Get the current user from the session
         HttpSession session = request.getSession();
@@ -47,15 +49,17 @@ public class ChangePasswordController extends HttpServlet {
         }
 
         request.getRequestDispatcher("change_password.jsp").forward(request, response);
+        return;
+
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -65,27 +69,12 @@ public class ChangePasswordController extends HttpServlet {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             // If user is not logged in, redirect to login page
-            response.sendRedirect("Login");
+            response.sendRedirect("login.jsp");
             return;
         }
-
         // Get the new password from the request
         String newPassword = request.getParameter("newPassword");
         String oldPassword = request.getParameter("currentPassword");
-
-        // Basic validation
-        if (newPassword == null || newPassword.trim().isEmpty()) {
-            request.setAttribute("error", "New password cannot be empty");
-            request.getRequestDispatcher("change_password.jsp").forward(request, response);
-            return;
-        }
-
-        if (oldPassword == null || oldPassword.trim().isEmpty()) {
-            request.setAttribute("error", "Current password cannot be empty");
-            request.getRequestDispatcher("change_password.jsp").forward(request, response);
-            return;
-        }
-
         ChangePasswordService changePasswordService = new ChangePasswordService();
         try {
             // Change the password

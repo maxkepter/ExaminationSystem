@@ -13,7 +13,7 @@ public class LogoutService {
 
         // Log the logout event
         LogService logService = new LoginLogService();
-        logService.createUserLog(user, LogStatusFactory.LOGOUT);
+        logService.createUserLog(user, LogStatusFactory.getLogout());
     }
 
 }

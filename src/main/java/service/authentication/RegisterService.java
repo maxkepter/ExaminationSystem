@@ -15,48 +15,50 @@ import utils.HashInfo;
 import utils.Validate;
 
 public class RegisterService {
-    public User register(String userName, String password, User user)
-            throws IllegalArgumentException, UserNameDuplicatedException {
-        LogService logService = new LoginLogService();
-        // Validate the input parameters
-        if (!Validate.validateString(userName) || !Validate.validateString(password)) {
-            throw new IllegalArgumentException("Username or password cannot be blank !");
+        public User register(String userName, String password, User user)
+                        throws IllegalArgumentException, UserNameDuplicatedException {
+                LogService logService = new LoginLogService();
+                // Validate the input parameters
+                if (!Validate.validateString(userName) || !Validate.validateString(password)) {
+                        throw new IllegalArgumentException("Username or password cannot be blank !");
+                }
+
+                // Validate the user object
+                if (user == null) {
+                        throw new IllegalArgumentException("User cannot be null !");
+                }
+
+                // Check if the username already exists
+                if (DAOFactory.getLoginInfoDao().findByUserName(userName) != null) {
+                        throw new UserNameDuplicatedException();
+                }
+
+                // Create and save a new LoginInfo object
+                // Password should be hashed before saving
+                LoginInfo loginInfo = new LoginInfo(
+                                user.getUserID(),
+                                user,
+                                userName,
+                                HashInfo.hash(password),
+                                LogStatusFactory.getAccountActive());
+                DAOFactory.getLoginInfoDao().create(loginInfo);
+
+                // Log the registration success
+
+                logService.createUserLog(user, LogStatusFactory.getRegistrationSuccess());
+
+                createStudent(user);
+
+                return user;
         }
 
-        // Validate the user object
-        if (user == null) {
-            throw new IllegalArgumentException("User cannot be null !");
+        private void createStudent(User user) {
+                GenerateUserCodeService generateUserCodeService = new GenerateUserCodeService();
+                String studentCode = generateUserCodeService.generateStudentCode(user.getFirstName(),
+                                user.getLastName());
+                StudentDao studentDao = new StudentDao(EntityManagerFactoryProvider.getEntityManagerFactory(),
+                                Student.class);
+
+                studentDao.create(new Student(user.getUserID(), studentCode));
         }
-
-        // Check if the username already exists
-        if (DAOFactory.LOGIN_INFO_DAO.findByUserName(userName) != null) {
-            throw new UserNameDuplicatedException();
-        }
-
-        // Create and save a new LoginInfo object
-        // Password should be hashed before saving
-        LoginInfo loginInfo = new LoginInfo(
-                user.getUserID(),
-                user,
-                userName,
-                HashInfo.hash(password),
-                LogStatusFactory.ACCOUNT_ACTIVE);
-        DAOFactory.LOGIN_INFO_DAO.create(loginInfo);
-
-        // Log the registration success
-
-        logService.createUserLog(user, LogStatusFactory.REGISTRATION_SUCCESS);
-
-        createStudent(user);
-
-        return user;
-    }
-
-    private void createStudent(User user) {
-        GenerateUserCodeService generateUserCodeService = new GenerateUserCodeService();
-        String studentCode = generateUserCodeService.generateStudentCode(user.getFirstName(), user.getLastName());
-        StudentDao studentDao = new StudentDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Student.class);
-
-        studentDao.create(new Student(user.getUserID(), studentCode));
-    }
 }

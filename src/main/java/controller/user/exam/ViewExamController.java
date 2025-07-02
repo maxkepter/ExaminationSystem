@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import factory.EntityManagerFactoryProvider;
+import jakarta.persistence.NoResultException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,8 +17,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.exam.Exam;
 import repository.exam.ExamDao;
-import service.exam.ExamService;
-import utils.Validate;
 
 /**
  *
@@ -65,8 +64,10 @@ public class ViewExamController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         ExamDao examDAO = new ExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(), Exam.class);
         String code = request.getParameter("examCode");
+
         if (code == null || code.isEmpty()) {
             request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
             return;
@@ -80,6 +81,7 @@ public class ViewExamController extends HttpServlet {
         }
 
         request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
+
     }
 
     /**

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import factory.DAOFactory;
-import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.RollbackException;
@@ -74,8 +73,8 @@ public class StudentExamDao extends ObjectDao<StudentExam>
     public StudentExam getDoingExam(User user, int examId) {
 
         Map<String, Object> fieldValues = new HashMap<>();
-        fieldValues.put(StudentExam.STUDENT, DAOFactory.STUDENT_DAO.findById(user.getUserID()));
-        fieldValues.put(StudentExam.EXAM, DAOFactory.EXAM_DAO.findById(examId));
+        fieldValues.put(StudentExam.STUDENT, DAOFactory.getExamDao().findById(user.getUserID()));
+        fieldValues.put(StudentExam.EXAM, DAOFactory.getExamDao().findById(examId));
 
         return getDoingExam(fieldValues);
     }
@@ -83,7 +82,7 @@ public class StudentExamDao extends ObjectDao<StudentExam>
     public StudentExam getDoingExam(User user) {
 
         Map<String, Object> fieldValues = new HashMap<>();
-        fieldValues.put(StudentExam.STUDENT, DAOFactory.STUDENT_DAO.findById(user.getUserID()));
+        fieldValues.put(StudentExam.STUDENT, DAOFactory.getStudentDao().findById(user.getUserID()));
 
         return getDoingExam(fieldValues);
     }
@@ -97,18 +96,49 @@ public class StudentExamDao extends ObjectDao<StudentExam>
 
     public StudentExam findWithStudent(int id) {
         StudentExam studentExam = null;
-        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
-            EntityGraph<StudentExam> entityGraph = entityManager.createEntityGraph(entityClass);
-            entityGraph.addAttributeNodes(StudentExam.STUDENT);
-
-            Map<String, Object> hints = new HashMap<>();
-            hints.put("javax.persistence.fetchgraph", entityGraph);
-
-            studentExam = entityManager.find(entityClass, id, hints);
+        try (EntityManager em = entityManagerFactory.createEntityManager()) {
+            TypedQuery<StudentExam> query = em.createQuery(
+                    "SELECT se FROM StudentExam se "
+                    + "JOIN FETCH se.student "
+                    + "JOIN FETCH se.exam "
+                    + "WHERE se.id = :id",
+                    StudentExam.class);
+            query.setParameter("id", id);
+            studentExam = query.getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return studentExam;
+    }
+
+    public List<StudentExam> findByProperty(String propertyName, Object value) {
+        List<StudentExam> list = null;
+        try (EntityManager em = entityManagerFactory.createEntityManager()) {
+            String jpql = "SELECT e FROM " + entityClass.getSimpleName() + " e WHERE e." + propertyName + " = :value";
+            list = em.createQuery(jpql, entityClass).setParameter("value", value).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    @Override
+    public StudentExam findById(Object id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    }
+
+    @Override
+    public boolean exists(int id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'exists'");
+    }
+
+    @Override
+    public boolean exists(Object id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'exists'");
     }
 
 }

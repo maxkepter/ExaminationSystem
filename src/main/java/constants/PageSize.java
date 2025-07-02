@@ -6,4 +6,5 @@ public class PageSize {
     }
 
     public static final int STUDENT_EXAM = 30;
+    public static final int USER = 36;
 }
