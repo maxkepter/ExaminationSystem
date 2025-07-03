@@ -85,9 +85,8 @@
 
 
 
-
                     <!-- Footer -->
-                    <div class="footer">
+                    <div class="footer" style="background-color: white;color: black ">
                         © 2025 Exam Management System. All rights reserved.
                     </div>
                     <script src="${pageContext.request.contextPath}/js/chatBot.js" ></script>

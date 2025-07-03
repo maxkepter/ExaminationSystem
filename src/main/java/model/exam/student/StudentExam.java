@@ -82,7 +82,7 @@ public class StudentExam {
     @JoinColumn(name = "ExamID", nullable = false)
     private Exam exam;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "UserID", nullable = false)
     private Student student;
 

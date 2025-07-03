@@ -76,11 +76,14 @@ public class DoExamController extends HttpServlet {
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             String error = e.getMessage();
             request.setAttribute("error", error);
             request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
             return;
         }
+        
+        System.out.println(studentExam);
 
         request.setAttribute("examDetail", studentExam.getExamDetail());// list type
         request.setAttribute("questionSize", studentExam.getExamDetail().size());

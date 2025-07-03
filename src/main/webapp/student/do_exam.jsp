@@ -13,6 +13,7 @@
         <title>Do Exam</title>
         <link rel="stylesheet" href="./css/doExam.css">
         <script src="./js/ExamLog.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </head>
     <body>
         <div class="container">
@@ -24,7 +25,7 @@
                     <button class="fullscreen-btn" onclick="toggleFullscreen()">📱 Full Size</button>
                 </div>
             </div>
-            <div class="sidebar">
+            <div class="sidebar" >
                 <h2>Question </h2>
                 <div class="stats">
                     <span>Đã làm: <strong id="answered-count">0</strong></span>
@@ -332,7 +333,91 @@
                                 target.scrollIntoView({behavior: "smooth", block: "start"});
                         });
                     });
-        </script>
+// Hiển thị hoặc ẩn hai nút cuộn khi cuộn trang
+                    window.addEventListener('scroll', function () {
+                        const scrollToTopBtn = document.getElementById('scroll-to-top');
+                        const scrollToBottomBtn = document.getElementById('scroll-to-bottom');
 
+                        if (window.pageYOffset > 300) {
+                            scrollToTopBtn.style.display = 'block';
+                        } else {
+                            scrollToTopBtn.style.display = 'none';
+                        }
+
+                        if ((window.innerHeight + window.pageYOffset) < document.body.scrollHeight - 300) {
+                            scrollToBottomBtn.style.display = 'block';
+                        } else {
+                            scrollToBottomBtn.style.display = 'none';
+                        }
+                    });
+
+// Cuộn lên đầu
+                    function scrollToTop() {
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
+                    }
+
+// Cuộn xuống cuối
+                    function scrollToBottom() {
+                        window.scrollTo({
+                            top: document.body.scrollHeight,
+                            behavior: 'smooth'
+                        });
+                    }
+
+        </script>
+        <!-- Scroll to Top Button -->
+        <button id="scroll-to-top" onclick="scrollToTop()" 
+                style="
+                position: fixed;
+                bottom: 72px;
+                right: 20px;
+                background-color: #4f46e5;
+                color: white;
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+                border-radius: 50%;
+                box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+                border: none;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: none;
+                z-index: 999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 7px;
+                ">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+
+        <!-- Scroll to Bottom Button -->
+        <button id="scroll-to-bottom" onclick="scrollToBottom()" 
+                style="
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background-color: #4f46e5;
+                color: white;
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+                border-radius: 50%;
+                box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+                border: none;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: none;
+                z-index: 999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 7px;
+                ">
+            <i class="fas fa-arrow-down"></i>
+        </button>
     </body>
 </html>

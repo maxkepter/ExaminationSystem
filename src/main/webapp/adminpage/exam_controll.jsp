@@ -23,7 +23,6 @@
             <label>Redirect Url <input type="text" name="url"></label> 
             <p>(If blank just force submit the exam without redirecting)</p>
             <input type="submit" value="Force Submit">
-
         </form>
     </body>
 </html>

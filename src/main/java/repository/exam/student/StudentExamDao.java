@@ -112,10 +112,15 @@ public class StudentExamDao extends ObjectDao<StudentExam>
     }
 
     public List<StudentExam> findByProperty(String propertyName, Object value) {
-        EntityManager em = entityManagerFactory.createEntityManager();
-        String jpql = "SELECT e FROM " + entityClass.getSimpleName() + " e WHERE e." + propertyName + " = :value";
-        return em.createQuery(jpql, entityClass).setParameter("value", value).getResultList();
+        List<StudentExam> list = null;
+        try (EntityManager em = entityManagerFactory.createEntityManager()) {
+            String jpql = "SELECT e FROM " + entityClass.getSimpleName() + " e WHERE e." + propertyName + " = :value";
+            list = em.createQuery(jpql, entityClass).setParameter("value", value).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        return list;
     }
 
     @Override

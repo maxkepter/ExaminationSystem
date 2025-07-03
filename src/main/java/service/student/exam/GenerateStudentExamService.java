@@ -48,8 +48,11 @@ public class GenerateStudentExamService {
         StudentExam studentExam = new StudentExam(StudentExam.EXAM_DOING, 0, LocalDateTime.now(),
                 LocalDateTime.now(),
                 questionWithOptions, studentChoices, exam, student);
-
+        if (questionWithOptions == null || questionWithOptions.isEmpty()) {
+            throw new IllegalArgumentException("deo co gi");
+        }
         DAOFactory.getStudentExamDao().create(studentExam);
+
         return studentExam;
     }
 
