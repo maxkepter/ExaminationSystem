@@ -72,6 +72,7 @@
                             <th class="px-6 py-4 text-center text-sm">Time Remaining</th>
                             <th class="px-6 py-4 text-center text-sm">Status</th>
                             <th class="px-6 py-4 text-center text-sm">Action</th>
+                            <th class="px-6 py-4 text-center text-sm">Exam Log</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -135,6 +136,18 @@
                                                 </button>
                                             </form>
                                         </c:if>
+                                    </td>
+
+                                    <!-- Exam Log -->
+                                    <td class="px-6 py-4 text-center">
+                                        <form action="../ViewExamLog" method="get">
+                                            <input type="hidden" name="studentExamId" value="${studentExam.studentExamID}" />
+                                            <button type="submit"
+                                                    class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition-colors text-sm shadow-sm hover:shadow-md">
+                                                View
+                                            </button>
+                                        </form>
+
                                     </td>
                                 </tr>
 
