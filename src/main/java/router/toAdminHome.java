@@ -7,6 +7,8 @@ package router;
 
 import filter.RoleFilter;
 import java.io.IOException;
+
+import factory.DAOFactory;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,13 +48,23 @@ public class toAdminHome extends HttpServlet {
      @Override
      protected void doGet(HttpServletRequest request, HttpServletResponse response)
                throws ServletException, IOException {
-         
-         User user = (User) request.getSession().getAttribute("user");
-        if (!RoleFilter.isAdmin(user)) {
-            response.sendRedirect(request.getContextPath() + "/Home");
-            return;
-        }
-         request.getRequestDispatcher("adminpage/admin_home.jsp").forward(request, response);
+
+          User user = (User) request.getSession().getAttribute("user");
+          if (!RoleFilter.isAdmin(user)) {
+               response.sendRedirect(request.getContextPath() + "/Home");
+               return;
+          }
+          long countExam = DAOFactory.getExamDao().count();
+          long countUser = DAOFactory.getUserDao().count();
+          long countQuestion = DAOFactory.getQuestionDao().count();
+          long countSubject = DAOFactory.getSubjectDao().count();
+
+          request.setAttribute("countExam", countExam);
+          request.setAttribute("countUser", countUser);
+          request.setAttribute("countQuestion", countQuestion);
+          request.setAttribute("countSubject", countSubject);
+
+          request.getRequestDispatcher("adminpage/admin_home.jsp").forward(request, response);
      }
 
      /**

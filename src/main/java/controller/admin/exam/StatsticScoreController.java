@@ -2,32 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
-package controller.admin;
-
-import java.io.IOException;
+package controller.admin.exam;
 
 import factory.DAOFactory;
-import filter.RoleFilter;
-//import filter.RoleFilter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-<<<<<<< HEAD
-import model.exam.Exam;
-import repository.exam.ExamDao;
-=======
-import model.user.User;
->>>>>>> b5679cd9039226160cd44b8a357ef029331b95eb
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "AdminHome", urlPatterns = { "/AdminHome" })
-public class AdminHome extends HttpServlet {
+@WebServlet(name = "StatsticScoreController", urlPatterns = { "/StatsticScore" })
+public class StatsticScoreController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,6 +31,22 @@ public class AdminHome extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException      if an I/O error occurs
      */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet StatsticScoreController</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet StatsticScoreController at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
     // + sign on the left to edit the code.">
@@ -52,27 +61,17 @@ public class AdminHome extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute("user");
-        if (!RoleFilter.isAdmin(user)) {
-            response.sendRedirect(request.getContextPath() + "/Home");
-            return;
+        String examId = request.getParameter("examId");
+
+        try {
+            Map<Float, Long> map =(HashMap<Float, Long>) DAOFactory.getStudentExamDao().countScoreByExam(Integer.parseInt(examId));
+            request.setAttribute("examId", examId);
+            request.setAttribute("scoreMap", map);
+        } catch (Exception e) {
+            request.setAttribute("error", e.getMessage());
         }
-        long countExam = DAOFactory.getExamDao().count();
-        long countUser = DAOFactory.getUserDao().count();
-        long countQuestion = DAOFactory.getQuestionDao().count();
-        long countSubject = DAOFactory.getSubjectDao().count();
 
-        System.out.println("Count Exam: " + countExam);
-        System.out.println("Count User: " + countUser);
-        System.out.println("Count Question: " + countQuestion);
-        System.out.println("Count Subject: " + countSubject);
-
-        request.setAttribute("countExam", countExam);
-        request.setAttribute("countUser", countUser);
-        request.setAttribute("countQuestion", countQuestion);
-        request.setAttribute("countSubject", countSubject);
-
-        request.getRequestDispatcher("adminpage/admin_home.jsp").forward(request, response);
+        request.getRequestDispatcher("functionpage/statstic_score.jsp").forward(request, response);
     }
 
     /**
@@ -86,7 +85,7 @@ public class AdminHome extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 
     /**

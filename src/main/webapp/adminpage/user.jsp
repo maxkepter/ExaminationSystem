@@ -93,7 +93,12 @@
                                 <span class="text-gray-900">${user.userID}</span>
                             </div>
                         </div>
+<<<<<<< HEAD
                            <div class="flex items-center py-3 border-b border-gray-200">
+=======
+
+                        <div class="flex items-center py-3 border-b border-gray-200">
+>>>>>>> b5679cd9039226160cd44b8a357ef029331b95eb
                             <div class="w-1/4">
                                 <span class="text-sm font-medium text-gray-600">First Name:</span>
                             </div>
@@ -106,6 +111,7 @@
                         <div class="w-1/4">
                             <span class="text-sm font-medium text-gray-600">Last Name:</span>
                         </div>
+<<<<<<< HEAD
                         <div class="w-3/4">
                             <span class="text-gray-900">${user.lastName}</span>
                         </div>
@@ -127,6 +133,33 @@
                         <div class="w-3/4">
                             <div class="flex justify-between items-center flex-wrap gap-3">
                                 <div class="flex items-center gap-3">
+=======
+
+                        <div class="flex items-center py-3 border-b border-gray-200">
+                            <div class="w-1/4">
+                                <span class="text-sm font-medium text-gray-600">Last Name:</span>
+                            </div>
+                            <div class="w-3/4">
+                                <span class="text-gray-900">${user.lastName}</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center py-3 border-b border-gray-200">
+                            <div class="w-1/4">
+                                <span class="text-sm font-medium text-gray-600">Email:</span>
+                            </div>
+                            <div class="w-3/4">
+                                <span class="text-gray-900">${user.email}</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center py-3">
+                            <div class="w-1/4">
+                                <span class="text-sm font-medium text-gray-600">Role:</span>
+                            </div>
+                            <div class="w-3/4">
+                                <div class="flex items-center space-x-2">
+>>>>>>> b5679cd9039226160cd44b8a357ef029331b95eb
                                     ${user.role == 1 ? 
                                       '<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">Student</span>' : 
                                       '<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">Admin</span>'}
@@ -223,8 +256,34 @@
                     </div>
                 </form>
             </div>
+
+            <!-- Exam History  Card -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <!-- Card Header -->
+                <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-4">
+                    <h2 class="text-xl font-semibold text-white">
+                        <i class="fas fa-key mr-2"></i>
+                        Exam History
+                    </h2>
+                </div>
+
+                <!-- Card Content -->
+                <div class="p-6">
+                    <form action="UserExamHistory" method="get" class="space-y-6">                  
+                        <div class="flex justify-end">
+                            <input type="hidden"  name="id" value="${user.userID}" >   
+                            <button type="submit" 
+                                    class="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md">
+                                <i class="fas fa-key mr-2"></i>
+                                Exam History
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
 
+<<<<<<< HEAD
         <!-- Password Reset Card -->
         <div class="bg-white rounded-xl shadow-lg overflow-hidden">
             <!-- Card Header -->
@@ -291,3 +350,24 @@
     </script>
 </body>
 </html>
+=======
+        <script>
+            // Toggle password visibility
+            document.getElementById('togglePassword').addEventListener('click', function () {
+                const passwordInput = document.getElementById('password');
+                const icon = this.querySelector('i');
+
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        </script>
+    </body>
+</html>
+>>>>>>> b5679cd9039226160cd44b8a357ef029331b95eb

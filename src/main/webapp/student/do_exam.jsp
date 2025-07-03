@@ -88,7 +88,7 @@
 
                 const url = `${pageContext.request.contextPath}/ControllStudentExam?studentExamId=${studentExam.studentExamID}`;
                         const xhr = new XMLHttpRequest();
-                        xhr.open("GET", url, true);
+                        xhr.open("GET", url, true);                      
 
                         xhr.onreadystatechange = () => {
                             if (xhr.readyState === 4 && xhr.status === 200) {
@@ -98,7 +98,7 @@
                                     const msg = resp.message || '(Không có thông điệp)';
                                     const rawUrl = resp.url;
                                     const url = (rawUrl && rawUrl !== "null") ? rawUrl : null;
-
+                                    
                                     if (url === 'force') {
                                         alert(msg);
                                         sendData("Exam suspended");

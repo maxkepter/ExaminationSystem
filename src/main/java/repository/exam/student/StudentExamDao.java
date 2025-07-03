@@ -3,12 +3,15 @@ package repository.exam.student;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import factory.DAOFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.RollbackException;
 import jakarta.persistence.TypedQuery;
+import java.util.LinkedHashMap;
 import model.exam.student.StudentExam;
 import model.user.User;
 import repository.ObjectDao;
@@ -141,4 +144,56 @@ public class StudentExamDao extends ObjectDao<StudentExam>
         throw new UnsupportedOperationException("Unimplemented method 'exists'");
     }
 
+    public int countStatus(int examId, int status) {
+        String jpql = "SELECT COUNT(se) FROM StudentExam se WHERE se.examStatus = :status AND se.exam.id = :examId";
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            Long count = entityManager.createQuery(jpql, Long.class)
+                    .setParameter("status", status)
+                    .setParameter("examId", examId)
+                    .getSingleResult();
+            return count != null ? count.intValue() : 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int countByExam(int examId) {
+        String jpql = "SELECT COUNT(se) FROM StudentExam se WHERE se.exam.id = :examId";
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            Long count = entityManager.createQuery(jpql, Long.class)
+                    .setParameter("examId", examId)
+                    .getSingleResult();
+            return count != null ? count.intValue() : 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public Map<Float, Long> countScoreByExam(int examId) {
+            String jpql = "SELECT se.score, COUNT(se) "
+                + "FROM StudentExam se "
+                + "WHERE se.exam.id = :examId "
+                + "GROUP BY se.score "
+                + "ORDER BY se.score ASC";
+        Map<Float, Long> scoreCountMap = new LinkedHashMap<>();
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            List<Object[]> rows = entityManager.createQuery(jpql, Object[].class)
+                    .setParameter("examId", examId)
+                    .getResultList();
+            
+            for (Object[] row : rows) {
+                Number scoreNumber = (Number) row[0];
+                Float score = scoreNumber.floatValue();  // an toàn
+                Long count = (Long) row[1];
+                scoreCountMap.put(score, count);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return scoreCountMap;
+
+    }
 }

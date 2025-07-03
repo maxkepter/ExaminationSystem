@@ -269,7 +269,7 @@
                                     <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
                                         <i class="fas fa-file-alt text-blue-600"></i>
                                     </div>
-                                    <h4 class="text-2xl font-bold text-blue-600">24</h4>
+                                    <h4 class="text-2xl font-bold text-blue-600">${countExam}</h4>
                                     <p class="text-gray-600 text-sm">Exams</p>
                                 </div>
 
@@ -277,7 +277,7 @@
                                     <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
                                         <i class="fas fa-question-circle text-green-600"></i>
                                     </div>
-                                    <h4 class="text-2xl font-bold text-green-600">156</h4>
+                                    <h4 class="text-2xl font-bold text-green-600">${countQuestion}</h4>
                                     <p class="text-gray-600 text-sm">Questions</p>
                                 </div>
 
@@ -285,7 +285,7 @@
                                     <div class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
                                         <i class="fas fa-graduation-cap text-purple-600"></i>
                                     </div>
-                                    <h4 class="text-2xl font-bold text-purple-600">8</h4>
+                                    <h4 class="text-2xl font-bold text-purple-600">${countSubject}</h4>
                                     <p class="text-gray-600 text-sm">Subjects</p>
                                 </div>
 
@@ -293,7 +293,7 @@
                                     <div class="bg-orange-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
                                         <i class="fas fa-users text-orange-600"></i>
                                     </div>
-                                    <h4 class="text-2xl font-bold text-orange-600">342</h4>
+                                    <h4 class="text-2xl font-bold text-orange-600">${countUser}</h4>
                                     <p class="text-gray-600 text-sm">Users</p>
                                 </div>
                             </div>

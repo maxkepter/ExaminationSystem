@@ -10,18 +10,20 @@ import javax.swing.text.View;
 import factory.DAOFactory;
 import model.exam.Exam;
 import model.exam.student.StudentExam;
+import model.log.ExamLog;
 import model.user.User;
+import repository.exam.student.StudentExamDao;
 import service.admin.ViewUserService;
 import service.admin.management.user.DeleteUserService;
 import service.exam.GetQuestionInExam;
+import service.log.ExamLogService;
 import service.student.exam.SubmitExamService;
 
 public class TestDao {
     public static void main(String[] args) {
-        Exam exam = DAOFactory.getExamDao().findById(6);
-        List list = GetQuestionInExam.getQuestionInExam(exam);
+        Map map = DAOFactory.getStudentExamDao().countScoreByExam(6);
+        System.out.println(map);
 
-        System.out.println(list.size());
     }
 
     public static void testExam(Map<Integer, Set<Integer>> studentChoice, String studentExamIdstr) {

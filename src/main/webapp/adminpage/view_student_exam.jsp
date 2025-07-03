@@ -20,7 +20,6 @@
             body {
                 font-family: 'Inter', sans-serif;
                 background-color: #f5f7fa;
-                font-family: 'Segoe UI', sans-serif;
             }
             .sidebar {
                 transition: all 0.3s ease;
@@ -118,90 +117,8 @@
         </style>
     </head>
     <body>
-        <!-- Navbar -->
-        <nav class="navbar-gradient shadow-lg fixed w-full top-0 z-50">
-            <div class="w-full px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between h-16">
-                    <!-- Logo/Brand -->
-                    <div class="flex items-center">
-                        <h1 class="text-[28.8px] font-bold text-white" style="margin-top: 8px; font-family: 'Segoe UI';">
-                            🎓 Examination System
-                        </h1>
-                    </div>
-
-                    <!-- User Menu -->
-                    <div class="flex items-center space-x-3">
-                        <span class="text-white font-medium hidden sm:block">
-                            ${user.firstName} ${user.lastName}
-                        </span>
-                        <div class="h-8 w-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-white font-bold text-sm">
-                            ${user.firstName.charAt(0)}${user.lastName.charAt(0)}
-                        </div>
-
-                        <!-- Mobile menu button -->
-                        <button id="mobile-menu-button" class="md:hidden focus:outline-none text-white ml-2">
-                            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M4 6h16M4 12h16M4 18h16"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
         <!-- Main Container -->
-        <div class="flex pt-16 min-h-screen">
-            <!-- Sidebar -->
-            <aside id="sidebar" class="sidebar bg-white w-64 fixed h-full shadow-lg z-40 border-r border-gray-200">
-                <div class="p-4">
-                    <!-- Navigation Header -->
-                    <div class="mb-8 mt-2">
-                        <h2 class="text-lg font-semibold text-gray-700 mb-4">Navigation</h2>
-                    </div>
-
-                    <nav>
-                        <ul class="space-y-2">
-                            <li>
-                                <a href="Home" class="sidebar-item flex items-center px-4 py-3 text-gray-700 font-medium">
-                                    <i class="fas fa-home w-5 mr-4 text-lg"></i>
-                                    Home 
-                                </a>
-                            </li>
-                            <li>
-                                <a href="../UserProfile" class="sidebar-item flex items-center px-4 py-3 text-gray-700 font-medium">
-                                    <i class="fas fa-user-edit w-5 mr-4 text-lg"></i>
-                                    Update Information
-                                </a>
-                            </li>
-                            <li>
-                                <!-- Active vì đang xem chi tiết từ exam history -->
-                                <a href="../ExamHistory" class="sidebar-item active flex items-center px-4 py-3 text-gray-700 font-medium">
-                                    <i class="fas fa-history w-5 mr-4 text-lg"></i>
-                                    Exam History
-                                </a>
-                            </li>
-                            <li>
-                                <a href="ChangePassword" class="sidebar-item flex items-center px-4 py-3 text-gray-700 font-medium">
-                                    <i class="fas fa-lock w-5 mr-4 text-lg"></i>
-                                    Change Password
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-
-                    <div class="mt-12 pt-6 border-t border-gray-200">
-                        <ul class="space-y-2">
-                            <li>
-                                <a href="Logout" class="sidebar-item flex items-center px-4 py-3 text-gray-700 font-medium">
-                                    <i class="fas fa-sign-out-alt w-5 mr-4 text-lg"></i>
-                                    Logout
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </aside>
+        <div class="flex pt-16 min-h-screen">           
 
             <!-- Main Content -->
             <main class="flex-1 ml-64 p-6 md:p-8 bg-gray-50">
@@ -216,7 +133,8 @@
                                 <p class="text-gray-600 mt-1">Review your answers and exam performance</p>
                             </div>
                             <!-- Back Button -->
-                            <a href="../ExamHistory" class="back-button bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-md transition flex items-center">
+                            <a href="${pageContext.request.contextPath}/UserExamHistory?id=${userId}" 
+                               class="back-button bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-md transition flex items-center">
                                 <i class="fas fa-arrow-left mr-2"></i>
                                 Back to History
                             </a>
@@ -230,57 +148,82 @@
                                 <h2 class="text-xl font-semibold text-gray-800 mb-2">${examName}</h2>
                                 <div class="flex items-center space-x-6 text-sm text-gray-600">
                                     <span><i class="fas fa-calendar mr-2"></i>Completed on: ${submitTime}</span>
-                                    <span><i class="fas fa-clock mr-2"></i>Duration: ${duration} Minutes</span>
+                                    <span><i class="fas fa-clock mr-2"></i>Duration: ${duration}</span>
                                     <span><i class="fas fa-question-circle mr-2"></i>Questions: ${questionSize}</span>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <div class="text-3xl font-bold text-indigo-600">${score}</div>
+                                <div class="text-3xl font-bold text-indigo-600">${score}%</div>
                                 <div class="text-sm text-gray-500">Final Score</div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Success Message -->
+                    <c:if test="${not empty success}">
+                        <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-md mb-6 flex items-center">
+                            <i class="fas fa-check-circle mr-2"></i>
+                            ${success}
+                        </div>
+                    </c:if>
+
+                    <!-- Error Message -->
+                    <c:if test="${not empty error}">
+                        <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-md mb-6 flex items-center">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            ${error}
+                        </div>
+                    </c:if>
+
                     <!-- Questions and Answers -->
                     <div class="space-y-6">
                         <c:forEach var="question" items="${examDetail}" varStatus="questionNo">
                             <div class="question-card bg-white rounded-lg shadow-sm p-6 border border-gray-200" id="question-${question.questionId}">
-
+                                <!-- Question Header -->
                                 <div class="flex items-start mb-6">
-                                    <h3 class="text-lg text-gray-800 leading-relaxed">
-                                        <strong>${questionNo.index + 1}. ${question.content}</strong>
-                                    </h3>
+                                    <div class="question-number mr-4 flex-shrink-0">
+                                        ${questionNo.index + 1}
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="text-lg font-semibold text-gray-800 leading-relaxed">
+                                            ${question.content}
+                                        </h3>
+                                    </div>
                                 </div>
 
                                 <!-- Answer Options -->
                                 <div class="ml-14 space-y-3">
                                     <c:forEach var="opt" items="${question.options}" varStatus="optionNo">
-                                        <div class="p-3 border rounded-lg border-gray-200 hover:bg-gray-50">
+                                        <div class="option-item ${studentChoice[question.questionId] != null and studentChoice[question.questionId].contains(opt.optionId) ? 'option-selected' : 'option-not-selected'}">
                                             <div class="flex items-center">
                                                 <div class="flex-shrink-0 mr-3">
                                                     <c:choose>
                                                         <c:when test="${studentChoice[question.questionId] != null and studentChoice[question.questionId].contains(opt.optionId)}">
-                                                            <div class="w-6 h-6 rounded-md bg-blue-500 flex items-center justify-center">
-                                                                <i class="fas fa-check text-white"></i>
+                                                            <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+                                                                <i class="fas fa-check text-white text-sm"></i>
                                                             </div>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <div class="w-6 h-6 rounded-md border border-gray-300">
-                                                                <!-- Empty for unselected -->
+                                                            <div class="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center">
+                                                                <i class="fas fa-times text-white text-sm"></i>
                                                             </div>
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </div>
                                                 <div class="flex-1">
+                                                    <span class="font-medium text-sm text-gray-600 mr-2">
+                                                    </span>
                                                     <span class="text-gray-800">${opt.content}</span>
                                                 </div>
                                                 <div class="flex-shrink-0">
-                                                    <c:if test="${studentChoice[question.questionId] != null and studentChoice[question.questionId].contains(opt.optionId)}">
-                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                                            <i class="fas fa-user-check mr-1"></i>
-                                                            Selected
-                                                        </span>
-                                                    </c:if>
+                                                    <c:choose>
+                                                        <c:when test="${studentChoice[question.questionId] != null and studentChoice[question.questionId].contains(opt.optionId)}">
+                                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                                <i class="fas fa-check-circle mr-1"></i>
+                                                                Your Choice
+                                                            </span>
+                                                        </c:when>
+                                                    </c:choose>
                                                 </div>
                                             </div>
                                         </div>
@@ -288,9 +231,9 @@
                                 </div>
 
                                 <!-- Question Status -->
-                                <div class="mt-4"> <!-- Thêm margin-top ở đây -->
+                                <div class="mt-4 ml-14">
                                     <c:choose>
-                                        <c:when test="${not empty studentChoice[question.questionId]}">
+                                        <c:when test="${studentChoice[question.questionId] != null}">
                                             <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
                                                 <i class="fas fa-info-circle mr-2"></i>
                                                 Answered
@@ -306,6 +249,7 @@
                                 </div>
                             </div>
                         </c:forEach>
+
                         <!-- No Questions Message -->
                         <c:if test="${empty examDetail}">
                             <div class="text-center py-12">
@@ -318,11 +262,14 @@
 
                     <!-- Bottom Actions -->
                     <div class="mt-8 flex justify-center">
-                        <a href="../ExamHistory" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-8 rounded-md transition flex items-center">
+                        <a href="${pageContext.request.contextPath}/UserExamHistory?id=${userId}"
+                           class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-8 rounded-md transition flex items-center">
                             <i class="fas fa-arrow-left mr-2"></i>
                             Return to Exam History
                         </a>
+
                     </div>
+
                 </div>
             </main>
         </div>
