@@ -53,7 +53,7 @@ public class AdminHome extends HttpServlet {
             return;
         }
         long countExam = DAOFactory.getExamDao().count();
-        long countUser = DAOFactory.getUserDao().count();
+        long countUser = DAOFactory.getUserDao().findAllActive().size();
         long countQuestion = DAOFactory.getQuestionDao().count();
         long countSubject = DAOFactory.getSubjectDao().count();
 

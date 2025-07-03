@@ -88,8 +88,8 @@
                         <i class="fas fa-user-check text-indigo-600 text-xl"></i>
                     </div>
                     <div>
-                        <h2 class="text-xl font-semibold text-gray-900">Welcome, John Doe!</h2>
-                        <p class="text-gray-600">Ready to create a new question for your question bank</p>
+                        <h2 class="text-xl font-semibold text-gray-900">Welcome, ${user.firstName} ${user.lastName}</h2>
+                        <p class="text-gray-600">${questionCreationError}</p
                     </div>
                 </div>
             </div>
@@ -186,7 +186,7 @@
                                     </div>
                                     <div class="flex-shrink-0">
                                         <label class="inline-flex items-center">
-                                            <input type="checkbox" name="isTrue" value="1" class="form-checkbox h-5 w-5 text-indigo-600 rounded">
+                                            <input type="checkbox" name="isTrue" value="2" class="form-checkbox h-5 w-5 text-indigo-600 rounded">
                                             <span class="ml-2 text-sm text-gray-700 font-medium">Correct</span>
                                         </label>
                                     </div>
@@ -202,7 +202,7 @@
                                     </div>
                                     <div class="flex-shrink-0">
                                         <label class="inline-flex items-center">
-                                            <input type="checkbox" name="isTrue" value="2" class="form-checkbox h-5 w-5 text-indigo-600 rounded">
+                                            <input type="checkbox" name="isTrue" class="form-checkbox h-5 w-5 text-indigo-600 rounded">
                                             <span class="ml-2 text-sm text-gray-700 font-medium">Correct</span>
                                         </label>
                                     </div>
@@ -327,20 +327,19 @@
                 const answerDiv = document.createElement("div");
                 answerDiv.className = "answer-item bg-gray-50 rounded-lg p-4 border border-gray-200";
 
-                answerDiv.innerHTML = `
-        <div class="flex items-center space-x-4">
-            <div class="flex-grow">
-                <input type="text" name="answer${currentIndex}" placeholder="Enter answer option" 
-                       class="input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none">
-            </div>
-            <div class="flex-shrink-0">
-                <label class="inline-flex items-center">
-                    <input type="checkbox" name="isTrue" value="${currentIndex}" class="form-checkbox h-5 w-5 text-indigo-600 rounded">
-                    <span class="ml-2 text-sm text-gray-700 font-medium">Correct</span>
-                </label>
-            </div>
-        </div>
-    `;
+                answerDiv.innerHTML = ""
+    + "<div class=\"flex items-center space-x-4\">"
+    + "    <div class=\"flex-grow\">"
+    + "        <input type=\"text\" name=\"answer" + currentIndex + "\" placeholder=\"Enter answer option\" "
+    + "               class=\"input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none\">"
+    + "    </div>"
+    + "    <div class=\"flex-shrink-0\">"
+    + "        <label class=\"inline-flex items-center\">"
+    + "            <input type=\"checkbox\" name=\"isTrue\" value=\"" + currentIndex + "\" class=\"form-checkbox h-5 w-5 text-indigo-600 rounded\">"
+    + "            <span class=\"ml-2 text-sm text-gray-700 font-medium\">Correct</span>"
+    + "        </label>"
+    + "    </div>"
+    + "</div>";
                 return answerDiv;
             }
 
