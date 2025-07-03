@@ -172,7 +172,7 @@ public class StudentExamDao extends ObjectDao<StudentExam>
     }
 
     public Map<Float, Long> countScoreByExam(int examId) {
-        String jpql = "SELECT se.score, COUNT(se) "
+            String jpql = "SELECT se.score, COUNT(se) "
                 + "FROM StudentExam se "
                 + "WHERE se.exam.id = :examId "
                 + "GROUP BY se.score "
