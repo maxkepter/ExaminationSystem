@@ -3,6 +3,7 @@ package factory;
 import jakarta.persistence.EntityManagerFactory;
 import repository.exam.ExamDao;
 import repository.exam.QuestionDao;
+import repository.exam.SubjectDao;
 import repository.exam.student.StudentExamDao;
 import repository.log.ExamLogDao;
 import repository.log.LogStatusDao;
@@ -21,6 +22,7 @@ public class DAOFactory {
     private static LoginInfoDao loginInfoDao;
     private static ExamLogDao examLogDao;
     private static LogStatusDao logStatusDao;
+    private static SubjectDao subjectDao;
 
     public static UserDao getUserDao() {
         if (userDao == null) {
@@ -76,6 +78,13 @@ public class DAOFactory {
             logStatusDao = new LogStatusDao(emf);
         }
         return logStatusDao;
+    }
+
+    public static SubjectDao getSubjectDao() {
+        if (subjectDao == null) {
+            subjectDao = new SubjectDao(emf);
+        }
+        return subjectDao;
     }
 
 }

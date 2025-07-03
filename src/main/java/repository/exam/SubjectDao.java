@@ -10,4 +10,7 @@ public class SubjectDao extends FullOptionDAO<Subject> {
         super(entityManagerFactory, entityClass);
     }
 
+    public SubjectDao(EntityManagerFactory entityManagerFactory) {
+        super(entityManagerFactory, Subject.class);
+    }
 }

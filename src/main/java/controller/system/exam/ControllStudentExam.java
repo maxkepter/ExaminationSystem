@@ -126,7 +126,7 @@ public class ControllStudentExam extends HttpServlet {
 
         // Redirect to the same servlet to handle the GET request
 
-        response.sendRedirect(request.getContextPath());
+        response.sendRedirect(request.getContextPath() + "/adminhome/all_exam");
     }
 
     /**

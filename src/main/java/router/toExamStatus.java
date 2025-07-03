@@ -4,6 +4,7 @@
  */
 package router;
 
+import factory.DAOFactory;
 import factory.EntityManagerFactoryProvider;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -88,6 +89,21 @@ public class toExamStatus extends HttpServlet {
             String remaining = String.format("%02d:%02d:%02d", hours, minutes, seconds);
             listRemainingTime.add(remaining);
         }
+        int examIDInt = Integer.parseInt(examID);
+        int total = studentExamDAO.countByExam(examIDInt);
+        int suspend = studentExamDAO.countStatus(examIDInt, 3);
+        int doing = studentExamDAO.countStatus(examIDInt, 2);
+        int done = studentExamDAO.countStatus(examIDInt, 1);
+
+        System.out.println("toal: " + total);
+        System.out.println("suspend: " + suspend);
+        System.out.println("doing: " + doing);
+        System.out.println("done: " + done);
+
+        request.setAttribute("total", total);
+        request.setAttribute("suspend", suspend);
+        request.setAttribute("doing", doing);
+        request.setAttribute("done", done);
         request.setAttribute("listStudentExam", listStudentExam);
         request.setAttribute("listRemainingTime", listRemainingTime);
         request.getRequestDispatcher("/functionpage/examstatus.jsp").forward(request, response);
