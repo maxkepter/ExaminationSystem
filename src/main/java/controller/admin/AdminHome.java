@@ -7,12 +7,14 @@ package controller.admin;
 
 import java.io.IOException;
 
+import factory.DAOFactory;
+import filter.RoleFilter;
 //import filter.RoleFilter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse; 
+import jakarta.servlet.http.HttpServletResponse;
 import model.user.User;
 
 /**
@@ -45,11 +47,26 @@ public class AdminHome extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        User user = (User) request.getSession().getAttribute("user");
-//        if (!RoleFilter.isAdmin(user)) {
-//            response.sendRedirect(request.getContextPath() + "/Home");
-//            return;
-//        }
+        User user = (User) request.getSession().getAttribute("user");
+        if (!RoleFilter.isAdmin(user)) {
+            response.sendRedirect(request.getContextPath() + "/Home");
+            return;
+        }
+        long countExam = DAOFactory.getExamDao().count();
+        long countUser = DAOFactory.getUserDao().count();
+        long countQuestion = DAOFactory.getQuestionDao().count();
+        long countSubject = DAOFactory.getSubjectDao().count();
+
+        System.out.println("Count Exam: " + countExam);
+        System.out.println("Count User: " + countUser);
+        System.out.println("Count Question: " + countQuestion);
+        System.out.println("Count Subject: " + countSubject);
+
+        request.setAttribute("countExam", countExam);
+        request.setAttribute("countUser", countUser);
+        request.setAttribute("countQuestion", countQuestion);
+        request.setAttribute("countSubject", countSubject);
+
         request.getRequestDispatcher("adminpage/admin_home.jsp").forward(request, response);
     }
 

@@ -81,6 +81,9 @@ public class HandleExamCreation1 extends HttpServlet {
             User user = (User) value;
             User managedUser = userDAO.findById(user.getUserID());
             int examId = (int) examDAO.count() + 1;
+            while (examDAO.findById(examId) != null) {
+                examId++;
+            }
             String examName = request.getParameter("examName");
             Integer duration = Integer.valueOf(request.getParameter("duration"));
             Exam newExam = new Exam(examId, duration, examName, managedUser);

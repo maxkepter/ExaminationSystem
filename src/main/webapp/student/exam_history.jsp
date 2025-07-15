@@ -36,6 +36,10 @@
             .flex-1{
                 margin-top: 17px;
             }
+            .status-suspended {
+                background-color: #ef4444; /* Nền đỏ */
+                color: white;
+            }
             @media (max-width: 768px) {
                 .sidebar {
                     transform: translateX(-100%);
@@ -242,7 +246,7 @@
                                                 <i class="fas fa-info-circle text-indigo-500 mr-2"></i>
                                                 <div>
                                                     <p class="text-sm text-gray-500">Status</p>
-                                                    <span class="status-badge status-completed">
+                                                    <span class="status-badge ${studentExam.statusInfo == 'Exam suspended' ? 'status-suspended' : 'status-completed'}">
                                                         ${studentExam.statusInfo}
                                                     </span>
                                                 </div>
@@ -346,7 +350,7 @@
             }
 
             // Mobile menu toggle
-            document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            document.getElementById('mobile-menu-button').addEventListener('click', function () {
                 const sidebar = document.getElementById('sidebar');
                 sidebar.classList.toggle('active');
             });

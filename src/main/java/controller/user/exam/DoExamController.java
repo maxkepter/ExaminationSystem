@@ -72,14 +72,18 @@ public class DoExamController extends HttpServlet {
             // if not there is no examin progess generate new exam
             if (studentExam == null) {
                 studentExam = generateStudentExamService.generateExam(user, Integer.parseInt(examId));
+                System.out.println("StudentExamISGENETATED");
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             String error = e.getMessage();
             request.setAttribute("error", error);
             request.getRequestDispatcher("/student/view_exam.jsp").forward(request, response);
             return;
         }
+        
+        System.out.println(studentExam);
 
         request.setAttribute("examDetail", studentExam.getExamDetail());// list type
         request.setAttribute("questionSize", studentExam.getExamDetail().size());

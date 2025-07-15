@@ -38,4 +38,54 @@ public class ExamLog {
     public ExamLog() {
     }
 
+    public int getExamLogId() {
+        return examLogId;
+    }
+
+    public void setExamLogId(int examLogId) {
+        this.examLogId = examLogId;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public String getFormattedTime() {
+        if (time == null) {
+            return "";
+        }
+        return String.format("%02d/%d/%d - %d:%02d:%02d",
+                time.getYear() % 100,
+                time.getMonthValue(),
+                time.getDayOfMonth(),
+                time.getHour(),
+                time.getMinute(),
+                time.getSecond());
+    }
+
+    public String getInformation() {
+        return information;
+    }
+
+    public void setInformation(String information) {
+        this.information = information;
+    }
+
+    public StudentExam getStudentExam() {
+        return studentExam;
+    }
+
+    public void setStudentExam(StudentExam studentExam) {
+        this.studentExam = studentExam;
+    }
+
+    @Override
+    public String toString() {
+        return "ExamLog [examLogId=" + examLogId + ", time=" + time + ", information=" + information + "]";
+    }
+
 }

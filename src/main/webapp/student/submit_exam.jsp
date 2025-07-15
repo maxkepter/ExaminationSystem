@@ -276,9 +276,14 @@
                 }
             }
 
+            document.addEventListener("DOMContentLoaded", function () {
+                animateScore();
+            });
+
             function animateScore() {
                 const scoreElement = document.getElementById('score-display');
-                const targetScore = parseInt(scoreElement.dataset.score); // Lấy điểm từ attribute
+                const rawScore = parseFloat(scoreElement.dataset.score); // ví dụ: 85
+                const targetScore = rawScore / 10; // chuyển sang thang 10: 8.5
                 let currentScore = 0;
                 const increment = targetScore / 50;
 
@@ -288,14 +293,9 @@
                         currentScore = targetScore;
                         clearInterval(timer);
                     }
-                    scoreElement.textContent = Math.floor(currentScore);
+                    scoreElement.textContent = currentScore.toFixed(2); // làm tròn 1 số thập phân
                 }, 30);
             }
-
-            document.addEventListener("DOMContentLoaded", function () {
-                animateScore();
-            });
-
 
             function createConfetti() {
                 const colors = ['#3B82F6', '#6366F1', '#8B5CF6', '#EC4899', '#F43F5E', '#10B981', '#F59E0B'];

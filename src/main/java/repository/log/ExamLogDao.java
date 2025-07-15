@@ -3,7 +3,10 @@ package repository.log;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
+import model.exam.Exam;
 import model.log.ExamLog;
 import model.user.User;
 import repository.ObjectDao;
@@ -28,22 +31,18 @@ public class ExamLogDao extends ObjectDao<ExamLog>
         throw new UnsupportedOperationException("Unimplemented method 'findByTimeRange'");
     }
 
-    @Override
-    public ExamLog findById(Object id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
-    }
+    public List<ExamLog> findByStudentExamId(int studentExamId) {
+        String query = "SELECT e FROM ExamLog e WHERE e.studentExam.studentExamID = :studentExamId";
+        List<ExamLog> logs = null;
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            TypedQuery typedQuery = entityManager.createQuery(query, ExamLog.class);
+            typedQuery.setParameter("studentExamId", studentExamId);
+            logs = typedQuery.getResultList();
 
-    @Override
-    public boolean exists(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exists'");
-    }
-
-    @Override
-    public boolean exists(Object id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'exists'");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return logs;
     }
 
 }

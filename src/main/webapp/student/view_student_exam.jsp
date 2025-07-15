@@ -20,6 +20,7 @@
             body {
                 font-family: 'Inter', sans-serif;
                 background-color: #f5f7fa;
+                font-family: 'Segoe UI', sans-serif;
             }
             .sidebar {
                 transition: all 0.3s ease;
@@ -162,7 +163,7 @@
                     <nav>
                         <ul class="space-y-2">
                             <li>
-                                <a href="../index.jsp" class="sidebar-item flex items-center px-4 py-3 text-gray-700 font-medium">
+                                <a href="Home" class="sidebar-item flex items-center px-4 py-3 text-gray-700 font-medium">
                                     <i class="fas fa-home w-5 mr-4 text-lg"></i>
                                     Home 
                                 </a>
@@ -229,82 +230,57 @@
                                 <h2 class="text-xl font-semibold text-gray-800 mb-2">${examName}</h2>
                                 <div class="flex items-center space-x-6 text-sm text-gray-600">
                                     <span><i class="fas fa-calendar mr-2"></i>Completed on: ${submitTime}</span>
-                                    <span><i class="fas fa-clock mr-2"></i>Duration: ${duration}</span>
+                                    <span><i class="fas fa-clock mr-2"></i>Duration: ${duration} Minutes</span>
                                     <span><i class="fas fa-question-circle mr-2"></i>Questions: ${questionSize}</span>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <div class="text-3xl font-bold text-indigo-600">${score}%</div>
+                                <div class="text-3xl font-bold text-indigo-600">${score}</div>
                                 <div class="text-sm text-gray-500">Final Score</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Success Message -->
-                    <c:if test="${not empty success}">
-                        <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-md mb-6 flex items-center">
-                            <i class="fas fa-check-circle mr-2"></i>
-                            ${success}
-                        </div>
-                    </c:if>
-
-                    <!-- Error Message -->
-                    <c:if test="${not empty error}">
-                        <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-md mb-6 flex items-center">
-                            <i class="fas fa-exclamation-triangle mr-2"></i>
-                            ${error}
-                        </div>
-                    </c:if>
-
                     <!-- Questions and Answers -->
                     <div class="space-y-6">
                         <c:forEach var="question" items="${examDetail}" varStatus="questionNo">
                             <div class="question-card bg-white rounded-lg shadow-sm p-6 border border-gray-200" id="question-${question.questionId}">
-                                <!-- Question Header -->
+
                                 <div class="flex items-start mb-6">
-                                    <div class="question-number mr-4 flex-shrink-0">
-                                        ${questionNo.index + 1}
-                                    </div>
-                                    <div class="flex-1">
-                                        <h3 class="text-lg font-semibold text-gray-800 leading-relaxed">
-                                            ${question.content}
-                                        </h3>
-                                    </div>
+                                    <h3 class="text-lg text-gray-800 leading-relaxed">
+                                        <strong>${questionNo.index + 1}. ${question.content}</strong>
+                                    </h3>
                                 </div>
 
                                 <!-- Answer Options -->
                                 <div class="ml-14 space-y-3">
                                     <c:forEach var="opt" items="${question.options}" varStatus="optionNo">
-                                        <div class="option-item ${studentChoice[question.questionId] != null and studentChoice[question.questionId].contains(opt.optionId) ? 'option-selected' : 'option-not-selected'}">
+                                        <div class="p-3 border rounded-lg border-gray-200 hover:bg-gray-50">
                                             <div class="flex items-center">
                                                 <div class="flex-shrink-0 mr-3">
                                                     <c:choose>
                                                         <c:when test="${studentChoice[question.questionId] != null and studentChoice[question.questionId].contains(opt.optionId)}">
-                                                            <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
-                                                                <i class="fas fa-check text-white text-sm"></i>
+                                                            <div class="w-6 h-6 rounded-md bg-blue-500 flex items-center justify-center">
+                                                                <i class="fas fa-check text-white"></i>
                                                             </div>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <div class="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center">
-                                                                <i class="fas fa-times text-white text-sm"></i>
+                                                            <div class="w-6 h-6 rounded-md border border-gray-300">
+                                                                <!-- Empty for unselected -->
                                                             </div>
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </div>
                                                 <div class="flex-1">
-                                                    <span class="font-medium text-sm text-gray-600 mr-2">
-                                                    </span>
                                                     <span class="text-gray-800">${opt.content}</span>
                                                 </div>
                                                 <div class="flex-shrink-0">
-                                                    <c:choose>
-                                                        <c:when test="${studentChoice[question.questionId] != null and studentChoice[question.questionId].contains(opt.optionId)}">
-                                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                                <i class="fas fa-check-circle mr-1"></i>
-                                                                Your Choice
-                                                            </span>
-                                                        </c:when>
-                                                    </c:choose>
+                                                    <c:if test="${studentChoice[question.questionId] != null and studentChoice[question.questionId].contains(opt.optionId)}">
+                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                            <i class="fas fa-user-check mr-1"></i>
+                                                            Selected
+                                                        </span>
+                                                    </c:if>
                                                 </div>
                                             </div>
                                         </div>
@@ -312,9 +288,9 @@
                                 </div>
 
                                 <!-- Question Status -->
-                                <div class="mt-4 ml-14">
+                                <div class="mt-4"> <!-- Thêm margin-top ở đây -->
                                     <c:choose>
-                                        <c:when test="${studentChoice[question.questionId] != null}">
+                                        <c:when test="${not empty studentChoice[question.questionId]}">
                                             <div class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
                                                 <i class="fas fa-info-circle mr-2"></i>
                                                 Answered
@@ -330,7 +306,6 @@
                                 </div>
                             </div>
                         </c:forEach>
-
                         <!-- No Questions Message -->
                         <c:if test="${empty examDetail}">
                             <div class="text-center py-12">

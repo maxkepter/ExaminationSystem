@@ -18,6 +18,10 @@
                         background-attachment: fixed;
                     }
                 </style>
+                <script>
+                    const contextPath = "${pageContext.request.contextPath}";
+                </script>
+
                 </head>
                 <body>
                     <!-- Navigation Bar -->
@@ -34,7 +38,7 @@
                                             Welcome, <strong>${user.firstName} ${user.lastName}</strong>!
                                         </p>
                                         <a class="btn btn-success" href="UserProfile">My Profile</a>
-                                        <a class="btn btn-primary" href="viewexam">View Exam</a>
+                                        <a class="btn btn-primary" href="student/view_exam">View Exam</a>
                                         <a class="btn btn-danger" href="Logout">Logout</a>
                                     </c:when>
                                     <c:otherwise>
@@ -72,7 +76,7 @@
                     <!-- Hộp chat -->
                     <div id="chatbox" >
                         <div id="chat-header">
-                            thieunangngukhongtheta
+                            thieunangtakhongthengu
                         </div>
                         <div id="chat-messages">
                             <p><strong>Bot:</strong> Xin chào! Tôi có thể giúp gì?</p>
@@ -85,9 +89,8 @@
 
 
 
-
                     <!-- Footer -->
-                    <div class="footer">
+                    <div class="footer" style="background-color: white;color: black ">
                         © 2025 Exam Management System. All rights reserved.
                     </div>
                     <script src="${pageContext.request.contextPath}/js/chatBot.js" ></script>

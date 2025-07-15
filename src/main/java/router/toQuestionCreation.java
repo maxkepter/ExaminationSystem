@@ -52,7 +52,7 @@ public class toQuestionCreation extends HttpServlet {
         List<Major> allMajor = majorDAO.findAll();
         HttpSession session = request.getSession();
         session.setAttribute("listMajor", allMajor);
-        response.sendRedirect(request.getContextPath() + "/functionpage/questioncreation.jsp");
+        request.getRequestDispatcher("/functionpage/questioncreation.jsp").forward(request, response);
     }
 
     /**

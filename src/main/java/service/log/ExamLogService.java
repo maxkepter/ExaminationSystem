@@ -1,6 +1,9 @@
 package service.log;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import factory.DAOFactory;
 import model.exam.student.StudentChoice;
@@ -12,6 +15,7 @@ public class ExamLogService {
 
     public static final String START_EXAM = "Start exam";
     public static final String SUBMIT_EXAM = "Submit exam";
+    public static final String FORCE_SUBMIT_EXAM = "Force submit exam";
     public static final String DISCONNECT_EXAM = "Disconnect exam";
     public static final String SUSPENDED_EXAM = "Exam is suspended";
     public static final String RELOAD_EXAM = "Reload exam !";
@@ -37,6 +41,12 @@ public class ExamLogService {
                 + studentChoice.getQuestionId();
         System.out.println(examAction);
         createLog(studentExam, examAction);
+    }
+
+    public List<ExamLog> getLogsByStudentExamId(int studentExamId) {
+        ExamLogDao examLogDao = DAOFactory.getExamLogDao();
+
+        return examLogDao.findByStudentExamId(studentExamId);
     }
 
 }

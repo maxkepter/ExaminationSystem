@@ -19,6 +19,9 @@ public class ExamCodeGenerator {
     private static String generationExamCode() {
         String examCode = "EXAM_";
         long code = Math.round(Math.random() * 1000000);
+        while (100000>code){
+            code = Math.round(Math.random() * 1000000);
+        }
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd_MM_yyyy_");
         String text = date.format(formatter);
