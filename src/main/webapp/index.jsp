@@ -18,6 +18,10 @@
                         background-attachment: fixed;
                     }
                 </style>
+                <script>
+                    const contextPath = "${pageContext.request.contextPath}";
+                </script>
+
                 </head>
                 <body>
                     <!-- Navigation Bar -->
@@ -74,7 +78,7 @@
                     <!-- Hộp chat -->
                     <div id="chatbox" >
                         <div id="chat-header">
-                            thieunangngukhongtheta
+                            thieunangtakhongthengu
                         </div>
                         <div id="chat-messages">
                             <p><strong>Bot:</strong> Xin chào! Tôi có thể giúp gì?</p>
