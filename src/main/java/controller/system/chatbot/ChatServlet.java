@@ -97,9 +97,7 @@ public class ChatServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json;charset=UTF-8");
-
+        System.out.println("---- DEBUG LOG ----");
         System.out.println("1. Đang đọc body từ client...");
 
         String body = new BufferedReader(new InputStreamReader(request.getInputStream()))
@@ -116,9 +114,11 @@ public class ChatServlet extends HttpServlet {
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
 
+// ✅ Đặt headers đúng format
             conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("X-goog-api-key", apiKey);
 
+// Gửi JSON body (ví dụ: lấy từ biến `body`)
             try (OutputStream os = conn.getOutputStream()) {
                 os.write(body.getBytes(StandardCharsets.UTF_8));
             }
@@ -138,15 +138,9 @@ public class ChatServlet extends HttpServlet {
                     }
                 }
                 response.setContentType("application/json;charset=UTF-8");
-//                unicode 8
-                try (
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8)); PrintWriter out = response.getWriter()) {
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        out.println(line);
-                    }
+                try (PrintWriter out = response.getWriter()) {
+                    out.print("{\"error\": \"Gemini trả về mã lỗi " + responseCode + "\"}");
                 }
-
                 return;
             } else {
                 is = conn.getInputStream();
@@ -168,6 +162,7 @@ public class ChatServlet extends HttpServlet {
         }
 
     }
+    
 
     /**
      * Returns a short description of the servlet.

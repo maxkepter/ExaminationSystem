@@ -20,7 +20,15 @@
                 </style>
                 <script>
                     const contextPath = "${pageContext.request.contextPath}";
-                </script>
+                    const loggedInUser =
+                    <c:choose>
+                        <c:when test="${not empty user}">
+                    " ${user.lastName}";
+                        </c:when>
+                        <c:otherwise>
+                        null;
+                        </c:otherwise>
+                    </c:choose></script>
 
                 </head>
                 <body>
