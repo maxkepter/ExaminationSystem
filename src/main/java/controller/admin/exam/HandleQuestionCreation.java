@@ -96,6 +96,11 @@ public class HandleQuestionCreation extends HttpServlet {
 
         // Create question option
         String[] correctAnswer = request.getParameterValues("isTrue");
+        if (correctAnswer==null || correctAnswer.length ==0){
+            request.setAttribute("createQuestionError", "At least 1 correct answer required");
+            response.sendRedirect(request.getContextPath() + "/adminhome/question_creation");
+            return;
+        }
         List<QuestionOption> allOption = new ArrayList();
         int i = 1;
         while (true) {

@@ -18,6 +18,10 @@
                         background-attachment: fixed;
                     }
                 </style>
+                <script>
+                    const contextPath = "${pageContext.request.contextPath}";
+                </script>
+
                 </head>
                 <body>
                     <!-- Navigation Bar -->
@@ -38,8 +42,10 @@
                             <a class="btn btn-danger" href="Logout">Logout</a>
                         </c:when>
                         <c:otherwise>
-                            <a class="btn btn-primary" href="login.jsp">Login</a>
+                            <a class="btn btn-primary" href="Login">Login</a>
+                            <a class="btn btn-secondary" href="adminlogin">Admin Login</a>
                             <a class="btn btn-secondary" href="Register">Register</a>
+
                         </c:otherwise>
                     </c:choose>
                 </div>
@@ -72,7 +78,7 @@
                     <!-- Hộp chat -->
                     <div id="chatbox" >
                         <div id="chat-header">
-                            thieunangngukhongtheta
+                            thieunangtakhongthengu
                         </div>
                         <div id="chat-messages">
                             <p><strong>Bot:</strong> Xin chào! Tôi có thể giúp gì?</p>

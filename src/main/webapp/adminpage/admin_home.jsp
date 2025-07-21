@@ -254,7 +254,7 @@
                                 <a href="UserManagement" class="btn-orange block text-center py-3 px-4 rounded-lg text-white font-medium no-underline">
                                     <i class="fas fa-users mr-2"></i>Manage Users
                                 </a>
-                                <a href="statics" class="btn-light block text-center py-3 px-4 rounded-lg text-gray-700 font-medium no-underline">
+                                <a href="StatsticScore" class="btn-light block text-center py-3 px-4 rounded-lg text-gray-700 font-medium no-underline">
                                     <i class="fas fa-chart-bar mr-2"></i>Statistics
                                 </a>
                             </div>

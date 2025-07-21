@@ -6,7 +6,6 @@ package controller.user.exam;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,7 +19,7 @@ import service.student.exam.ViewStudentExamService;
  *
  * @author Admin
  */
-@WebServlet(name = "ViewStudentExamController", urlPatterns = {"/ExamHistory/viewexam"})
+@WebServlet(name = "StudentExamDetailController", urlPatterns = {"/ExamHistory/StudentExam"})
 public class ViewStudentExamController extends HttpServlet {
 
     /**
@@ -40,17 +39,16 @@ public class ViewStudentExamController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewStudentExamController</title>");
+            out.println("<title>Servlet StudentExamDetailController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ViewStudentExamController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet StudentExamDetailController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
-    // + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -91,7 +89,6 @@ public class ViewStudentExamController extends HttpServlet {
         request.getRequestDispatcher("/student/view_student_exam.jsp").forward(request, response);
 
         return;
-
     }
 
     /**

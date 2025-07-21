@@ -163,7 +163,7 @@
                     <nav>
                         <ul class="space-y-2">
                             <li>
-                                <a href="Home" class="sidebar-item flex items-center px-4 py-3 text-gray-700 font-medium">
+                                <a href="../Home" class="sidebar-item flex items-center px-4 py-3 text-gray-700 font-medium">
                                     <i class="fas fa-home w-5 mr-4 text-lg"></i>
                                     Home 
                                 </a>

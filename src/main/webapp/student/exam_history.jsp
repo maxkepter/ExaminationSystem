@@ -256,7 +256,7 @@
 
                                     <!-- View Exam Button -->
                                     <div class="flex flex-col items-end ml-4">
-                                        <a href="${pageContext.request.contextPath}/ExamHistory/viewexam?studentExamID=${studentExam.studentExamID}" 
+                                        <a href="${pageContext.request.contextPath}/ExamHistory/StudentExam?studentExamID=${studentExam.studentExamID}" 
                                            class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md transition flex items-center">
                                             <i class="fas fa-eye mr-2"></i>
                                             View Exam

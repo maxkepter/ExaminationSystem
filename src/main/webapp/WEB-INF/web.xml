@@ -80,6 +80,10 @@
         <servlet-name>toExamStatus</servlet-name>
         <servlet-class>router.toExamStatus</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChatServlet</servlet-name>
+        <servlet-class>controller.system.chatbot.ChatServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ExamServlet</servlet-name>
         <url-pattern>/ExamServlet</url-pattern>
@@ -159,6 +163,10 @@
     <servlet-mapping>
         <servlet-name>toExamStatus</servlet-name>
         <url-pattern>/adminhome/exam_status</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChatServlet</servlet-name>
+        <url-pattern>/chat</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
