@@ -21,17 +21,16 @@ import service.student.exam.SubmitExamService;
 
 public class TestDao {
     public static void main(String[] args) {
-        Map map = DAOFactory.getStudentExamDao().countScoreByExam(6);
-        System.out.println(map);
 
+        StudentExamDao studentExamDao = DAOFactory.getStudentExamDao();
+        Map<User, Float> userExamMap = new HashMap<>();
+        // userExamMap = studentExamDao.getScoresByExam(6);
+
+        System.out.println(studentExamDao.getScoresByExam(6));
     }
 
     public static void testExam(Map<Integer, Set<Integer>> studentChoice, String studentExamIdstr) {
-        SubmitExamService submitExamService = new SubmitExamService();
-        // GenerateStudentExamService examService = new GenerateStudentExamService();
-        StudentExam studentExam = submitExamService.submitExam(studentChoice, studentExamIdstr);
 
-        System.out.println(studentExam.getScore());
     }
 
     private static Map<Integer, Set<Integer>> genChoice(int size) {

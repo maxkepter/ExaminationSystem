@@ -102,9 +102,9 @@ public class StudentExamDao extends ObjectDao<StudentExam>
         try (EntityManager em = entityManagerFactory.createEntityManager()) {
             TypedQuery<StudentExam> query = em.createQuery(
                     "SELECT se FROM StudentExam se "
-                    + "JOIN FETCH se.student "
-                    + "JOIN FETCH se.exam "
-                    + "WHERE se.id = :id",
+                            + "JOIN FETCH se.student "
+                            + "JOIN FETCH se.exam "
+                            + "WHERE se.id = :id",
                     StudentExam.class);
             query.setParameter("id", id);
             studentExam = query.getSingleResult();
@@ -172,7 +172,7 @@ public class StudentExamDao extends ObjectDao<StudentExam>
     }
 
     public Map<Float, Long> countScoreByExam(int examId) {
-            String jpql = "SELECT se.score, COUNT(se) "
+        String jpql = "SELECT se.score, COUNT(se) "
                 + "FROM StudentExam se "
                 + "WHERE se.exam.id = :examId "
                 + "GROUP BY se.score "
@@ -182,10 +182,10 @@ public class StudentExamDao extends ObjectDao<StudentExam>
             List<Object[]> rows = entityManager.createQuery(jpql, Object[].class)
                     .setParameter("examId", examId)
                     .getResultList();
-            
+
             for (Object[] row : rows) {
                 Number scoreNumber = (Number) row[0];
-                Float score = scoreNumber.floatValue();  // an toàn
+                Float score = scoreNumber.floatValue(); // an toàn
                 Long count = (Long) row[1];
                 scoreCountMap.put(score, count);
             }
@@ -195,5 +195,27 @@ public class StudentExamDao extends ObjectDao<StudentExam>
         }
         return scoreCountMap;
 
+    }
+
+    public Map<User, Float> getScoresByExam(int examId) {
+        String jpql = "SELECT se.student, avg(se.score) "
+                + "FROM StudentExam se "
+                + "WHERE se.exam.id = :examId"
+                + "group by se.student";
+        Map<User, Float> scoresMap = new HashMap<>();
+        try (EntityManager entityManager = entityManagerFactory.createEntityManager()) {
+            List<Object[]> results = entityManager.createQuery(jpql, Object[].class)
+                    .setParameter("examId", examId)
+                    .getResultList();
+            for (Object[] result : results) {
+                User student = (User) result[0];
+                Number scoreNumber = (Number) result[1];
+                Float score = scoreNumber.floatValue();
+                scoresMap.put(student, score);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return scoresMap;
     }
 }

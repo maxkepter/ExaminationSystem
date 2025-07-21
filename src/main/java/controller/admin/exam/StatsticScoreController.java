@@ -13,7 +13,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import model.exam.Exam;
 
 /**
  *
@@ -64,14 +66,20 @@ public class StatsticScoreController extends HttpServlet {
         String examId = request.getParameter("examId");
 
         try {
-            Map<Float, Long> map =(HashMap<Float, Long>) DAOFactory.getStudentExamDao().countScoreByExam(Integer.parseInt(examId));
-            request.setAttribute("examId", examId);
-            request.setAttribute("scoreMap", map);
+            List<Exam> examList = DAOFactory.getExamDao().findAll();
+            if (examId != null && !examId.isEmpty()) {
+                Map<Float, Long> map = (HashMap<Float, Long>) DAOFactory.getStudentExamDao()
+                        .countScoreByExam(Integer.parseInt(examId));
+                request.setAttribute("scoreMap", map);
+                request.setAttribute("examId", examId);
+            }
+
+            request.setAttribute("examList", examList);
         } catch (Exception e) {
             request.setAttribute("error", e.getMessage());
         }
 
-        request.getRequestDispatcher("functionpage/statstic_score.jsp").forward(request, response);
+        request.getRequestDispatcher("functionpage/statics.jsp").forward(request, response);
     }
 
     /**
