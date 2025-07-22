@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
               role: "user",
               parts: [
                 {
-                  text: `Bạn là trợ lý chatbot cho một trang web giáo dục. Nếu người dùng muốn thực hiện hành động cần đăng nhập như kiểm tra đơn hàng, xem hồ sơ, kết quả thi,... hãy trả lời: "Bạn cần đăng nhập để tiếp tục. Nhấn vào đây: <a href='http://localhost:8080/ExaminationSystem/login.jsp'>Đăng nhập</a>."`,
+                  text: `Bạn là trợ lý chatbot cho một trang web giáo dục. Nếu người dùng muốn thực hiện hành động cần đăng nhập như kiểm tra đơn hàng, xem hồ sơ, kết quả thi,... hãy trả lời: "Bạn cần đăng nhập để tiếp tục. Nhấn vào đây: <a href='http://localhost:8090/ExaminationSystem/login.jsp'>Đăng nhập</a>."`,
                 },
               ],
             },

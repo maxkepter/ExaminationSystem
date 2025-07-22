@@ -13,7 +13,7 @@
                     /* Override background for dynamic path */
                     body {
                         background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-                            url("") no-repeat center center;
+                            url("img/background.jpg") no-repeat center center;
                         background-size: cover;
                         background-attachment: fixed;
                     }
