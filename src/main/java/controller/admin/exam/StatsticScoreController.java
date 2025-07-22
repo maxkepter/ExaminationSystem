@@ -70,8 +70,49 @@ public class StatsticScoreController extends HttpServlet {
             if (examId != null && !examId.isEmpty()) {
                 Map<Float, Long> map = (HashMap<Float, Long>) DAOFactory.getStudentExamDao()
                         .countScoreByExam(Integer.parseInt(examId));
+                Map<Integer, Long> intervalMap = new HashMap<>();
+                for (int i = 0; i < 11; i++) {
+                    intervalMap.put(i, 0L);
+                }
+                for (Map.Entry<Float, Long> entry : map.entrySet()) {
+                    float score = entry.getKey();
+                    long count = entry.getValue();
+
+                    if (score >= 0.0f && score < 10.0f) {
+                        int index = (int) score; // ép về int sẽ tự động thành 0..9
+                        intervalMap.put(index, intervalMap.get(index) + count);
+                    }
+                }
+                request.setAttribute("intervalMap", intervalMap);
                 request.setAttribute("scoreMap", map);
                 request.setAttribute("examId", examId);
+                float highestScore = -1f;
+                float lowestScore = 11f;
+
+                for (Map.Entry<Float, Long> entry : map.entrySet()) {
+                    float score = entry.getKey();
+                    long count = entry.getValue();
+
+                    if (count > 0) {
+                        if (score > highestScore) {
+                            highestScore = score;
+                        }
+                        if (score < lowestScore) {
+                            lowestScore = score;
+                        }
+                    }
+                }
+
+                // Nếu không có điểm nào hợp lệ (trường hợp map rỗng), fallback về 0
+                if (highestScore == -1f) {
+                    highestScore = 0f;
+                }
+                if (lowestScore == 11f) {
+                    lowestScore = 0f;
+                }
+                request.setAttribute("highestScore", highestScore);
+                request.setAttribute("lowestScore", lowestScore);
+                System.out.println(highestScore);
             }
 
             request.setAttribute("examList", examList);

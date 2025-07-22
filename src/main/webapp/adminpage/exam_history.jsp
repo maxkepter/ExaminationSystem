@@ -9,21 +9,71 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <!-- (Giữ nguyên phần <style> cũ) -->
+        <style>
+            .navbar-gradient {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                height: 81px;
+            }
+            .navbar-gradient h1{
+                justify-content: center;
+            }
+            .p-4{
+                margin-top: 17px;
+            }
+        </style>
     </head>
     <body>
         <!-- Main Container -->
         <div class="flex pt-16 min-h-screen">
+            <nav class="navbar-gradient shadow-lg fixed w-full top-0 z-50">
+                <div class="w-full px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between h-16">
+                        <!-- Logo/Brand -->
+                        <div class="flex items-center">
+                            <h1 class="text-[28.8px] font-bold text-white" style="margin-top: 8px; font-family: 'Segoe UI';">
+                                🎓 Examination System
+                            </h1>
+                        </div>
+
+                        <!-- User Menu -->
+                        <div class="flex items-center space-x-3">
+                            <span class="text-white font-medium hidden sm:block">
+                                ${user.firstName} ${user.lastName}
+                            </span>
+                            <div class="h-8 w-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-white font-bold text-sm">
+                                ${user.firstName.charAt(0)}${user.lastName.charAt(0)}
+                            </div>
+
+                            <!-- Mobile menu button -->
+                            <button id="mobile-menu-button" class="md:hidden focus:outline-none text-white ml-2">
+                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M4 6h16M4 12h16M4 18h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
 
             <!-- Main Content -->
-            <main class="flex-1 ml-64 p-6 md:p-8 bg-gray-50">
+            <main class="flex-1 p-6 md:p-8 bg-gray-50">
                 <div class="max-w-6xl mx-auto">
-
                     <!-- Page Header -->
                     <div class="mb-8">
-                        <h1 class="text-2xl font-bold text-gray-800 flex items-center">
-                            <i class="fas fa-history mr-3 text-indigo-600"></i> Exam History
-                        </h1>
-                        <p class="text-gray-600 mt-1">View your examination records and performance</p>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-800 flex items-center">
+                                    <i class="fas fa-eye mr-3 text-indigo-600"></i> Exam History
+                                </h1>
+                                <p class="text-gray-600 mt-1">View student's examination records and performance</p>
+                            </div>
+                            <!-- Back Button -->
+                            <a href="adminhome" class="back-button bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-md transition flex items-center">
+                                <i class="fas fa-arrow-left mr-2"></i>
+                                Back to Home
+                            </a>
+                        </div>
                     </div>
 
                     <!-- Exam History Cards -->
@@ -103,7 +153,7 @@
                             <div class="text-center py-12">
                                 <i class="fas fa-clipboard-list text-gray-300 text-6xl mb-4"></i>
                                 <h3 class="text-lg font-medium text-gray-500 mb-2">No Exam History</h3>
-                                <p class="text-gray-400">You haven't taken any exams yet.</p>
+                                <p class="text-gray-400">Student haven't taken any exams yet.</p>
                             </div>
                         </c:if>
                     </div>

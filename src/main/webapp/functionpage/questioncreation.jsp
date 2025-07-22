@@ -82,17 +82,6 @@
         <!-- Main Content -->
         <main class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <!-- Welcome Card -->
-            <div class="bg-white rounded-xl shadow-lg p-6 mb-8">
-                <div class="flex items-center">
-                    <div class="bg-indigo-100 p-3 rounded-full mr-4">
-                        <i class="fas fa-user-check text-indigo-600 text-xl"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-xl font-semibold text-gray-900">Welcome, ${user.firstName} ${user.lastName}</h2>
-                        <p class="text-gray-600">${questionCreationError}</p
-                    </div>
-                </div>
-            </div>
 
             <!-- Question Creation Form -->
             <div class="bg-white rounded-xl shadow-lg overflow-hidden">
@@ -328,18 +317,18 @@
                 answerDiv.className = "answer-item bg-gray-50 rounded-lg p-4 border border-gray-200";
 
                 answerDiv.innerHTML = ""
-    + "<div class=\"flex items-center space-x-4\">"
-    + "    <div class=\"flex-grow\">"
-    + "        <input type=\"text\" name=\"answer" + currentIndex + "\" placeholder=\"Enter answer option\" "
-    + "               class=\"input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none\">"
-    + "    </div>"
-    + "    <div class=\"flex-shrink-0\">"
-    + "        <label class=\"inline-flex items-center\">"
-    + "            <input type=\"checkbox\" name=\"isTrue\" value=\"" + currentIndex + "\" class=\"form-checkbox h-5 w-5 text-indigo-600 rounded\">"
-    + "            <span class=\"ml-2 text-sm text-gray-700 font-medium\">Correct</span>"
-    + "        </label>"
-    + "    </div>"
-    + "</div>";
+                        + "<div class=\"flex items-center space-x-4\">"
+                        + "    <div class=\"flex-grow\">"
+                        + "        <input type=\"text\" name=\"answer" + currentIndex + "\" placeholder=\"Enter answer option\" "
+                        + "               class=\"input-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none\">"
+                        + "    </div>"
+                        + "    <div class=\"flex-shrink-0\">"
+                        + "        <label class=\"inline-flex items-center\">"
+                        + "            <input type=\"checkbox\" name=\"isTrue\" value=\"" + currentIndex + "\" class=\"form-checkbox h-5 w-5 text-indigo-600 rounded\">"
+                        + "            <span class=\"ml-2 text-sm text-gray-700 font-medium\">Correct</span>"
+                        + "        </label>"
+                        + "    </div>"
+                        + "</div>";
                 return answerDiv;
             }
 

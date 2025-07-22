@@ -7,11 +7,39 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Exam Status Dashboard</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+        <style>
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                background-color: #f8fafc;
+                transform: translateY(-1px);
+            }
+            .btn-hover {
+                transition: all 0.2s ease;
+            }
+            .navbar-gradient {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                height: 81px;
+            }
+            .navbar-gradient h1{
+                justify-content: center;
+            }
+            .p-4{
+                margin-top: 17px;
+            }
+            .countdown-text {
+                font-family: 'Courier New', monospace;
+                font-weight: bold;
+            }
+        </style>
         <script>
             function startCountdown(endTime, elementIndexId) {
                 function update() {
@@ -42,153 +70,198 @@
             }
         </script>
     </head>
-    <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-        <div class="container mx-auto px-6 py-8">
-            <!-- Header -->
-            <div class="mb-8 text-center">
-                <h1 class="text-3xl text-gray-800 mb-3">Exam Status Dashboard</h1>
-                <p class="text-gray-600">Monitor ongoing and completed exams in real-time</p>
-                <div class="w-32 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mt-4 rounded-full"></div>
-            </div>
-
-            <!-- Error Message (if any) -->
-            <div id="error-message" class="hidden mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                <div class="flex items-center">
-                    <svg class="w-5 h-5 text-red-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="text-red-800">Error occurred while loading exam data</span>
+    <body class="bg-gray-50 min-h-screen">
+        <!-- Navigation Header -->
+        <nav class="navbar-gradient shadow-lg w-full top-0 z-50">
+            <div class="w-full px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Logo/Brand -->
+                    <div class="flex items-center">
+                        <h1 class="text-[28.8px] font-bold text-white" style="margin-top: 8px; font-family: 'Segoe UI';">
+                            🎓 Examination System
+                        </h1>
+                    </div>
+                    <!-- User Menu -->
+                    <div class="flex items-center space-x-3">
+                        <c:if test="${not empty user}">
+                            <span class="text-white font-medium hidden sm:block">
+                                ${user.firstName} ${user.lastName}
+                            </span>
+                            <div class="h-8 w-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-white font-bold text-sm">
+                                ${user.firstName.charAt(0)}${user.lastName.charAt(0)}
+                            </div>
+                            <!-- Mobile menu button -->
+                            <button id="mobile-menu-button" class="md:hidden focus:outline-none text-white ml-2">
+                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M4 6h16M4 12h16M4 18h16"></path>
+                                </svg>
+                            </button>
+                        </c:if>
+                    </div>
                 </div>
             </div>
+        </nav>
 
-            <!-- Exam Table -->
-            <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
-                <table class="w-full">
-                    <thead class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
-                        <tr>
-                            <th class="px-6 py-4 text-left text-sm">Student ID</th>
-                            <th class="px-6 py-4 text-left text-sm">Student Name</th>
-                            <th class="px-6 py-4 text-left text-sm">Start Time</th>
-                            <th class="px-6 py-4 text-center text-sm">Time Remaining</th>
-                            <th class="px-6 py-4 text-center text-sm">Status</th>
-                            <th class="px-6 py-4 text-center text-sm">Action</th>
-                            <th class="px-6 py-4 text-center text-sm">Exam Log</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100">
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <!-- Exam Status Dashboard -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6">
+                    <h2 class="text-2xl font-bold text-white flex items-center">
+                        <i class="fas fa-chart-bar mr-3"></i>
+                        Exam Status Dashboard
+                    </h2>
+                    <p class="text-blue-100 mt-2">Monitor ongoing and completed exams in real-time</p>
+                </div>
 
+                <!-- Summary Stats -->
+                <div class="bg-gray-50 px-8 py-6 border-b border-gray-200">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-green-600">${doing}</div>
+                            <div class="text-sm text-gray-600">Active Exams</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-blue-600">${done}</div>
+                            <div class="text-sm text-gray-600">Completed</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-red-600">${suspend}</div>
+                            <div class="text-sm text-gray-600">Suspended</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-purple-600">${total}</div>
+                            <div class="text-sm text-gray-600">Total Students</div>
+                        </div>
+                    </div>
+                </div>
 
-                        <c:if test="${not empty listStudentExam}">
+                <!-- Check if student exams exist -->
+                <c:choose>
+                    <c:when test="${not empty listStudentExam}">
+                        <!-- Table Header -->
+                        <div class="bg-gray-50 px-8 py-4 border-b border-gray-200">
+                            <div class="grid grid-cols-6 gap-6 text-sm font-medium text-gray-700">
+                                <div class="text-left">Student ID</div>
+                                <div class="text-left">Student Name</div>
+                                <div class="text-left">Start Time</div>
+                                <div class="text-center">Time Remaining</div>
+                                <div class="text-center">Status</div>
+                                <div class="text-center">Actions</div>
+                            </div>
+                        </div>
+
+                        <!-- Student Exam Items -->
+                        <div class="divide-y divide-gray-200">
                             <c:forEach var="studentExam" items="${listStudentExam}" varStatus="status">
                                 <!-- Gán vào pageContext để scriptlet có thể truy cập -->
                                 <c:set var="studentExam" value="${studentExam}" scope="page" />
 
-                                <tr class="bg-white hover:bg-blue-50 transition-colors duration-200">
+                                <div class="p-6 card-hover">
                                     <%
                                         java.time.LocalDateTime endTime = ((model.exam.student.StudentExam) pageContext.getAttribute("studentExam")).getEndTime();
                                         long endMillis = endTime.atZone(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli();
                                         request.setAttribute("endMillis", endMillis);
                                     %>
 
-                                    <!-- Student Code -->
-                                    <td class="px-6 py-4 text-gray-700">
-                                        ${studentExam.student.studentCode}
-                                    </td>
-
-                                    <!-- Full Name -->
-                                    <td class="px-6 py-4 text-gray-700">
-                                        ${studentExam.student.user.firstName} ${studentExam.student.user.lastName}
-                                    </td>
-
-                                    <!-- Start Time -->
-                                    <td class="px-6 py-4 text-gray-600">
-                                        ${studentExam.startTimeFormatted}
-                                    </td>
-
-                                    <!-- Countdown -->
-                                    <td class="px-6 py-4 text-center">
-                                        <div class="bg-blue-50 px-3 py-2 rounded-lg inline-block">
-                                            <span id="countdown${status.index}" class="text-blue-600 font-mono text-sm">Calculating...</span>
+                                    <div class="grid grid-cols-6 gap-6 items-center">
+                                        <!-- Student Code -->
+                                        <div class="text-left">
+                                            <span class="inline-flex items-center justify-center w-8 h-8 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                                                ${studentExam.student.studentCode}
+                                            </span>
                                         </div>
-                                    </td>
 
-                                    <!-- Status -->
-                                    <td class="px-6 py-4 text-center">
-                                        <c:choose>
-                                            <c:when test="${studentExam.examStatus == 3}">
-                                                <span class="px-3 py-1 rounded-full text-sm bg-red-100 text-red-700">Suspended</span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <span id="status${status.index}" class="px-3 py-1 rounded-full text-sm bg-green-100 text-green-700">Status...</span>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
+                                        <!-- Full Name -->
+                                        <div class="text-left">
+                                            <div class="text-sm font-medium text-gray-900">
+                                                ${studentExam.student.user.firstName} ${studentExam.student.user.lastName}
+                                            </div>
+                                        </div>
 
+                                        <!-- Start Time -->
+                                        <div class="text-left">
+                                            <div class="text-sm text-gray-600">
+                                                ${studentExam.startTimeFormatted}
+                                            </div>
+                                        </div>
 
-                                    <!-- Force Submit -->
-                                    <td class="px-6 py-4 text-center">
-                                        <c:if test="${studentExam.examStatus == 2}">
-                                            <form action="../ForceSubmit" method="get">
-                                                <input type="hidden" name="studentExamId" value="${studentExam.studentExamID}" />
-                                                <button type="submit"
-                                                        class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition-colors text-sm shadow-sm hover:shadow-md">
-                                                    Force Submit
-                                                </button>
-                                            </form>
-                                        </c:if>
-                                    </td>
+                                        <!-- Countdown -->
+                                        <div class="text-center">
+                                            <div class="bg-blue-50 px-3 py-1 rounded-lg inline-block">
+                                                <span id="countdown${status.index}" class="text-blue-600 countdown-text text-sm">Calculating...</span>
+                                            </div>
+                                        </div>
 
-                                    <!-- Exam Log -->
-                                    <td class="px-6 py-4 text-center">
-                                        <form action="../ViewExamLog" method="get">
-                                            <input type="hidden" name="studentExamId" value="${studentExam.studentExamID}" />
-                                            <button type="submit"
-                                                    class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition-colors text-sm shadow-sm hover:shadow-md">
-                                                View
-                                            </button>
-                                        </form>
+                                        <!-- Status -->
+                                        <div class="text-center">
+                                            <c:choose>
+                                                <c:when test="${studentExam.examStatus == 3}">
+                                                    <span class="px-3 py-1 rounded-full text-sm bg-red-100 text-red-700">Suspended</span>
 
-                                    </td>
-                                </tr>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <span id="status${status.index}" class="px-3 py-1 rounded-full text-xs bg-green-100 text-green-700">Status...</span>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </div>
+
+                                        <!-- Actions -->
+                                        <div class="text-center">
+                                            <div class="flex justify-center gap-2">
+                                                <!-- Force Submit -->
+                                                <c:if test="${studentExam.examStatus == 2}">
+                                                    <form action="../ForceSubmit" method="get" class="inline">
+                                                        <input type="hidden" name="studentExamId" value="${studentExam.studentExamID}" />
+                                                        <button type="submit"
+                                                                class="btn-hover bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md text-xs font-medium">
+                                                            <i class="fas fa-stop mr-1"></i>Force Submit
+                                                        </button>
+                                                    </form>
+                                                </c:if>
+
+                                                <!-- Exam Log -->
+                                                <form action="../ViewExamLog" method="get" class="inline">
+                                                    <input type="hidden" name="studentExamId" value="${studentExam.studentExamID}" />
+                                                    <button type="submit"
+                                                            class="btn-hover bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded-md text-xs font-medium">
+                                                        <i class="fas fa-eye mr-1"></i>View Log
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <!-- Countdown Script -->
-                            <script>
-                                startCountdown(${endMillis}, "${status.index}");
-                            </script>
-                        </c:forEach>
-                    </c:if>
-
-
-
-
-                    </tbody>
-                </table>
+                                <script>
+                                    startCountdown(${endMillis}, "${status.index}");
+                                </script>
+                            </c:forEach>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <!-- Empty State -->
+                        <div class="p-12 text-center">
+                            <div class="bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-chart-bar text-gray-400 text-2xl"></i>
+                            </div>
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">No exam sessions found</h3>
+                            <p class="text-gray-600 mb-6">There are currently no active or completed exam sessions to display</p>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
 
-            <!-- Summary Stats -->
-            <div class="mt-10 grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6 text-center hover:shadow-xl transition-shadow">
-                    <div class="text-2xl text-green-600 mb-2">${doing}</div>
-                    <div class="text-gray-600 text-sm">Active Exams</div>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6 text-center hover:shadow-xl transition-shadow">
-                    <div class="text-2xl text-red-600 mb-2">${done}</div>
-                    <div class="text-gray-600 text-sm">Completed Exams</div>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6 text-center hover:shadow-xl transition-shadow">
-                    <div class="text-2xl text-yellow-600 mb-2">${suspend}</div>
-                    <div class="text-gray-600 text-sm">Suspended</div>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6 text-center hover:shadow-xl transition-shadow">
-                    <div class="text-2xl text-blue-600 mb-2">${total}</div>
-                    <div class="text-gray-600 text-sm">Total Students</div>
-                </div>
+            <!-- Action Bar -->
+            <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-between items-center">
+                <a href="${pageContext.request.contextPath}/adminhome" 
+                   class="btn-hover inline-flex items-center px-6 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 font-medium shadow-sm">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Go Back 
+                </a>
             </div>
-
-        </div>      
-
+        </main>
     </body>
 </html>
