@@ -88,6 +88,7 @@
                         All Examinations
                     </h2>
                     <p class="text-blue-100 mt-2">View, edit, and manage your exams</p>
+                    <p>${sessionScope.deleteError}</p>
                 </div>
 
                 <!-- Check if exams exist -->

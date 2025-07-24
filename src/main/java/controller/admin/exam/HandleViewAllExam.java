@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller.admin.exam;
 
 import factory.EntityManagerFactoryProvider;
@@ -18,10 +17,12 @@ import model.exam.Exam;
 import model.exam.Question;
 import model.exam.QuestionExam;
 import model.exam.QuestionOption;
+import model.exam.student.StudentExam;
 import model.user.User;
 import repository.exam.ExamDao;
 import repository.exam.QuestionExamDao;
 import repository.exam.QuestionOptionDao;
+import repository.exam.student.StudentExamDao;
 
 /**
  *
@@ -32,11 +33,11 @@ public class HandleViewAllExam extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
-     * 
-     * @param request  servlet request
+     *
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -59,11 +60,11 @@ public class HandleViewAllExam extends HttpServlet {
     // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
-     * 
-     * @param request  servlet request
+     *
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -78,6 +79,7 @@ public class HandleViewAllExam extends HttpServlet {
                 QuestionExam.class);
         QuestionOptionDao questionOptionDao = new QuestionOptionDao(
                 EntityManagerFactoryProvider.getEntityManagerFactory(), QuestionOption.class);
+        StudentExamDao stdExamDAO = new StudentExamDao(EntityManagerFactoryProvider.getEntityManagerFactory(), StudentExam.class);
         if (update) {
             HttpSession session = request.getSession(false);
             if (session != null) {
@@ -92,7 +94,18 @@ public class HandleViewAllExam extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/adminhome/all_exam");
         }
         if (delete) {
+            HttpSession session = request.getSession();
             int id = Integer.parseInt(request.getParameter("id"));
+            List<QuestionExam> questionExam = QuestionExamDao.findByProperty("exam.examID", id);
+            if (!stdExamDAO.findByProperty("exam.examID", id).isEmpty()) {
+                session.setAttribute("deleteError", "Exam has been taken, cannot delete");
+                response.sendRedirect(request.getContextPath() + "/adminhome/all_exam");
+                return;
+            }
+            for (QuestionExam c : questionExam) {
+                QuestionExamDao.deleteById(c.getId());
+            }
+            session.removeAttribute("deleteError");
             examDAO.deleteById(id);
             response.sendRedirect(request.getContextPath() + "/adminhome/all_exam");
             return;
@@ -114,11 +127,11 @@ public class HandleViewAllExam extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     * 
-     * @param request  servlet request
+     *
+     * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
+     * @throws IOException if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -128,7 +141,7 @@ public class HandleViewAllExam extends HttpServlet {
 
     /**
      * Returns a short description of the servlet.
-     * 
+     *
      * @return a String containing servlet description
      */
     @Override
